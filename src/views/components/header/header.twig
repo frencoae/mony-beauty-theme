@@ -1,0 +1,189 @@
+{# | Variable | Type | Description |
+|------------------|---------|---------------------------------| | cart | object
+| | | cart.items_count | int | | | cart.total | string | Formatted total ex:
+"١٠٠ ر.س" | #} {% set important_links = theme.settings.get('important_links') %}
+<header class="store-header">
+  {# Top Nav #}
+  <section
+    class="w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white text-sm py-2"
+  >
+    <div class="w-full text-center px-4">
+      <p class="font-medium">Free Shipping on Order above 300 SAR</p>
+    </div>
+  </section>
+  {#
+  <div class="top-navbar">
+    <div class="container flex justify-between">
+      <div class="flex-1 flex items-center gap-2">
+        {% if important_links %}
+        <salla-menu source="footer" topnav></salla-menu>
+        {% endif %}
+
+        <div class="header-buttons">
+          {% if store.settings.is_multilingual or
+          store.settings.currencies_enabled %}
+          <button
+            type="button"
+            onclick="salla.event.dispatch('localization::open')"
+            class="btn--rounded-gray basis-0"
+          >
+            <span
+              class="flag iti__flag iti__{{
+                user.language.country_code
+              }} rounded-sm"
+            ></span>
+            <span class="mx-1.5">|</span> <span>{{ currency.symbol }}</span>
+          </button>
+          <salla-localization-modal></salla-localization-modal>
+          {% endif %}
+        </div>
+
+        {% if store.scope %}
+        <button
+          class="btn--rounded-gray"
+          onclick="salla.event.dispatch('scopes::open', {'mode': 'default'})"
+        >
+          <i class="sicon-location rtl:ml-1 ltr:mr-1"></i>
+          {{ store.scope.name }}
+        </button>
+        {% endif %}
+
+        <div class="header-search flex-1">
+          <salla-search inline oval height="36"></salla-search>
+        </div>
+      </div>
+
+      <salla-contacts is-header></salla-contacts>
+    </div>
+  </div>
+  #}
+
+ 
+    
+
+    <div class="relative z-10">
+      <div class="w-full bg-transparent text-white border-b border-white/20">
+        <div
+          class="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
+          <div class="header-buttons">
+            {% if store.settings.is_multilingual or
+            store.settings.currencies_enabled %}
+            <button
+              type="button"
+              onclick="salla.event.dispatch('localization::open')"
+              class=" basis-0"
+            >
+ <!-- Left Section: Language & Currency -->
+          <div class="flex items-center space-x-6">
+            <!-- Language -->
+            <div class="flex items-center space-x-1 cursor-pointer">
+              <span
+                class="flag iti__flag iti__{{
+                  user.language.country_code
+                }} rounded-sm"
+              ></span>
+             
+              <span style="margin-right: 8px;">{{ language.name }}</span> 
+
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path d="M19 9l-7 7-7-7" />
+              </svg>
+
+             
+            </div>
+
+            <!-- Currency -->
+            <div class="flex items-center space-x-1 cursor-pointer">
+
+                <span>{{ currency.symbol }} {{currency.name}} </span>
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
+
+
+
+              {# <span
+                class="flag iti__flag iti__{{
+                  user.language.country_code
+                }} rounded-sm"
+              ></span>
+              <span class="mx-1.5">|</span> <span> {{ currency.symbol }}   {{ language.name }}</span> #}
+            </button>
+            <salla-localization-modal></salla-localization-modal>
+            {% endif %}
+          </div>
+        
+
+          
+
+          <!-- Center: Logo -->
+          <div class="text-2xl font-light tracking-widest">MONY BEAUTY</div>
+
+          <!-- Right Section: Icons -->
+          <div class="flex items-center space-x-5">
+            <div class="flex items-center gap-5 text-xl">
+              <div class="flex items-center justify-end header-custom-icons">
+                {% if user.type=='user' %}
+                <salla-user-menu avatar-only show-header></salla-user-menu>
+                {% else %}
+                <button
+                  class="header-btn text-white"
+                  aria-label="user-icon"
+                  onclick="salla.event.dispatch('login::open')"
+                >
+                  {# <i class="header-btn__icon sicon-user-circle"></i> #}
+                  <img src="{{ asset('images/user-icon.svg') }}">
+                </button>
+                {% endif %}
+                <salla-cart-summary class="mx-4 custom-cart-icon">
+                  {# <i
+                    slot="icon"
+                    class="header-btn__icon icon sicon-shopping-bag"
+                  ></i> #}
+                  <img src="{{ asset('images/cart-icon.svg') }}" alt="Cart Icon">
+                </salla-cart-summary>
+                <button>
+                  <img src="{{ asset('images/search-icon.svg') }}" alt="Search Icon">
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+
+      <!-- Nav Menu -->
+      <nav class="w-full">
+        <ul class="flex items-center justify-center gap-8 text-sm">
+          <!-- Shop Dropdown -->
+          <custom-main-menu></custom-main-menu>
+          
+        </ul>
+      </nav>
+    </div>
+
+    
+
+
+  
+</header>
+{# {% if store.scope %}
+<salla-scopes
+  selection="{{ store.scope.display_as == 'popup' ? 'mandatory' : 'optional' }}"
+></salla-scopes>
+{% endif %} #}

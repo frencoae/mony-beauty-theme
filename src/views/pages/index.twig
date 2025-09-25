@@ -1,0 +1,250 @@
+{# | Variable | Type | Description |
+|------------------|------------|---------------------------------------------------------------------|
+| page | object | | | page.title | string | *could be html | | page.slug |
+string | ex: "cat.show" | #} {% extends "layouts.master" %} {% block content %}
+<!-- Hero Content -->
+
+ <section
+    class="relative w-full text-white home-banner"
+    style="
+      background-image: url('{{ asset("images/Banner.jpg") }}');
+      background-size: cover;
+      background-position: center;
+    ">
+<div class="px-4 sm:px-8">
+  <div class="min-h-[72vh] md:min-h-[80vh] flex items-center">
+    <div class="max-w-xl">
+      <p class="uppercase tracking-widest text-xs sm:text-sm text-white/80">
+        ALL YOU NEED IS LESS.
+      </p>
+
+      <h1
+        class="mt-4 font-serif font-semibold leading-[1.1] text-4xl sm:text-5xl md:text-6xl"
+      >
+        Where
+        <span
+          class="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent"
+        >
+          Confidence </span
+        ><br class="hidden sm:block" />
+        Meets <span class="text-white">Color</span>
+      </h1>
+
+      <button
+        class="mt-8 inline-flex items-center justify-center px-6 py-3 rounded-full bg-pink-500 hover:bg-pink-600 text-white font-semibold shadow-lg shadow-pink-500/30"
+      >
+        Shop Now
+      </button>
+    </div>
+  </div>
+</div>
+</section>
+{% component home %} 
+
+<!-- Moving Text Section -->
+<section class="py-8 bg-gray-50 overflow-hidden">
+  <!-- Row 1 -->
+  <div class="whitespace-nowrap flex space-x-16 animate-marquee text-4xl font-extrabold">
+    <span class="text-[#4CC7A5] flex items-center"><img src="{{ asset('images/cream-icon.jpg') }}" alt="Magic Water Cream" class="w-8 h-8 mr-3 object-cover"> Magic Water Cream</span>
+    <span class="text-[#4CC7A5] flex items-center"><img src="{{asset('images/cream-icon.jpg')}}" alt="Magic Water Cream" class="w-8 h-8 mr-3 object-cover"> Magic Water Cream</span>
+    <span class="text-[#4CC7A5] flex items-center"><img src="{{asset('images/cream-icon.jpg')}}" alt="Magic Water Cream" class="w-8 h-8 mr-3 object-cover"> Magic Water Cream</span>
+
+  </div>
+
+  <!-- Row 2 (reverse direction for effect) -->
+  <div class="whitespace-nowrap flex space-x-16 animate-marquee2 text-4xl font-extrabold mt-6">
+    <span class="text-[#2746AA] flex items-center"><img src="{{asset('images/lip-gloss.png')}}" alt="Shop Our Best Lip Gloss" class="w-8 h-8 mr-3 object-cover"> Shop Our Best Lip Gloss</span>
+    <span class="text-[#2746AA] flex items-center"><img src="{{asset('images/lip-gloss.png')}}" alt="Shop Our Best Lip Gloss" class="w-8 h-8 mr-3 object-cover"> Shop Our Best Lip Gloss</span>
+    <span class="text-[#2746AA] flex items-center"><img src="{{asset('images/lip-gloss.png')}}" alt="Shop Our Best Lip Gloss" class="w-8 h-8 mr-3 object-cover"> Shop Our Best Lip Gloss</span>
+
+
+    
+  </div>
+</section>
+
+<!-- Exclusive Offer Section -->
+<section class="w-full bg-teal-500 py-16">
+  <div class="container grid grid-cols-1 md:grid-cols-2 gap-10 items-center px-6 text-white">
+    
+    <!-- Left Side: Image -->
+    <div class="flex justify-center">
+      <img src="{{asset('images/offer.jpg')}}" alt="Exclusive Offer" class="rounded-2xl shadow-lg object-cover">
+    </div>
+
+    <!-- Right Side: Content -->
+    <div>
+      <h2 class="text-4xl font-extrabold mb-4">
+        Exclusive offer
+      </h2>
+      <p class="mb-6 text-lg leading-relaxed">
+        Unlock the ultimate style upgrade with our exclusive offer. Enjoy savings of up to 
+        40% off on our latest New Products.
+      </p>
+
+      <!-- Countdown Timer -->
+      <div id="countdown" class="flex gap-4 mb-6">
+        <div class="bg-white text-blue-900 font-bold text-center px-6 py-4 rounded w-24">
+          <span id="days" class="text-2xl block">00</span>
+          <span class="text-sm uppercase">Days</span>
+        </div>
+        <div class="bg-white text-blue-900 font-bold text-center px-6 py-4 rounded w-24">
+          <span id="hours" class="text-2xl block">00</span>
+          <span class="text-sm uppercase">Hours</span>
+        </div>
+        <div class="bg-white text-blue-900 font-bold text-center px-6 py-4 rounded w-24">
+          <span id="minutes" class="text-2xl block">00</span>
+          <span class="text-sm uppercase">Min</span>
+        </div>
+        
+      </div>
+
+      <!-- Buy Now Button -->
+      <button class="bg-blue-900 text-white px-10 py-3 rounded-full font-semibold hover:bg-blue-800 transition">
+        BUY NOW
+      </button>
+    </div>
+  </div>
+</section>
+
+<section class="py-16">
+    <div class="container">
+        <h2 class="text-left text-3xl md:text-4xl font-serif font-bold mb-8">
+            Customer Reviews
+        </h2>
+    </div>
+      <!-- Top Section: Camera + Thumbnails -->
+      <div class="flex flex-col lg:flex-row items-center justify-between gap-6">
+        <!-- Thumbnails -->
+        <div class="flex space-x-3 overflow-x-auto lg:overflow-visible">
+          <div class=" rounded-md overflow-hidden">
+            <img src="{{asset('images/review-1.jpg')}}" 
+                 alt="Thumbnail 1" class="w-full h-full object-cover"/>
+          </div>
+          <div class=" rounded-md overflow-hidden">
+            <img src="{{asset('images/review-2.jpg')}}" 
+                 alt="Thumbnail 2" class="w-full h-full object-cover"/>
+          </div>
+          <div class=" rounded-md overflow-hidden">
+            <img src="{{asset('images/review-3.jpg')}}" 
+                 alt="Thumbnail 3" class="w-full h-full object-cover"/>
+          </div>
+        </div>
+
+        <!-- Camera Mockup -->
+        <div class="relative">
+          <!-- DSLR camera PNG (transparent background) -->
+          <img src="{{asset('images/review-4.png')}}" 
+               alt="Camera mockup" 
+               class="w-full h-auto" />
+
+          <!-- LCD Screen overlay (positioned to fit inside camera screen) -->
+          {# <div class="absolute top-[23%] left-[19%] w-[62%] h-[55%] rounded-sm overflow-hidden shadow-inner">
+            <img src="{{asset('images/review-4.png')}}" 
+                 alt="Camera display" class="w-full h-full object-cover"/>
+          </div> #}
+        </div>
+      </div>
+    
+</section>
+
+  <section class="py-16">
+    <div class="container">
+
+      <!-- Centered Title -->
+      <!-- Title -->
+    <h2 class="text-center text-3xl md:text-4xl font-serif font-bold mb-8">
+      The 
+      <span class="bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+        Star
+      </span> 
+      of Your Routine
+    </h2>
+
+      <!-- Content Grid -->
+      <div class="grid lg:grid-cols-2 gap-10 items-center">
+        
+        <!-- Left Content -->
+        <div>
+          <!-- Product Name -->
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">
+            Blushin' sweet Cheek and Lip Tint
+          </h3>
+
+          <!-- Price -->
+    <p class="text-pink-600 font-bold mb-3 font-sans">
+      89 SAR <span class="text-sm text-gray-500 font-medium">Tax Included</span>
+    </p>
+
+          <!-- Description -->
+          <p class="text-gray-600 mb-3 leading-relaxed">
+            A buildable lightweight Cheek and Lip Tint, that gives you the natural matte color 
+        you’ve been looking for this summer!
+          </p>
+          <p class="text-gray-600 mb-3 leading-relaxed">
+              This easy-to-apply tint will be your go-to product that never leaves your purse this summer.
+          </p>
+          <p class="text-gray-600 mb-6 leading-relaxed">
+               Its long-lasting hydrating formula will make it your favorite. It’s the...
+          </p>
+          <p class="text-gray-600 mb-6 leading-relaxed">
+                  MAKE products are formulated using botanical and botanically-derived ingredients 
+        and tested synthetic ingredients.
+          </p>
+
+       
+        <!-- Button -->
+    <button class="bg-pink-500 w-full hover:bg-pink-600 text-white font-semibold py-3 px-10 rounded-full transition duration-300">
+      Buy It Now
+    </button>
+        </div>
+
+        <!-- Right Image -->
+        <div class="rounded-lg overflow-hidden shadow-lg">
+          <img 
+            src="{{asset('images/Blushin.jpg')}}"
+            alt="Product model closeup"
+            class="w-full h-full object-cover"
+          />
+        </div>
+      </div>
+    </div>
+  </sectio>
+
+
+
+
+<section class="py-16">
+    <div class="container">
+        <h2 class="text-left text-3xl md:text-4xl py-10 font-serif font-bold mb-8">
+            Follow us
+            <span class="bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+                @mbbyamani
+            </span> 
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <div class="rounded-lg overflow-hidden shadow-md">
+          <img src="{{asset('images/instagram-1.jpg')}}"
+               alt="Instagram 1" class="w-full h-full object-cover"/>
+        </div>
+        <div class="rounded-lg overflow-hidden shadow-md">
+          <img src="{{asset('images/instagram-2.jpg')}}"               
+              alt="Instagram 2" class="w-full h-full object-cover"/>
+        </div>
+        <div class="rounded-lg overflow-hidden shadow-md">
+          <img src="{{asset('images/instagram-3.jpg')}}"
+              alt="Instagram 3" class="w-full h-full object-cover"/>
+        </div>
+      </div>
+    </div>
+</section>
+
+
+      <!-- Instagram Text -->
+         
+
+      <!-- Instagram Gallery -->
+      
+    
+{% endblock %} {% block scripts %}
+<script defer src="{{ 'home.js' | asset }}"></script>
+{% endblock %}
