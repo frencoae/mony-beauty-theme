@@ -84,22 +84,36 @@
             display: block;
         }
 
+        .submenu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .submenu.active {
+            max-height: 300px;
+        }
+
         @media (max-width: 768px) {
             .desktop-only {
-                display: none;
+                display: none !important;
             }
             .mobile-only {
-                display: block;
+                display: block !important;
             }
         }
 
         @media (min-width: 769px) {
             .mobile-only {
-                display: none;
+                display: none !important;
             }
             .desktop-only {
-                display: block;
+                display: block !important;
             }
+        }
+
+        .header-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
     </style>
 </head>
@@ -113,11 +127,11 @@
         </section>
 
         <!-- Main Header -->
-        <div class="relative z-10 bg-white text-gray-800 shadow-sm">
+        <div class="relative z-10 header-bg text-white">
             <div class="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
                 <!-- Left: Mobile Menu Button -->
                 <div class="mobile-only">
-                    <button id="openSidenav" class="text-gray-800 text-xl">
+                    <button id="openSidenav" class="text-white text-xl">
                         <i class="fas fa-bars"></i>
                     </button>
                 </div>
@@ -125,13 +139,12 @@
                 <!-- Left: Currency & Language Selector (Desktop) -->
                 <div class="desktop-only">
                     <div class="header-buttons">
-                        {% if store.settings.is_multilingual or store.settings.currencies_enabled %}
                         <button type="button" onclick="salla.event.dispatch('localization::open')" class="basis-0">
                             <div class="flex items-center space-x-6">
                                 <!-- Language -->
                                 <div class="flex items-center space-x-1 cursor-pointer">
-                                    <span class="flag iti__flag iti__{{ user.language.country_code }} rounded-sm" style="transform: scale(1.5); margin-right: 10px;"></span>
-                                    <span style="margin-right: 8px; font-size: 18px;">{{ language.name }}</span>
+                                    <span class="flag iti__flag iti__sa rounded-sm" style="transform: scale(1.5); margin-right: 10px;"></span>
+                                    <span style="margin-right: 8px; font-size: 18px;">English</span>
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                         <path d="M19 9l-7 7-7-7"/>
                                     </svg>
@@ -139,16 +152,14 @@
 
                                 <!-- Currency -->
                                 <div class="flex items-center space-x-1 cursor-pointer" id="currency-display">
-                                    <span id="currency-symbol" style="font-size: 20px;">{{ currency_symbols[currency.code] ?? currency.symbol }}</span>
-                                    <span style="font-size: 18px;" id="currency-name">{{ currency_names[currency.code] ?? currency.code }}</span>
+                                    <span id="currency-symbol" style="font-size: 20px;">ر.س</span>
+                                    <span style="font-size: 18px;" id="currency-name">Riyal</span>
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                         <path d="M19 9l-7 7-7-7"/>
                                     </svg>
                                 </div>
                             </div>
                         </button>
-                        <salla-localization-modal></salla-localization-modal>
-                        {% endif %}
                     </div>
                 </div>
 
@@ -159,21 +170,17 @@
                 <div class="flex items-center space-x-5">
                     <div class="flex items-center gap-5 text-xl">
                         <div class="flex items-center justify-end header-custom-icons">
-                            {% if user.type=='user' %}
-                            <salla-user-menu avatar-only show-header></salla-user-menu>
-                            {% else %}
                             <button
-                                class="header-btn text-gray-800"
+                                class="header-btn text-white"
                                 aria-label="user-icon"
                                 onclick="salla.event.dispatch('login::open')"
                             >
                                 <i class="fas fa-user-circle text-xl"></i>
                             </button>
-                            {% endif %}
-                            <salla-cart-summary class="mx-4 custom-cart-icon">
-                                <i slot="icon" class="fas fa-shopping-bag text-xl"></i>
-                            </salla-cart-summary>
-                            <button class="text-gray-800">
+                            <div class="mx-4 custom-cart-icon">
+                                <i class="fas fa-shopping-bag text-xl"></i>
+                            </div>
+                            <button class="text-white">
                                 <i class="fas fa-search text-xl"></i>
                             </button>
                         </div>
@@ -182,13 +189,13 @@
             </div>
 
             <!-- Nav Menu (Desktop) -->
-            <nav class="w-full bg-white desktop-only">
-                <ul class="flex items-center justify-center gap-8 text-sm font-medium text-gray-800 relative py-3">
-                    <li><a href="/" class="hover:text-pink-500 transition">Home</a></li>
+            <nav class="w-full desktop-only">
+                <ul class="flex items-center justify-center gap-8 text-sm font-medium text-white relative py-3">
+                    <li><a href="/" class="hover:text-pink-300 transition">Home</a></li>
 
                     <!-- Shop with Dropdown -->
                     <li class="relative group dropdown">
-                        <a href="/shop" class="hover:text-pink-500 transition flex items-center">
+                        <a href="/shop" class="hover:text-pink-300 transition flex items-center">
                             Shop <i class="fas fa-chevron-down ml-1 text-xs"></i>
                         </a>
                         <!-- Dropdown -->
@@ -200,9 +207,9 @@
                         </div>
                     </li>
 
-                    <li><a href="/about" class="hover:text-pink-500 transition">About Us</a></li>
-                    <li><a href="/blog" class="hover:text-pink-500 transition">Blog</a></li>
-                    <li><a href="/contact" class="hover:text-pink-500 transition">Contact</a></li>
+                    <li><a href="/about" class="hover:text-pink-300 transition">About Us</a></li>
+                    <li><a href="/blog" class="hover:text-pink-300 transition">Blog</a></li>
+                    <li><a href="/contact" class="hover:text-pink-300 transition">Contact</a></li>
                 </ul>
             </nav>
         </div>
@@ -214,10 +221,10 @@
             
             <!-- Shop with Submenu -->
             <div class="relative">
-                <a href="/shop" class="flex justify-between items-center">
+                <a href="javascript:void(0)" class="flex justify-between items-center shop-toggle">
                     Shop <i class="fas fa-chevron-down"></i>
                 </a>
-                <div class="submenu pl-4 hidden">
+                <div class="submenu">
                     <a href="/shop/makeup">Makeup</a>
                     <a href="/shop/skincare">Skincare</a>
                     <a href="/shop/haircare">Haircare</a>
@@ -232,20 +239,18 @@
             <!-- Currency & Language Selector (Mobile) -->
             <div class="px-4 py-3 border-t border-gray-200 mt-4">
                 <div class="header-buttons">
-                    {% if store.settings.is_multilingual or store.settings.currencies_enabled %}
                     <button type="button" onclick="salla.event.dispatch('localization::open')" class="w-full text-left">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center">
-                                <span class="flag iti__flag iti__{{ user.language.country_code }} rounded-sm mr-2"></span>
-                                <span>{{ language.name }}</span>
+                                <span class="flag iti__flag iti__sa rounded-sm mr-2"></span>
+                                <span>English</span>
                             </div>
                             <div class="flex items-center">
-                                <span id="mobile-currency-symbol">{{ currency_symbols[currency.code] ?? currency.symbol }}</span>
-                                <span id="mobile-currency-name" class="ml-1">{{ currency_names[currency.code] ?? currency.code }}</span>
+                                <span id="mobile-currency-symbol">ر.س</span>
+                                <span id="mobile-currency-name" class="ml-1">Riyal</span>
                             </div>
                         </div>
                     </button>
-                    {% endif %}
                 </div>
             </div>
         </div>
@@ -253,6 +258,25 @@
         <!-- Sidenav Overlay -->
         <div id="sidenavOverlay" class="sidenav-overlay"></div>
     </header>
+
+    <!-- Sample Content -->
+    <div class="container mx-auto p-4 mt-8">
+        <h1 class="text-3xl font-bold text-center mb-8">Welcome to Mony Beauty</h1>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-white rounded-lg shadow p-4">
+                <h2 class="text-xl font-semibold mb-2">Makeup</h2>
+                <p>Discover our premium makeup collection for a flawless look.</p>
+            </div>
+            <div class="bg-white rounded-lg shadow p-4">
+                <h2 class="text-xl font-semibold mb-2">Skincare</h2>
+                <p>Nourish your skin with our natural skincare products.</p>
+            </div>
+            <div class="bg-white rounded-lg shadow p-4">
+                <h2 class="text-xl font-semibold mb-2">Fragrance</h2>
+                <p>Find your signature scent from our exclusive collection.</p>
+            </div>
+        </div>
+    </div>
 
     <script>
         // Sidenav functionality
@@ -280,19 +304,16 @@
             sidenavOverlay.addEventListener('click', closeNav);
             
             // Toggle submenus in mobile sidenav
-            const shopLinks = document.querySelectorAll('.sidenav .relative > a');
-            shopLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    if (this.nextElementSibling && this.nextElementSibling.classList.contains('submenu')) {
-                        e.preventDefault();
-                        this.nextElementSibling.classList.toggle('hidden');
-                        const icon = this.querySelector('i');
-                        if (icon) {
-                            icon.classList.toggle('fa-chevron-down');
-                            icon.classList.toggle('fa-chevron-up');
-                        }
-                    }
-                });
+            const shopToggle = document.querySelector('.shop-toggle');
+            shopToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                const submenu = this.nextElementSibling;
+                submenu.classList.toggle('active');
+                const icon = this.querySelector('i');
+                if (icon) {
+                    icon.classList.toggle('fa-chevron-down');
+                    icon.classList.toggle('fa-chevron-up');
+                }
             });
             
             // Update banner text
