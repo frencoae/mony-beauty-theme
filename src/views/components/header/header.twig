@@ -1,363 +1,284 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mony Beauty</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* Custom styles for sidenav and responsive behavior */
-        .sidenav {
-            height: 100%;
-            width: 0;
-            position: fixed;
-            z-index: 1000;
-            top: 0;
-            left: 0;
-            background-color: white;
-            overflow-x: hidden;
-            transition: 0.5s;
-            padding-top: 60px;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-        }
+{% set currency_names = {
+  'USD': 'Dollar',
+  'SAR': 'Riyal', 
+  'EUR': 'Euro',
+  'GBP': 'Pound',
+  'AED': 'Dirham'
+} %}
 
-        .sidenav a {
-            padding: 12px 20px;
-            text-decoration: none;
-            font-size: 16px;
-            color: #333;
-            display: block;
-            transition: 0.3s;
-            border-bottom: 1px solid #f1f1f1;
-        }
+{% set currency_symbols = {
+  'USD': '$',
+  'SAR': 'ر.س',
+  'EUR': '€',
+  'GBP': '£',
+  'AED': 'د.إ'
+} %}
 
-        .sidenav a:hover {
-            background-color: #f8f8f8;
-            color: #ec4899;
-        }
-
-        .sidenav .closebtn {
-            position: absolute;
-            top: 0;
-            right: 25px;
-            font-size: 36px;
-            margin-left: 50px;
-            color: #333;
-        }
-
-        .sidenav-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            z-index: 999;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: white;
-            min-width: 180px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
-            z-index: 1;
-            border-radius: 4px;
-        }
-
-        .dropdown-content a {
-            color: #333;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            border-bottom: 1px solid #f1f1f1;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #f8f8f8;
-            color: #ec4899;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        .submenu {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-        }
-
-        .submenu.active {
-            max-height: 300px;
-        }
-
-        @media (max-width: 768px) {
-            .desktop-only {
-                display: none !important;
-            }
-            .mobile-only {
-                display: block !important;
-            }
-        }
-
-        @media (min-width: 769px) {
-            .mobile-only {
-                display: none !important;
-            }
-            .desktop-only {
-                display: block !important;
-            }
-        }
-
-        .header-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-    </style>
-</head>
-<body class="font-sans">
-    <header class="store-header">
-        <!-- Top Banner -->
-        <section class="w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white text-sm py-2">
-            <div class="w-full text-center px-4">
-                <p class="font-medium" id="custom-banner-text">Free Shipping on Order above 300 SAR</p>
-            </div>
-        </section>
-
-        <!-- Main Header -->
-        <div class="relative z-10 header-bg text-white">
-            <div class="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
-                <!-- Left: Mobile Menu Button -->
-                <div class="mobile-only">
-                    <button id="openSidenav" class="text-white text-xl">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                </div>
-
-                <!-- Left: Currency & Language Selector (Desktop) -->
-                <div class="desktop-only">
-                    <div class="header-buttons">
-                        <button type="button" onclick="salla.event.dispatch('localization::open')" class="basis-0">
-                            <div class="flex items-center space-x-6">
-                                <!-- Language -->
-                                <div class="flex items-center space-x-1 cursor-pointer">
-                                    <span class="flag iti__flag iti__sa rounded-sm" style="transform: scale(1.5); margin-right: 10px;"></span>
-                                    <span style="margin-right: 8px; font-size: 18px;">English</span>
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path d="M19 9l-7 7-7-7"/>
-                                    </svg>
-                                </div>
-
-                                <!-- Currency -->
-                                <div class="flex items-center space-x-1 cursor-pointer" id="currency-display">
-                                    <span id="currency-symbol" style="font-size: 20px;">ر.س</span>
-                                    <span style="font-size: 18px;" id="currency-name">Riyal</span>
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path d="M19 9l-7 7-7-7"/>
-                                    </svg>
-                                </div>
-                            </div>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Center: Logo -->
-                <div class="text-2xl font-light tracking-widest text-center">MONY BEAUTY</div>
-
-                <!-- Right Section: Icons -->
-                <div class="flex items-center space-x-5">
-                    <div class="flex items-center gap-5 text-xl">
-                        <div class="flex items-center justify-end header-custom-icons">
-                            <button
-                                class="header-btn text-white"
-                                aria-label="user-icon"
-                                onclick="salla.event.dispatch('login::open')"
-                            >
-                                <i class="fas fa-user-circle text-xl"></i>
-                            </button>
-                            <div class="mx-4 custom-cart-icon">
-                                <i class="fas fa-shopping-bag text-xl"></i>
-                            </div>
-                            <button class="text-white">
-                                <i class="fas fa-search text-xl"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Nav Menu (Desktop) -->
-            <nav class="w-full desktop-only">
-                <ul class="flex items-center justify-center gap-8 text-sm font-medium text-white relative py-3">
-                    <li><a href="/" class="hover:text-pink-300 transition">Home</a></li>
-
-                    <!-- Shop with Dropdown -->
-                    <li class="relative group dropdown">
-                        <a href="/shop" class="hover:text-pink-300 transition flex items-center">
-                            Shop <i class="fas fa-chevron-down ml-1 text-xs"></i>
-                        </a>
-                        <!-- Dropdown -->
-                        <div class="dropdown-content">
-                            <a href="/shop/makeup" class="block px-4 py-2 hover:bg-pink-100">Makeup</a>
-                            <a href="/shop/skincare" class="block px-4 py-2 hover:bg-pink-100">Skincare</a>
-                            <a href="/shop/haircare" class="block px-4 py-2 hover:bg-pink-100">Haircare</a>
-                            <a href="/shop/fragrance" class="block px-4 py-2 hover:bg-pink-100">Fragrance</a>
-                        </div>
-                    </li>
-
-                    <li><a href="/about" class="hover:text-pink-300 transition">About Us</a></li>
-                    <li><a href="/blog" class="hover:text-pink-300 transition">Blog</a></li>
-                    <li><a href="/contact" class="hover:text-pink-300 transition">Contact</a></li>
-                </ul>
-            </nav>
-        </div>
-
-        <!-- Sidenav for Mobile -->
-        <div id="mySidenav" class="sidenav">
-            <a href="javascript:void(0)" class="closebtn" id="closeSidenav">&times;</a>
-            <a href="/">Home</a>
-            
-            <!-- Shop with Submenu -->
-            <div class="relative">
-                <a href="javascript:void(0)" class="flex justify-between items-center shop-toggle">
-                    Shop <i class="fas fa-chevron-down"></i>
-                </a>
-                <div class="submenu">
-                    <a href="/shop/makeup">Makeup</a>
-                    <a href="/shop/skincare">Skincare</a>
-                    <a href="/shop/haircare">Haircare</a>
-                    <a href="/shop/fragrance">Fragrance</a>
-                </div>
-            </div>
-            
-            <a href="/about">About Us</a>
-            <a href="/blog">Blog</a>
-            <a href="/contact">Contact</a>
-            
-            <!-- Currency & Language Selector (Mobile) -->
-            <div class="px-4 py-3 border-t border-gray-200 mt-4">
-                <div class="header-buttons">
-                    <button type="button" onclick="salla.event.dispatch('localization::open')" class="w-full text-left">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center">
-                                <span class="flag iti__flag iti__sa rounded-sm mr-2"></span>
-                                <span>English</span>
-                            </div>
-                            <div class="flex items-center">
-                                <span id="mobile-currency-symbol">ر.س</span>
-                                <span id="mobile-currency-name" class="ml-1">Riyal</span>
-                            </div>
-                        </div>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sidenav Overlay -->
-        <div id="sidenavOverlay" class="sidenav-overlay"></div>
-    </header>
-
-    <!-- Sample Content -->
-    <div class="container mx-auto p-4 mt-8">
-        <h1 class="text-3xl font-bold text-center mb-8">Welcome to Mony Beauty</h1>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-white rounded-lg shadow p-4">
-                <h2 class="text-xl font-semibold mb-2">Makeup</h2>
-                <p>Discover our premium makeup collection for a flawless look.</p>
-            </div>
-            <div class="bg-white rounded-lg shadow p-4">
-                <h2 class="text-xl font-semibold mb-2">Skincare</h2>
-                <p>Nourish your skin with our natural skincare products.</p>
-            </div>
-            <div class="bg-white rounded-lg shadow p-4">
-                <h2 class="text-xl font-semibold mb-2">Fragrance</h2>
-                <p>Find your signature scent from our exclusive collection.</p>
-            </div>
-        </div>
+{# | Variable | Type | Description |
+|------------------|---------|---------------------------------| | cart | object
+| | | cart.items_count | int | | | cart.total | string | Formatted total ex:
+"١٠٠ ر.س" | #} {% set important_links = theme.settings.get('important_links') %}
+<header class="store-header">
+  {# Top Banner #}
+  <section class="w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white text-sm py-2 relative z-50">
+    <div class="w-full text-center px-4">
+      <p class="font-medium" id="custom-banner-text">Free Shipping on Order above 300 SAR</p>
     </div>
+  </section>
 
-    <script>
-        // Sidenav functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const openSidenav = document.getElementById('openSidenav');
-            const closeSidenav = document.getElementById('closeSidenav');
-            const sidenav = document.getElementById('mySidenav');
-            const sidenavOverlay = document.getElementById('sidenavOverlay');
-            
-            // Open sidenav
-            openSidenav.addEventListener('click', function() {
-                sidenav.style.width = '280px';
-                sidenavOverlay.style.display = 'block';
-                document.body.style.overflow = 'hidden';
-            });
-            
-            // Close sidenav
-            function closeNav() {
-                sidenav.style.width = '0';
-                sidenavOverlay.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }
-            
-            closeSidenav.addEventListener('click', closeNav);
-            sidenavOverlay.addEventListener('click', closeNav);
-            
-            // Toggle submenus in mobile sidenav
-            const shopToggle = document.querySelector('.shop-toggle');
-            shopToggle.addEventListener('click', function(e) {
-                e.preventDefault();
-                const submenu = this.nextElementSibling;
-                submenu.classList.toggle('active');
-                const icon = this.querySelector('i');
-                if (icon) {
-                    icon.classList.toggle('fa-chevron-down');
-                    icon.classList.toggle('fa-chevron-up');
-                }
-            });
-            
-            // Update banner text
-            const bannerText = document.getElementById("custom-banner-text");
-            if (bannerText) {
-                bannerText.innerText = "Free Shipping on Order above 300 SAR";
-            }
-            
-            // Currency change handler
-            if (typeof salla !== 'undefined') {
-                salla.event.on('currency::changed', function(currency) {
-                    const symbolElement = document.getElementById('currency-symbol');
-                    const nameElement = document.getElementById('currency-name');
-                    const mobileSymbolElement = document.getElementById('mobile-currency-symbol');
-                    const mobileNameElement = document.getElementById('mobile-currency-name');
-                    
-                    const symbols = {
-                        'USD': '$',
-                        'SAR': 'ر.س', 
-                        'EUR': '€',
-                        'GBP': '£',
-                        'AED': 'د.إ'
-                    };
-                    
-                    const names = {
-                        'USD': 'Dollar',
-                        'SAR': 'Riyal',
-                        'EUR': 'Euro', 
-                        'GBP': 'Pound',
-                        'AED': 'Dirham'
-                    };
-                    
-                    if (symbolElement && nameElement) {
-                        symbolElement.textContent = symbols[currency.code] || currency.symbol;
-                        nameElement.textContent = names[currency.code] || currency.code;
-                    }
-                    
-                    if (mobileSymbolElement && mobileNameElement) {
-                        mobileSymbolElement.textContent = symbols[currency.code] || currency.symbol;
-                        mobileNameElement.textContent = names[currency.code] || currency.code;
-                    }
-                });
-            }
-        });
-    </script>
-</body>
-</html>
+  {# Main Header #}
+  <div class="relative z-40 bg-white">
+    <div class="w-full bg-white text-gray-800">
+      <div class="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
+        {# Mobile Menu Button #}
+        <button id="mobile-menu-button" class="lg:hidden p-2 rounded-md text-gray-700 hover:text-pink-500">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+
+        {# Logo - Centered on mobile, left on desktop #}
+        <div class="text-2xl font-light tracking-widest text-center lg:text-left flex-1 lg:flex-none">
+          MONY BEAUTY
+        </div>
+
+        {# Desktop Navigation - Hidden on mobile #}
+        <nav class="hidden lg:flex flex-1 justify-center">
+          <ul class="flex items-center gap-8 text-sm font-medium">
+            <li><a href="/" class="hover:text-pink-500 transition">Home</a></li>
+            <li class="relative group">
+              <a href="/shop" class="hover:text-pink-500 transition flex items-center">
+                Shop
+                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </a>
+              <ul class="absolute left-0 mt-2 hidden group-hover:block bg-white text-black rounded-md shadow-lg min-w-[180px] z-10">
+                <li><a href="/shop/makeup" class="block px-4 py-2 hover:bg-pink-100">Makeup</a></li>
+                <li><a href="/shop/skincare" class="block px-4 py-2 hover:bg-pink-100">Skincare</a></li>
+                <li><a href="/shop/haircare" class="block px-4 py-2 hover:bg-pink-100">Haircare</a></li>
+                <li><a href="/shop/fragrance" class="block px-4 py-2 hover:bg-pink-100">Fragrance</a></li>
+              </ul>
+            </li>
+            <li><a href="/about" class="hover:text-pink-500 transition">About Us</a></li>
+            <li><a href="/blog" class="hover:text-pink-500 transition">Blog</a></li>
+            <li><a href="/contact" class="hover:text-pink-500 transition">Contact</a></li>
+          </ul>
+        </nav>
+
+        {# Right Section: Icons and Currency #}
+        <div class="flex items-center space-x-4">
+          {# Currency & Language Selector - Hidden on mobile #}
+          <div class="hidden lg:flex items-center space-x-6 mr-4">
+            {% if store.settings.is_multilingual or store.settings.currencies_enabled %}
+            <button type="button" onclick="salla.event.dispatch('localization::open')" class="basis-0">
+              <div class="flex items-center space-x-6">
+                <!-- Language -->
+                <div class="flex items-center space-x-1 cursor-pointer">
+                  <span class="flag iti__flag iti__{{ user.language.country_code }} rounded-sm" style="transform: scale(1.5); margin-right: 10px;"></span>
+                  <span style="margin-right: 8px; font-size: 18px;">{{ language.name }}</span>
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M19 9l-7 7-7-7"/>
+                  </svg>
+                </div>
+
+                <!-- Currency -->
+                <div class="flex items-center space-x-1 cursor-pointer" id="currency-display">
+                  <span id="currency-symbol" style="font-size: 20px;">{{ currency_symbols[currency.code] ?? currency.symbol }}</span>
+                  <span style="font-size: 18px;" id="currency-name">{{ currency_names[currency.code] ?? currency.code }}</span>
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M19 9l-7 7-7-7"/>
+                  </svg>
+                </div>
+              </div>
+            </button>
+            <salla-localization-modal></salla-localization-modal>
+            {% endif %}
+          </div>
+
+          {# Icons #}
+          <div class="flex items-center gap-4 text-xl">
+            <div class="flex items-center justify-end header-custom-icons">
+              {% if user.type=='user' %}
+              <salla-user-menu avatar-only show-header></salla-user-menu>
+              {% else %}
+              <button
+                class="header-btn text-gray-700"
+                aria-label="user-icon"
+                onclick="salla.event.dispatch('login::open')"
+              >
+                <img src="{{ asset('images/user-icon.svg') }}" alt="User" class="w-6 h-6">
+              </button>
+              {% endif %}
+              <salla-cart-summary class="mx-2 custom-cart-icon">
+                <img src="{{ asset('images/cart-icon.svg') }}" alt="Cart Icon" class="w-6 h-6">
+              </salla-cart-summary>
+              <button class="text-gray-700">
+                <img src="{{ asset('images/search-icon.svg') }}" alt="Search Icon" class="w-6 h-6">
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# Mobile Side Navigation #}
+  <div id="mobile-side-nav" class="fixed inset-0 z-50 flex transform transition-transform duration-300 ease-in-out -translate-x-full lg:hidden">
+    {# Overlay #}
+    <div class="fixed inset-0 bg-black bg-opacity-50" id="mobile-nav-overlay"></div>
+    
+    {# Side Panel #}
+    <div class="relative w-80 max-w-full bg-white h-full overflow-y-auto shadow-xl">
+      {# Close Button #}
+      <div class="flex justify-end p-4">
+        <button id="close-mobile-nav" class="p-2 rounded-full bg-gray-100 hover:bg-gray-200">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      
+      {# Mobile Navigation Links #}
+      <nav class="p-4">
+        <ul class="space-y-4">
+          <li><a href="/" class="block py-2 px-4 text-lg font-medium hover:bg-pink-50 hover:text-pink-500 rounded">Home</a></li>
+          
+          {# Shop with Expandable Submenu #}
+          <li>
+            <button id="mobile-shop-toggle" class="flex justify-between items-center w-full py-2 px-4 text-lg font-medium hover:bg-pink-50 hover:text-pink-500 rounded">
+              <span>Shop</span>
+              <svg id="mobile-shop-arrow" class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            <ul id="mobile-shop-menu" class="mt-2 ml-4 space-y-2 hidden">
+              <li><a href="/shop/makeup" class="block py-2 px-4 hover:bg-pink-50 hover:text-pink-500 rounded">Makeup</a></li>
+              <li><a href="/shop/skincare" class="block py-2 px-4 hover:bg-pink-50 hover:text-pink-500 rounded">Skincare</a></li>
+              <li><a href="/shop/haircare" class="block py-2 px-4 hover:bg-pink-50 hover:text-pink-500 rounded">Haircare</a></li>
+              <li><a href="/shop/fragrance" class="block py-2 px-4 hover:bg-pink-50 hover:text-pink-500 rounded">Fragrance</a></li>
+            </ul>
+          </li>
+          
+          <li><a href="/about" class="block py-2 px-4 text-lg font-medium hover:bg-pink-50 hover:text-pink-500 rounded">About Us</a></li>
+          <li><a href="/blog" class="block py-2 px-4 text-lg font-medium hover:bg-pink-50 hover:text-pink-500 rounded">Blog</a></li>
+          <li><a href="/contact" class="block py-2 px-4 text-lg font-medium hover:bg-pink-50 hover:text-pink-500 rounded">Contact</a></li>
+        </ul>
+      </nav>
+      
+      {# Mobile Currency & Language Selector #}
+      <div class="p-4 border-t border-gray-200">
+        <div class="space-y-4">
+          {% if store.settings.is_multilingual or store.settings.currencies_enabled %}
+          <button type="button" onclick="salla.event.dispatch('localization::open')" class="w-full text-left">
+            <div class="flex flex-col space-y-4">
+              <!-- Language -->
+              <div class="flex items-center space-x-3">
+                <span class="flag iti__flag iti__{{ user.language.country_code }} rounded-sm" style="transform: scale(1.3);"></span>
+                <span class="text-lg">{{ language.name }}</span>
+              </div>
+
+              <!-- Currency -->
+              <div class="flex items-center space-x-3" id="mobile-currency-display">
+                <span id="mobile-currency-symbol" class="text-xl">{{ currency_symbols[currency.code] ?? currency.symbol }}</span>
+                <span class="text-lg" id="mobile-currency-name">{{ currency_names[currency.code] ?? currency.code }}</span>
+              </div>
+            </div>
+          </button>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // Update banner text
+  const bannerText = document.getElementById("custom-banner-text");
+  if (bannerText) {
+    bannerText.innerText = "Free Shipping on Order above 300 SAR";
+  }
+
+  // Mobile navigation functionality
+  const mobileMenuButton = document.getElementById("mobile-menu-button");
+  const closeMobileNav = document.getElementById("close-mobile-nav");
+  const mobileNavOverlay = document.getElementById("mobile-nav-overlay");
+  const mobileSideNav = document.getElementById("mobile-side-nav");
+  const mobileShopToggle = document.getElementById("mobile-shop-toggle");
+  const mobileShopMenu = document.getElementById("mobile-shop-menu");
+  const mobileShopArrow = document.getElementById("mobile-shop-arrow");
+
+  // Open mobile menu
+  if (mobileMenuButton) {
+    mobileMenuButton.addEventListener("click", function() {
+      mobileSideNav.classList.remove("-translate-x-full");
+      document.body.style.overflow = "hidden";
+    });
+  }
+
+  // Close mobile menu
+  function closeMobileMenu() {
+    mobileSideNav.classList.add("-translate-x-full");
+    document.body.style.overflow = "";
+    // Also close the shop submenu when closing the main menu
+    mobileShopMenu.classList.add("hidden");
+    mobileShopArrow.classList.remove("rotate-180");
+  }
+
+  if (closeMobileNav) {
+    closeMobileNav.addEventListener("click", closeMobileMenu);
+  }
+
+  if (mobileNavOverlay) {
+    mobileNavOverlay.addEventListener("click", closeMobileMenu);
+  }
+
+  // Toggle shop submenu on mobile
+  if (mobileShopToggle && mobileShopMenu && mobileShopArrow) {
+    mobileShopToggle.addEventListener("click", function() {
+      mobileShopMenu.classList.toggle("hidden");
+      mobileShopArrow.classList.toggle("rotate-180");
+    });
+  }
+
+  // Update currency display when currency changes
+  if (typeof salla !== 'undefined') {
+    salla.event.on('currency::changed', function(currency) {
+      const symbolElement = document.getElementById('currency-symbol');
+      const nameElement = document.getElementById('currency-name');
+      const mobileSymbolElement = document.getElementById('mobile-currency-symbol');
+      const mobileNameElement = document.getElementById('mobile-currency-name');
+      
+      // Define symbols for each currency
+      const symbols = {
+        'USD': '$',
+        'SAR': 'ر.س', 
+        'EUR': '€',
+        'GBP': '£',
+        'AED': 'د.إ'
+      };
+      
+      const names = {
+        'USD': 'Dollar',
+        'SAR': 'Riyal',
+        'EUR': 'Euro', 
+        'GBP': 'Pound',
+        'AED': 'Dirham'
+      };
+      
+      // Update desktop display
+      if (symbolElement && nameElement) {
+        symbolElement.textContent = symbols[currency.code] || currency.symbol;
+        nameElement.textContent = names[currency.code] || currency.code;
+      }
+      
+      // Update mobile display
+      if (mobileSymbolElement && mobileNameElement) {
+        mobileSymbolElement.textContent = symbols[currency.code] || currency.symbol;
+        mobileNameElement.textContent = names[currency.code] || currency.code;
+      }
+    });
+  }
+});
+</script>
