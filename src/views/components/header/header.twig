@@ -18,267 +18,530 @@
 |------------------|---------|---------------------------------| | cart | object
 | | | cart.items_count | int | | | cart.total | string | Formatted total ex:
 "١٠٠ ر.س" | #} {% set important_links = theme.settings.get('important_links') %}
-<header class="store-header">
-  {# Top Banner #}
-  <section class="w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white text-sm py-2 relative z-50">
+ 
+<section class="w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white text-sm py-2 md:py-3 relative z-10">
     <div class="w-full text-center px-4">
-      <p class="font-medium" id="custom-banner-text">Free Shipping on Order above 300 SAR</p>
+        <p class="text-sm md:text-lg font-medium" id="custom-banner-text">Free Shipping on Order above 300 SAR</p>
     </div>
-  </section>
+</section>
 
-  {# Main Header #}
-  <div class="relative z-40 bg-white">
-    <div class="w-full bg-white text-gray-800">
-      <div class="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
-        {# Mobile Menu Button #}
-        <button id="mobile-menu-button" class="lg:hidden p-2 rounded-md text-gray-700 hover:text-pink-500">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-          </svg>
-        </button>
-
-        {# Logo - Centered on mobile, left on desktop #}
-        <div class="text-2xl font-light tracking-widest text-center lg:text-left flex-1 lg:flex-none">
-          MONY BEAUTY
-        </div>
-
-        {# Desktop Navigation - Hidden on mobile #}
-        <nav class="hidden lg:flex flex-1 justify-center">
-          <ul class="flex items-center gap-8 text-sm font-medium">
-            <li><a href="/" class="hover:text-pink-500 transition">Home</a></li>
-            <li class="relative group">
-              <a href="/shop" class="hover:text-pink-500 transition flex items-center">
-                Shop
-                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                </svg>
-              </a>
-              <ul class="absolute left-0 mt-2 hidden group-hover:block bg-white text-black rounded-md shadow-lg min-w-[180px] z-10">
-                <li><a href="/shop/makeup" class="block px-4 py-2 hover:bg-pink-100">Makeup</a></li>
-                <li><a href="/shop/skincare" class="block px-4 py-2 hover:bg-pink-100">Skincare</a></li>
-                <li><a href="/shop/haircare" class="block px-4 py-2 hover:bg-pink-100">Haircare</a></li>
-                <li><a href="/shop/fragrance" class="block px-4 py-2 hover:bg-pink-100">Fragrance</a></li>
-              </ul>
-            </li>
-            <li><a href="/about" class="hover:text-pink-500 transition">About Us</a></li>
-            <li><a href="/blog" class="hover:text-pink-500 transition">Blog</a></li>
-            <li><a href="/contact" class="hover:text-pink-500 transition">Contact</a></li>
-          </ul>
-        </nav>
-
-        {# Right Section: Icons and Currency #}
-        <div class="flex items-center space-x-4">
-          {# Currency & Language Selector - Hidden on mobile #}
-          <div class="hidden lg:flex items-center space-x-6 mr-4">
-            {% if store.settings.is_multilingual or store.settings.currencies_enabled %}
-            <button type="button" onclick="salla.event.dispatch('localization::open')" class="basis-0">
-              <div class="flex items-center space-x-6">
-                <!-- Language -->
-                <div class="flex items-center space-x-1 cursor-pointer">
-                  <span class="flag iti__flag iti__{{ user.language.country_code }} rounded-sm" style="transform: scale(1.5); margin-right: 10px;"></span>
-                  <span style="margin-right: 8px; font-size: 18px;">{{ language.name }}</span>
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path d="M19 9l-7 7-7-7"/>
-                  </svg>
+<header class="store-header">
+    <div class="relative z-10">
+        <!-- Main Header -->
+        <div class="w-full bg-transparent text-white border-b border-white/20">
+            <div class="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
+                <!-- Left: Mobile Menu Button -->
+                <div class="flex md:hidden">
+                    <button id="mobile-menu-toggle" class="text-white p-2">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
                 </div>
 
-                <!-- Currency -->
-                <div class="flex items-center space-x-1 cursor-pointer" id="currency-display">
-                  <span id="currency-symbol" style="font-size: 20px;">{{ currency_symbols[currency.code] ?? currency.symbol }}</span>
-                  <span style="font-size: 18px;" id="currency-name">{{ currency_names[currency.code] ?? currency.code }}</span>
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path d="M19 9l-7 7-7-7"/>
-                  </svg>
-                </div>
-              </div>
-            </button>
-            <salla-localization-modal></salla-localization-modal>
-            {% endif %}
-          </div>
+                <!-- Left: Desktop Currency/Language -->
+                <div class="hidden md:flex header-buttons">
+                    {% if store.settings.is_multilingual or store.settings.currencies_enabled %}
+                    <button type="button" onclick="salla.event.dispatch('localization::open')" class="basis-0">
+                        <div class="flex items-center space-x-6">
+                            <!-- Language -->
+                            <div class="flex items-center space-x-1 cursor-pointer">
+                                <span class="flag iti__flag iti__{{ user.language.country_code }} rounded-sm" style="transform: scale(1.5); margin-right: 10px;"></span>
+                                <span style="margin-right: 8px; font-size: 18px;">{{ language.name }}</span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path d="M19 9l-7 7-7-7"/>
+                                </svg>
+                            </div>
 
-          {# Icons #}
-          <div class="flex items-center gap-4 text-xl">
-            <div class="flex items-center justify-end header-custom-icons">
-              {% if user.type=='user' %}
-              <salla-user-menu avatar-only show-header></salla-user-menu>
-              {% else %}
-              <button
-                class="header-btn text-gray-700"
-                aria-label="user-icon"
-                onclick="salla.event.dispatch('login::open')"
-              >
-                <img src="{{ asset('images/user-icon.svg') }}" alt="User" class="w-6 h-6">
-              </button>
-              {% endif %}
-              <salla-cart-summary class="mx-2 custom-cart-icon">
-                <img src="{{ asset('images/cart-icon.svg') }}" alt="Cart Icon" class="w-6 h-6">
-              </salla-cart-summary>
-              <button class="text-gray-700">
-                <img src="{{ asset('images/search-icon.svg') }}" alt="Search Icon" class="w-6 h-6">
-              </button>
+                            <!-- Currency -->
+                            <div class="flex items-center space-x-1 cursor-pointer" id="currency-display">
+                                <span id="currency-symbol" style="font-size: 20px;">{{ currency_symbols[currency.code] ?? currency.symbol }}</span>
+                                <span style="font-size: 18px;" id="currency-name">{{ currency_names[currency.code] ?? currency.code }}</span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path d="M19 9l-7 7-7-7"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </button>
+                    <salla-localization-modal></salla-localization-modal>
+                    {% endif %}
+                </div>
+
+                <!-- Center: Logo -->
+                <div class="flex justify-center items-center flex-1 md:flex-none">
+                    <img src="{{ asset('images/logo.png') }}" alt="MONY BEAUTY Logo" class="w-40 md:w-64 lg:w-80 h-auto">
+                </div>
+
+                <!-- Right Section: Icons -->
+                <div class="flex items-center space-x-4 md:space-x-5">
+                    <div class="flex items-center gap-4 md:gap-5 text-lg md:text-xl">
+                        <div class="flex items-center justify-end header-custom-icons">
+                            {% if user.type=='user' %}
+                            <salla-user-menu avatar-only show-header></salla-user-menu>
+                            {% else %}
+                            <button
+                                class="header-btn text-white"
+                                aria-label="user-icon"
+                                onclick="salla.event.dispatch('login::open')"
+                            >
+                                <img src="{{ asset('images/user-icon.svg') }}" class="w-5 h-5 md:w-6 md:h-6">
+                            </button>
+                            {% endif %}
+                            <salla-cart-summary class="mx-2 md:mx-4 custom-cart-icon">
+                                <img src="{{ asset('images/cart-icon.svg') }}" alt="Cart Icon" class="w-5 h-5 md:w-6 md:h-6">
+                            </salla-cart-summary>
+                            <button class="hidden md:block">
+                                <img src="{{ asset('images/search-icon.svg') }}" alt="Search Icon" class="w-5 h-5 md:w-6 md:h-6">
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-  </div>
 
-  {# Mobile Side Navigation #}
-  <div id="mobile-side-nav" class="fixed inset-0 z-50 flex transform transition-transform duration-300 ease-in-out -translate-x-full lg:hidden">
-    {# Overlay #}
-    <div class="fixed inset-0 bg-black bg-opacity-50" id="mobile-nav-overlay"></div>
-    
-    {# Side Panel #}
-    <div class="relative w-80 max-w-full bg-white h-full overflow-y-auto shadow-xl">
-      {# Close Button #}
-      <div class="flex justify-end p-4">
-        <button id="close-mobile-nav" class="p-2 rounded-full bg-gray-100 hover:bg-gray-200">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-          </svg>
-        </button>
-      </div>
-      
-      {# Mobile Navigation Links #}
-      <nav class="p-4">
-        <ul class="space-y-4">
-          <li><a href="/" class="block py-2 px-4 text-lg font-medium hover:bg-pink-50 hover:text-pink-500 rounded">Home</a></li>
-          
-          {# Shop with Expandable Submenu #}
-          <li>
-            <button id="mobile-shop-toggle" class="flex justify-between items-center w-full py-2 px-4 text-lg font-medium hover:bg-pink-50 hover:text-pink-500 rounded">
-              <span>Shop</span>
-              <svg id="mobile-shop-arrow" class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-              </svg>
-            </button>
-            <ul id="mobile-shop-menu" class="mt-2 ml-4 space-y-2 hidden">
-              <li><a href="/shop/makeup" class="block py-2 px-4 hover:bg-pink-50 hover:text-pink-500 rounded">Makeup</a></li>
-              <li><a href="/shop/skincare" class="block py-2 px-4 hover:bg-pink-50 hover:text-pink-500 rounded">Skincare</a></li>
-              <li><a href="/shop/haircare" class="block py-2 px-4 hover:bg-pink-50 hover:text-pink-500 rounded">Haircare</a></li>
-              <li><a href="/shop/fragrance" class="block py-2 px-4 hover:bg-pink-50 hover:text-pink-500 rounded">Fragrance</a></li>
+        <!-- New Desktop Nav Menu Based on Figma Design -->
+        <nav class="hidden md:block w-full bg-transparent">
+            <ul class="max-w-7xl mx-auto flex items-center justify-center gap-6 py-2 px-4 text-white" style="font-size: 16px; font-weight: 500;">
+                <li><a href="/shop" class="hover:text-white hover:font-semibold transition relative py-1 block group">Shop</a>
+                    <ul class="absolute hidden group-hover:block bg-[#4A2C2A] text-white rounded-md shadow-lg min-w-[180px] z-20">
+                        <li><a href="/shop/makeup" class="block px-4 py-2 hover:text-white hover:font-semibold transition">Makeup</a></li>
+                        <li><a href="/shop/skincare" class="block px-4 py-2 hover:text-white hover:font-semibold transition">Skincare</a></li>
+                        <li><a href="/shop/haircare" class="block px-4 py-2 hover:text-white hover:font-semibold transition">Haircare</a></li>
+                        <li><a href="/shop/fragrance" class="block px-4 py-2 hover:text-white hover:font-semibold transition">Fragrance</a></li>
+                    </ul>
+                </li>
+                <li><a href="/best-sellers" class="hover:text-white hover:font-semibold transition relative py-1 block">Best Sellers</a></li>
+                <li><a href="/gifts-and-sets" class="hover:text-white hover:font-semibold transition relative py-1 block">Gifts & Sets</a></li>
+                <li><a href="/about" class="hover:text-white hover:font-semibold transition relative py-1 block">About MB</a></li>
             </ul>
-          </li>
-          
-          <li><a href="/about" class="block py-2 px-4 text-lg font-medium hover:bg-pink-50 hover:text-pink-500 rounded">About Us</a></li>
-          <li><a href="/blog" class="block py-2 px-4 text-lg font-medium hover:bg-pink-50 hover:text-pink-500 rounded">Blog</a></li>
-          <li><a href="/contact" class="block py-2 px-4 text-lg font-medium hover:bg-pink-50 hover:text-pink-500 rounded">Contact</a></li>
-        </ul>
-      </nav>
-      
-      {# Mobile Currency & Language Selector #}
-      <div class="p-4 border-t border-gray-200">
-        <div class="space-y-4">
-          {% if store.settings.is_multilingual or store.settings.currencies_enabled %}
-          <button type="button" onclick="salla.event.dispatch('localization::open')" class="w-full text-left">
-            <div class="flex flex-col space-y-4">
-              <!-- Language -->
-              <div class="flex items-center space-x-3">
-                <span class="flag iti__flag iti__{{ user.language.country_code }} rounded-sm" style="transform: scale(1.3);"></span>
-                <span class="text-lg">{{ language.name }}</span>
-              </div>
-
-              <!-- Currency -->
-              <div class="flex items-center space-x-3" id="mobile-currency-display">
-                <span id="mobile-currency-symbol" class="text-xl">{{ currency_symbols[currency.code] ?? currency.symbol }}</span>
-                <span class="text-lg" id="mobile-currency-name">{{ currency_names[currency.code] ?? currency.code }}</span>
-              </div>
-            </div>
-          </button>
-          {% endif %}
-        </div>
-      </div>
+            <style>
+                nav ul li a {
+                    color: white;
+                    font-weight: 500;
+                    position: relative;
+                    display: inline-block;
+                }
+                nav ul li a:hover {
+                    font-weight: 600;
+                }
+                nav ul li a:hover::after,
+                nav ul li ul li a:hover::after {
+                    content: '';
+                    position: absolute;
+                    bottom: -2px;
+                    left: 0;
+                    width: 100%;
+                    height: 4px;
+                    background: linear-gradient(
+                        to right,
+                        #FFC107 0%,
+                        #FFC107 50%,
+                        transparent 50%
+                    ), linear-gradient(
+                        to right,
+                        transparent 0%,
+                        #FFC107 0%,
+                        #FFC107 100%
+                    );
+                    background-size: 50% 100%, 50% 100%;
+                    background-position: left bottom, right bottom;
+                    background-repeat: no-repeat;
+                    transition: all 0.3s ease;
+                }
+                nav ul li a::after,
+                nav ul li ul li a::after {
+                    content: '';
+                    position: absolute;
+                    bottom: -2px;
+                    left: 0;
+                    width: 0;
+                    height: 4px;
+                    background: linear-gradient(
+                        to right,
+                        #FFC107 0%,
+                        #FFC107 50%,
+                        transparent 50%
+                    ), linear-gradient(
+                        to right,
+                        transparent 0%,
+                        #FFC107 0%,
+                        #FFC107 100%
+                    );
+                    background-size: 50% 100%, 50% 100%;
+                    background-position: left bottom, right bottom;
+                    background-repeat: no-repeat;
+                    transition: all 0.3s ease;
+                }
+                nav ul li ul {
+                    top: 100%;
+                    left: 50%;
+                    transform: translateX(-50%);
+                }
+                nav ul li ul li a {
+                    color: white;
+                    font-weight: 500;
+                }
+                nav ul li ul li a:hover {
+                    font-weight: 600;
+                }
+            </style>
+        </nav>
     </div>
-  </div>
+
+    <!-- Mobile Sidebar Navigation -->
+    <div id="mobile-sidebar" class="fixed inset-0 z-50 transform -translate-x-full transition-transform duration-300 md:hidden" style="background: linear-gradient(135deg, #FF69B4, #1E90FF);">
+        <!-- Overlay -->
+        <div class="fixed inset-0 bg-black bg-opacity-50" id="sidebar-overlay"></div>
+        
+        <!-- Sidebar Content -->
+        <div class="relative w-80 max-w-full h-full bg-transparent text-white overflow-y-auto">
+            <!-- Close Button -->
+            <div class="flex justify-end p-4">
+                <button id="mobile-menu-close" class="text-white p-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Logo -->
+            <div class="flex justify-center mb-6 px-4">
+                <img src="{{ asset('images/logo.png') }}" alt="MONY BEAUTY Logo" class="w-48 h-auto">
+            </div>
+            
+            <!-- Navigation Links -->
+            <nav class="px-4">
+                <ul class="space-y-2">
+                    <li>
+                        <a href="/" class="flex items-center py-3 px-4 text-lg font-medium text-white hover:text-white hover:font-semibold hover:bg-white/10 rounded-lg transition relative block">
+                            Home
+                        </a>
+                    </li>
+                    
+                    <!-- Shop with Accordion -->
+                    <li>
+                        <div class="shop-accordion">
+                            <button class="flex items-center justify-between w-full py-3 px-4 text-lg font-medium text-white hover:bg-white/10 hover:text-white hover:font-semibold rounded-lg transition relative block">
+                                <span>Shop</span>
+                                <svg class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+                            <div class="shop-submenu hidden pl-4 mt-1">
+                                <a href="/shop/makeup" class="block py-2 px-4 text-white hover:text-white hover:font-semibold hover:bg-white/10 rounded-lg transition relative">Makeup</a>
+                                <a href="/shop/skincare" class="block py-2 px-4 text-white hover:text-white hover:font-semibold hover:bg-white/10 rounded-lg transition relative">Skincare</a>
+                                <a href="/shop/haircare" class="block py-2 px-4 text-white hover:text-white hover:font-semibold hover:bg-white/10 rounded-lg transition relative">Haircare</a>
+                                <a href="/shop/fragrance" class="block py-2 px-4 text-white hover:text-white hover:font-semibold hover:bg-white/10 rounded-lg transition relative">Fragrance</a>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <li>
+                        <a href="/best-sellers" class="flex items-center py-3 px-4 text-lg font-medium text-white hover:text-white hover:font-semibold hover:bg-white/10 rounded-lg transition relative block">
+                            Best Sellers
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/gifts-and-sets" class="flex items-center py-3 px-4 text-lg font-medium text-white hover:text-white hover:font-semibold hover:bg-white/10 rounded-lg transition relative block">
+                            Gifts & Sets
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about" class="flex items-center py-3 px-4 text-lg font-medium text-white hover:text-white hover:font-semibold hover:bg-white/10 rounded-lg transition relative block">
+                            About Us
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/blog" class="flex items-center py-3 px-4 text-lg font-medium text-white hover:text-white hover:font-semibold hover:bg-white/10 rounded-lg transition relative block">
+                            Blog
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/contact" class="flex items-center py-3 px-4 text-lg font-medium text-white hover:text-white hover:font-semibold hover:bg-white/10 rounded-lg transition relative block">
+                            Contact
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <!-- Currency/Language Section -->
+            <div class="mt-8 px-4">
+                <div class="border-t border-white/20 pt-6">
+                    <h3 class="text-lg font-medium text-white mb-4">Preferences</h3>
+                    
+                    <!-- Language -->
+                    <div class="mb-4">
+                        <button onclick="salla.event.dispatch('localization::open')" class="flex items-center w-full text-left py-2 px-4 text-white hover:bg-white/10 hover:text-white hover:font-semibold rounded-lg transition relative block">
+                            <span class="flag iti__flag iti__{{ user.language.country_code }} rounded-sm mr-3" style="transform: scale(1.2);"></span>
+                            <span class="flex-1">{{ language.name }}</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <!-- Currency -->
+                    <div>
+                        <button onclick="salla.event.dispatch('localization::open')" class="flex items-center w-full text-left py-2 px-4 text-white hover:bg-white/10 hover:text-white hover:font-semibold rounded-lg transition relative block">
+                            <span id="mobile-currency-symbol" class="mr-3" style="font-size: 18px;">{{ currency_symbols[currency.code] ?? currency.symbol }}</span>
+                            <span class="flex-1" id="mobile-currency-name">{{ currency_names[currency.code] ?? currency.code }}</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Search in Mobile Sidebar -->
+            <div class="mt-8 px-4">
+                <div class="relative">
+                    <input type="text" placeholder="Search products..." class="w-full py-3 px-4 pr-10 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent text-white bg-transparent">
+                    <button class="absolute right-3 top-1/2 transform -translate-y-1/2 text-white">
+                        <img src="{{ asset('images/search-icon.svg') }}" alt="Search" class="w-5 h-5">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </header>
 
+<!-- Hero Banner Section -->
+<section
+  class="relative w-full text-white home-banner"
+  style="
+    background-image: url('{{ asset('images/Banner.jpg') }}');
+    background-size: cover;
+    background-position: center;
+  "
+>
+  <!-- Overlay for text readability -->
+  <div class="absolute inset-0 bg-black/30"></div>
+
+  <!-- Container for content -->
+  <div class="relative px-4 sm:px-6 md:px-8 lg:px-12 pt-24 md:pt-40">
+    <!-- Internal Menu Bar (Placeholder, adjust as per Figma) -->
+    <div class="absolute top-4 right-4 sm:top-6 sm:right-6 hidden md:block">
+      <nav class="flex items-center space-x-4">
+        <a href="/offers" class="text-white text-sm sm:text-base hover:text-pink-300 transition">Offers</a>
+        <a href="/new-arrivals" class="text-white text-sm sm:text-base hover:text-pink-300 transition">New Arrivals</a>
+      </nav>
+    </div>
+
+    <!-- Main Banner Content -->
+    <div class="min-h-[60vh] sm:min-h-[70vh] md:min-h-[80vh] flex items-center justify-start">
+      <div class="max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl text-left">
+        <p class="uppercase tracking-widest text-xs sm:text-sm md:text-base text-white/80">
+          ALL YOU NEED IS LESS.
+        </p>
+
+        <h1
+          class="mt-4 font-serif font-semibold leading-tight text-3xl sm:text-4xl md:text-5xl lg:text-6xl"
+        >
+          Where
+          <span
+            class="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent"
+          >
+            Confidence
+          </span>
+          <br class="hidden sm:block" />
+          Meets <span class="text-white">Color</span>
+        </h1>
+
+        <button
+          class="mt-6 sm:mt-8 inline-flex items-center justify-center px-6 py-3 rounded-full bg-pink-500 hover:bg-pink-600 hover:scale-105 text-white font-semibold text-sm sm:text-base shadow-lg shadow-pink-500/30 transition duration-300"
+        >
+          Shop Now
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+    /* Custom styles for the mobile sidebar */
+    #mobile-sidebar {
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .shop-accordion button svg {
+        transition: transform 0.3s ease;
+    }
+    
+    .shop-accordion.active button svg {
+        transform: rotate(180deg);
+    }
+    
+    .shop-submenu {
+        transition: all 0.3s ease;
+    }
+    
+    /* Nav Menu and Sidebar hover effects with zigzag border */
+    nav ul li a,
+    #mobile-sidebar nav ul li a,
+    #mobile-sidebar nav .shop-accordion button,
+    #mobile-sidebar .border-t + div button {
+        position: relative;
+        display: inline-block;
+    }
+    nav ul li a:hover,
+    #mobile-sidebar nav ul li a:hover,
+    #mobile-sidebar nav .shop-accordion button:hover,
+    #mobile-sidebar .border-t + div button:hover {
+        font-weight: 600;
+        color: white;
+    }
+    nav ul li a:hover::after,
+    nav ul li ul li a:hover::after,
+    #mobile-sidebar nav ul li a:hover::after,
+    #mobile-sidebar nav .shop-accordion button:hover::after,
+    #mobile-sidebar .border-t + div button:hover::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 100%;
+        height: 6px; /* Bold border */
+        background: linear-gradient(
+            to right,
+            #FFC107 0%,
+            #FFC107 33.33%,
+            transparent 33.33%,
+            transparent 66.66%,
+            #FFC107 66.66%,
+            #FFC107 100%
+        ), linear-gradient(
+            to right,
+            transparent 0%,
+            #FFC107 0%,
+            #FFC107 100%
+        );
+        background-size: 33.33% 100%, 66.66% 100%;
+        background-position: left bottom, 33.33% bottom;
+        background-repeat: no-repeat;
+        transition: all 0.3s ease;
+    }
+    nav ul li a::after,
+    nav ul li ul li a::after,
+    #mobile-sidebar nav ul li a::after,
+    #mobile-sidebar nav .shop-accordion button::after,
+    #mobile-sidebar .border-t + div button::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 6px;
+        background: linear-gradient(
+            to right,
+            #FFC107 0%,
+            #FFC107 33.33%,
+            transparent 33.33%,
+            transparent 66.66%,
+            #FFC107 66.66%,
+            #FFC107 100%
+        ), linear-gradient(
+            to right,
+            transparent 0%,
+            #FFC107 0%,
+            #FFC107 100%
+        );
+        background-size: 33.33% 100%, 66.66% 100%;
+        background-position: left bottom, 33.33% bottom;
+        background-repeat: no-repeat;
+        transition: all 0.3s ease;
+    }
+</style>
+
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-  // Update banner text
-  const bannerText = document.getElementById("custom-banner-text");
-  if (bannerText) {
-    bannerText.innerText = "Free Shipping on Order above 300 SAR";
-  }
-
-  // Mobile navigation functionality
-  const mobileMenuButton = document.getElementById("mobile-menu-button");
-  const closeMobileNav = document.getElementById("close-mobile-nav");
-  const mobileNavOverlay = document.getElementById("mobile-nav-overlay");
-  const mobileSideNav = document.getElementById("mobile-side-nav");
-  const mobileShopToggle = document.getElementById("mobile-shop-toggle");
-  const mobileShopMenu = document.getElementById("mobile-shop-menu");
-  const mobileShopArrow = document.getElementById("mobile-shop-arrow");
-
-  // Open mobile menu
-  if (mobileMenuButton) {
-    mobileMenuButton.addEventListener("click", function() {
-      mobileSideNav.classList.remove("-translate-x-full");
-      document.body.style.overflow = "hidden";
+    document.addEventListener("DOMContentLoaded", function() {
+        // Mobile menu toggle
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenuClose = document.getElementById('mobile-menu-close');
+        const mobileSidebar = document.getElementById('mobile-sidebar');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        
+        if (mobileMenuToggle && mobileSidebar) {
+            mobileMenuToggle.addEventListener('click', function() {
+                mobileSidebar.classList.remove('-translate-x-full');
+                document.body.style.overflow = 'hidden';
+            });
+        }
+        
+        if (mobileMenuClose && mobileSidebar) {
+            mobileMenuClose.addEventListener('click', function() {
+                mobileSidebar.classList.add('-translate-x-full');
+                document.body.style.overflow = '';
+            });
+        }
+        
+        if (sidebarOverlay && mobileSidebar) {
+            sidebarOverlay.addEventListener('click', function() {
+                mobileSidebar.classList.add('-translate-x-full');
+                document.body.style.overflow = '';
+            });
+        }
+        
+        // Shop accordion in mobile menu
+        const shopAccordions = document.querySelectorAll('.shop-accordion');
+        shopAccordions.forEach(accordion => {
+            const button = accordion.querySelector('button');
+            const submenu = accordion.querySelector('.shop-submenu');
+            
+            button.addEventListener('click', function() {
+                accordion.classList.toggle('active');
+                if (submenu.classList.contains('hidden')) {
+                    submenu.classList.remove('hidden');
+                } else {
+                    submenu.classList.add('hidden');
+                }
+            });
+        });
+        
+        // Banner text
+        const el = document.getElementById("custom-banner-text");
+        if (el) {
+            el.innerText = "Free Shipping on Order above 300 SAR";
+        }
+        
+        // Currency display update
+        if (typeof salla !== 'undefined') {
+            salla.event.on('currency::changed', function(currency) {
+                const symbolElement = document.getElementById('currency-symbol');
+                const nameElement = document.getElementById('currency-name');
+                const mobileSymbolElement = document.getElementById('mobile-currency-symbol');
+                const mobileNameElement = document.getElementById('mobile-currency-name');
+                
+                const symbols = {
+                    'USD': '$',
+                    'SAR': 'ر.س', 
+                    'EUR': '€',
+                    'GBP': '£',
+                    'AED': 'د.إ'
+                };
+                
+                const names = {
+                    'USD': 'Dollar',
+                    'SAR': 'Riyal',
+                    'EUR': 'Euro', 
+                    'GBP': 'Pound',
+                    'AED': 'Dirham'
+                };
+                
+                if (symbolElement && nameElement) {
+                    symbolElement.textContent = symbols[currency.code] || currency.symbol;
+                    nameElement.textContent = names[currency.code] || currency.code;
+                }
+                
+                if (mobileSymbolElement && mobileNameElement) {
+                    mobileSymbolElement.textContent = symbols[currency.code] || currency.symbol;
+                    mobileNameElement.textContent = names[currency.code] || currency.code;
+                }
+            });
+        }
     });
-  }
-
-  // Close mobile menu
-  function closeMobileMenu() {
-    mobileSideNav.classList.add("-translate-x-full");
-    document.body.style.overflow = "";
-    // Also close the shop submenu when closing the main menu
-    mobileShopMenu.classList.add("hidden");
-    mobileShopArrow.classList.remove("rotate-180");
-  }
-
-  if (closeMobileNav) {
-    closeMobileNav.addEventListener("click", closeMobileMenu);
-  }
-
-  if (mobileNavOverlay) {
-    mobileNavOverlay.addEventListener("click", closeMobileMenu);
-  }
-
-  // Toggle shop submenu on mobile
-  if (mobileShopToggle && mobileShopMenu && mobileShopArrow) {
-    mobileShopToggle.addEventListener("click", function() {
-      mobileShopMenu.classList.toggle("hidden");
-      mobileShopArrow.classList.toggle("rotate-180");
-    });
-  }
-
-  // Update currency display when currency changes
-  if (typeof salla !== 'undefined') {
-    salla.event.on('currency::changed', function(currency) {
-      const symbolElement = document.getElementById('currency-symbol');
-      const nameElement = document.getElementById('currency-name');
-      const mobileSymbolElement = document.getElementById('mobile-currency-symbol');
-      const mobileNameElement = document.getElementById('mobile-currency-name');
-      
-      // Define symbols for each currency
-      const symbols = {
-        'USD': '$',
-        'SAR': 'ر.س', 
-        'EUR': '€',
-        'GBP': '£',
-        'AED': 'د.إ'
-      };
-      
-      const names = {
-        'USD': 'Dollar',
-        'SAR': 'Riyal',
-        'EUR': 'Euro', 
-        'GBP': 'Pound',
-        'AED': 'Dirham'
-      };
-      
-      // Update desktop display
-      if (symbolElement && nameElement) {
-        symbolElement.textContent = symbols[currency.code] || currency.symbol;
-        nameElement.textContent = names[currency.code] || currency.code;
-      }
-      
-      // Update mobile display
-      if (mobileSymbolElement && mobileNameElement) {
-        mobileSymbolElement.textContent = symbols[currency.code] || currency.symbol;
-        mobileNameElement.textContent = names[currency.code] || currency.code;
-      }
-    });
-  }
-});
 </script>
