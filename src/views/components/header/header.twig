@@ -1,11 +1,10 @@
 {% set currency_names = {
   'USD': 'Dollar',
-  'SAR': 'Riyal', 
+  'SAR': 'Riyal',
   'EUR': 'Euro',
   'GBP': 'Pound',
   'AED': 'Dirham'
 } %}
-
 {% set currency_symbols = {
   'USD': '$',
   'SAR': 'ر.س',
@@ -14,13 +13,8 @@
   'AED': 'د.إ'
 } %}
 
-{# | Variable | Type | Description |
-|------------------|---------|---------------------------------| | cart | object
-| | | cart.items_count | int | | | cart.total | string | Formatted total ex:
-"١٠٠ ر.س" | #} {% set important_links = theme.settings.get('important_links') %}
- 
 <section class="w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white text-sm py-2 md:py-3 relative z-10">
-    <div class="w-full text-center px-4">
+    <div  class="top-heading w-full text-center px-4">
         <p class="text-sm md:text-lg font-medium" id="custom-banner-text">Free Shipping on Order above 300 SAR</p>
     </div>
 </section>
@@ -38,7 +32,7 @@
                         </svg>
                     </button>
                 </div>
-
+                
                 <!-- Left: Desktop Currency/Language -->
                 <div class="hidden md:flex header-buttons">
                     {% if store.settings.is_multilingual or store.settings.currencies_enabled %}
@@ -46,13 +40,12 @@
                         <div class="flex items-center space-x-6">
                             <!-- Language -->
                             <div class="flex items-center space-x-1 cursor-pointer">
-                                <span class="flag iti__flag iti__{{ user.language.country_code }} rounded-sm" style="transform: scale(1.5); margin-right: 10px;"></span>
+                                <span class="flag iti__flag iti__{{ user.language.country_code }} rounded-sm" style="transform: scale(1.5); margin-right: 10px; font-size: 20px;"></span>
                                 <span style="margin-right: 8px; font-size: 18px;">{{ language.name }}</span>
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <path d="M19 9l-7 7-7-7"/>
                                 </svg>
                             </div>
-
                             <!-- Currency -->
                             <div class="flex items-center space-x-1 cursor-pointer" id="currency-display">
                                 <span id="currency-symbol" style="font-size: 20px;">{{ currency_symbols[currency.code] ?? currency.symbol }}</span>
@@ -66,12 +59,12 @@
                     <salla-localization-modal></salla-localization-modal>
                     {% endif %}
                 </div>
-
+                
                 <!-- Center: Logo -->
                 <div class="flex justify-center items-center flex-1 md:flex-none">
                     <img src="{{ asset('images/logo.png') }}" alt="MONY BEAUTY Logo" class="w-40 md:w-64 lg:w-80 h-auto">
                 </div>
-
+                
                 <!-- Right Section: Icons -->
                 <div class="flex items-center space-x-4 md:space-x-5">
                     <div class="flex items-center gap-4 md:gap-5 text-lg md:text-xl">
@@ -98,103 +91,37 @@
                 </div>
             </div>
         </div>
-
-        <!-- New Desktop Nav Menu Based on Figma Design -->
+        
+        <!-- Desktop Nav Menu -->
         <nav class="hidden md:block w-full bg-transparent">
-            <ul class="max-w-7xl mx-auto flex items-center justify-center gap-6 py-2 px-4 text-white" style="font-size: 16px; font-weight: 500;">
-                <li><a href="/shop" class="hover:text-white hover:font-semibold transition relative py-1 block group">Shop</a>
-                    <ul class="absolute hidden group-hover:block bg-[#4A2C2A] text-white rounded-md shadow-lg min-w-[180px] z-20">
-                        <li><a href="/shop/makeup" class="block px-4 py-2 hover:text-white hover:font-semibold transition">Makeup</a></li>
-                        <li><a href="/shop/skincare" class="block px-4 py-2 hover:text-white hover:font-semibold transition">Skincare</a></li>
-                        <li><a href="/shop/haircare" class="block px-4 py-2 hover:text-white hover:font-semibold transition">Haircare</a></li>
-                        <li><a href="/shop/fragrance" class="block px-4 py-2 hover:text-white hover:font-semibold transition">Fragrance</a></li>
+            <ul class="max-w-7xl mx-auto flex items-center justify-center gap-8 py-2 px-4 text-white/80" style="font-size: 16px; font-weight: 400;">
+                <li class="relative group">
+                    <div class="flex items-center space-x-1">
+                        <a href="/shop" class="nav-link hover:text-white hover:font-semibold transition relative py-1 block">Shop</a>
+                        <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </div>
+                    <ul class="absolute hidden group-hover:block bg-[#4A2C2A] text-white/80 rounded-md shadow-lg min-w-[180px] z-20 top-full left-1/2 transform -translate-x-1/2 py-2">
+                        <li><a href="/shop/makeup" class="nav-link block px-4 py-2 hover:text-white hover:font-semibold transition relative">Makeup</a></li>
+                        <li><a href="/shop/skincare" class="nav-link block px-4 py-2 hover:text-white hover:font-semibold transition relative">Skincare</a></li>
+                        <li><a href="/shop/haircare" class="nav-link block px-4 py-2 hover:text-white hover:font-semibold transition relative">Haircare</a></li>
+                        <li><a href="/shop/fragrance" class="nav-link block px-4 py-2 hover:text-white hover:font-semibold transition relative">Fragrance</a></li>
                     </ul>
                 </li>
-                <li><a href="/best-sellers" class="hover:text-white hover:font-semibold transition relative py-1 block">Best Sellers</a></li>
-                <li><a href="/gifts-and-sets" class="hover:text-white hover:font-semibold transition relative py-1 block">Gifts & Sets</a></li>
-                <li><a href="/about" class="hover:text-white hover:font-semibold transition relative py-1 block">About MB</a></li>
+                <li><a href="/best-sellers" class="nav-link hover:text-white hover:font-semibold transition relative py-1 block">Best Sellers</a></li>
+                <li><a href="/gifts-and-sets" class="nav-link hover:text-white hover:font-semibold transition relative py-1 block">Gifts & Sets</a></li>
+                <li><a href="/about" class="nav-link hover:text-white hover:font-semibold transition relative py-1 block">About MB</a></li>
             </ul>
-            <style>
-                nav ul li a {
-                    color: white;
-                    font-weight: 500;
-                    position: relative;
-                    display: inline-block;
-                }
-                nav ul li a:hover {
-                    font-weight: 600;
-                }
-                nav ul li a:hover::after,
-                nav ul li ul li a:hover::after {
-                    content: '';
-                    position: absolute;
-                    bottom: -2px;
-                    left: 0;
-                    width: 100%;
-                    height: 4px;
-                    background: linear-gradient(
-                        to right,
-                        #FFC107 0%,
-                        #FFC107 50%,
-                        transparent 50%
-                    ), linear-gradient(
-                        to right,
-                        transparent 0%,
-                        #FFC107 0%,
-                        #FFC107 100%
-                    );
-                    background-size: 50% 100%, 50% 100%;
-                    background-position: left bottom, right bottom;
-                    background-repeat: no-repeat;
-                    transition: all 0.3s ease;
-                }
-                nav ul li a::after,
-                nav ul li ul li a::after {
-                    content: '';
-                    position: absolute;
-                    bottom: -2px;
-                    left: 0;
-                    width: 0;
-                    height: 4px;
-                    background: linear-gradient(
-                        to right,
-                        #FFC107 0%,
-                        #FFC107 50%,
-                        transparent 50%
-                    ), linear-gradient(
-                        to right,
-                        transparent 0%,
-                        #FFC107 0%,
-                        #FFC107 100%
-                    );
-                    background-size: 50% 100%, 50% 100%;
-                    background-position: left bottom, right bottom;
-                    background-repeat: no-repeat;
-                    transition: all 0.3s ease;
-                }
-                nav ul li ul {
-                    top: 100%;
-                    left: 50%;
-                    transform: translateX(-50%);
-                }
-                nav ul li ul li a {
-                    color: white;
-                    font-weight: 500;
-                }
-                nav ul li ul li a:hover {
-                    font-weight: 600;
-                }
-            </style>
         </nav>
     </div>
-
+    
     <!-- Mobile Sidebar Navigation -->
-    <div id="mobile-sidebar" class="fixed inset-0 z-50 transform -translate-x-full transition-transform duration-300 md:hidden" style="background: linear-gradient(135deg, #FF69B4, #1E90FF);">
+    <div id="mobile-sidebar" class="fixed inset-0 z-50 transform -translate-x-full transition-transform duration-300 md:hidden">
         <!-- Overlay -->
         <div class="fixed inset-0 bg-black bg-opacity-50" id="sidebar-overlay"></div>
-        
         <!-- Sidebar Content -->
-        <div class="relative w-80 max-w-full h-full bg-transparent text-white overflow-y-auto">
+        <div class="relative w-80 max-w-full h-full bg-gradient-to-b from-pink-400 to-blue-500 text-gray-800 overflow-y-auto">
             <!-- Close Button -->
             <div class="flex justify-end p-4">
                 <button id="mobile-menu-close" class="text-white p-2">
@@ -204,91 +131,67 @@
                 </button>
             </div>
             
-            <!-- Logo -->
-            <div class="flex justify-center mb-6 px-4">
-                <img src="{{ asset('images/logo.png') }}" alt="MONY BEAUTY Logo" class="w-48 h-auto">
-            </div>
-            
             <!-- Navigation Links -->
             <nav class="px-4">
                 <ul class="space-y-2">
                     <li>
-                        <a href="/" class="flex items-center py-3 px-4 text-lg font-medium text-white hover:text-white hover:font-semibold hover:bg-white/10 rounded-lg transition relative block">
-                            Home
-                        </a>
+                        <a href="/" class="mobile-nav-link flex items-center py-3 px-4 text-lg font-normal text-white/80 hover:text-white hover:font-semibold rounded-lg transition relative block">Home</a>
                     </li>
-                    
                     <!-- Shop with Accordion -->
+<li>
+  <div class="shop-accordion">
+    <button type="button" class="flex items-center justify-between w-full py-3 px-4 text-lg font-normal text-white/80 hover:text-white hover:font-semibold rounded-lg transition relative block">
+      <span>Shop</span>
+      <svg class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+      </svg>
+    </button>
+    <div class="shop-submenu pl-4 mt-1">
+  <a href="/shop/makeup" class="submenu-link">Makeup</a>
+  <a href="/shop/skincare" class="submenu-link">Skincare</a>
+  <a href="/shop/haircare" class="submenu-link">Haircare</a>
+  <a href="/shop/fragrance" class="submenu-link">Fragrance</a>
+</div>
+  </div>
+</li>
+
                     <li>
-                        <div class="shop-accordion">
-                            <button class="flex items-center justify-between w-full py-3 px-4 text-lg font-medium text-white hover:bg-white/10 hover:text-white hover:font-semibold rounded-lg transition relative block">
-                                <span>Shop</span>
-                                <svg class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                </svg>
-                            </button>
-                            <div class="shop-submenu hidden pl-4 mt-1">
-                                <a href="/shop/makeup" class="block py-2 px-4 text-white hover:text-white hover:font-semibold hover:bg-white/10 rounded-lg transition relative">Makeup</a>
-                                <a href="/shop/skincare" class="block py-2 px-4 text-white hover:text-white hover:font-semibold hover:bg-white/10 rounded-lg transition relative">Skincare</a>
-                                <a href="/shop/haircare" class="block py-2 px-4 text-white hover:text-white hover:font-semibold hover:bg-white/10 rounded-lg transition relative">Haircare</a>
-                                <a href="/shop/fragrance" class="block py-2 px-4 text-white hover:text-white hover:font-semibold hover:bg-white/10 rounded-lg transition relative">Fragrance</a>
-                            </div>
-                        </div>
+                        <a href="/best-sellers" class="mobile-nav-link flex items-center py-3 px-4 text-lg font-normal text-white/80 hover:text-white hover:font-semibold rounded-lg transition relative block">Best Sellers</a>
                     </li>
-                    
                     <li>
-                        <a href="/best-sellers" class="flex items-center py-3 px-4 text-lg font-medium text-white hover:text-white hover:font-semibold hover:bg-white/10 rounded-lg transition relative block">
-                            Best Sellers
-                        </a>
+                        <a href="/gifts-and-sets" class="mobile-nav-link flex items-center py-3 px-4 text-lg font-normal text-white/80 hover:text-white hover:font-semibold rounded-lg transition relative block">Gifts & Sets</a>
                     </li>
-                    
                     <li>
-                        <a href="/gifts-and-sets" class="flex items-center py-3 px-4 text-lg font-medium text-white hover:text-white hover:font-semibold hover:bg-white/10 rounded-lg transition relative block">
-                            Gifts & Sets
-                        </a>
+                        <a href="/about" class="mobile-nav-link flex items-center py-3 px-4 text-lg font-normal text-white/80 hover:text-white hover:font-semibold rounded-lg transition relative block">About Us</a>
                     </li>
-                    
                     <li>
-                        <a href="/about" class="flex items-center py-3 px-4 text-lg font-medium text-white hover:text-white hover:font-semibold hover:bg-white/10 rounded-lg transition relative block">
-                            About Us
-                        </a>
+                        <a href="/blog" class="mobile-nav-link flex items-center py-3 px-4 text-lg font-normal text-white/80 hover:text-white hover:font-semibold rounded-lg transition relative block">Blog</a>
                     </li>
-                    
                     <li>
-                        <a href="/blog" class="flex items-center py-3 px-4 text-lg font-medium text-white hover:text-white hover:font-semibold hover:bg-white/10 rounded-lg transition relative block">
-                            Blog
-                        </a>
-                    </li>
-                    
-                    <li>
-                        <a href="/contact" class="flex items-center py-3 px-4 text-lg font-medium text-white hover:text-white hover:font-semibold hover:bg-white/10 rounded-lg transition relative block">
-                            Contact
-                        </a>
+                        <a href="/contact" class="mobile-nav-link flex items-center py-3 px-4 text-lg font-normal text-white/80 hover:text-white hover:font-semibold rounded-lg transition relative block">Contact</a>
                     </li>
                 </ul>
             </nav>
             
             <!-- Currency/Language Section -->
             <div class="mt-8 px-4">
-                <div class="border-t border-white/20 pt-6">
+                <div class="border-t border-white/30 pt-6">
                     <h3 class="text-lg font-medium text-white mb-4">Preferences</h3>
-                    
                     <!-- Language -->
-                    <div class="mb-4">
-                        <button onclick="salla.event.dispatch('localization::open')" class="flex items-center w-full text-left py-2 px-4 text-white hover:bg-white/10 hover:text-white hover:font-semibold rounded-lg transition relative block">
-                            <span class="flag iti__flag iti__{{ user.language.country_code }} rounded-sm mr-3" style="transform: scale(1.2);"></span>
-                            <span class="flex-1">{{ language.name }}</span>
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                   <div class="mb-4">
+                        <button onclick="salla.event.dispatch('localization::open')" class="flex items-center w-full text-left py-2 px-4 text-white/80 hover:text-white hover:font-semibold rounded-lg transition relative block">
+                            <span class="flag iti__flag iti__{{ user.language.country_code }} rounded-sm mr-3" style="transform: scale(1.2); font-size: 20px;"></span>
+                            <span class="flex-1" style="font-family: 18px;">{{ language.name }}</span>
+                            <svg  class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path d="M19 9l-7 7-7-7"/>
                             </svg>
                         </button>
                     </div>
-                    
                     <!-- Currency -->
                     <div>
-                        <button onclick="salla.event.dispatch('localization::open')" class="flex items-center w-full text-left py-2 px-4 text-white hover:bg-white/10 hover:text-white hover:font-semibold rounded-lg transition relative block">
-                            <span id="mobile-currency-symbol" class="mr-3" style="font-size: 18px;">{{ currency_symbols[currency.code] ?? currency.symbol }}</span>
-                            <span class="flex-1" id="mobile-currency-name">{{ currency_names[currency.code] ?? currency.code }}</span>
+                        <button onclick="salla.event.dispatch('localization::open')" class="flex items-center w-full text-left py-2 px-4 text-white/80 hover:text-white hover:font-semibold rounded-lg transition relative block">
+                            <span id="mobile-currency-symbol" class="mr-3" style="font-size: 20px;">{{ currency_symbols[currency.code] ?? currency.symbol }}</span>
+                            <span style="font-family: 180px;" class="flex-1" id="mobile-currency-name">{{ currency_names[currency.code] ?? currency.code }}</span>
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path d="M19 9l-7 7-7-7"/>
                             </svg>
@@ -300,7 +203,7 @@
             <!-- Search in Mobile Sidebar -->
             <div class="mt-8 px-4">
                 <div class="relative">
-                    <input type="text" placeholder="Search products..." class="w-full py-3 px-4 pr-10 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent text-white bg-transparent">
+                    <input type="text" placeholder="Search products..." class="w-full py-3 px-4 pr-10 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent bg-white/10 text-white placeholder-white/60">
                     <button class="absolute right-3 top-1/2 transform -translate-y-1/2 text-white">
                         <img src="{{ asset('images/search-icon.svg') }}" alt="Search" class="w-5 h-5">
                     </button>
@@ -321,26 +224,16 @@
 >
   <!-- Overlay for text readability -->
   <div class="absolute inset-0 bg-black/30"></div>
-
   <!-- Container for content -->
   <div class="relative px-4 sm:px-6 md:px-8 lg:px-12 pt-24 md:pt-40">
-    <!-- Internal Menu Bar (Placeholder, adjust as per Figma) -->
-    <div class="absolute top-4 right-4 sm:top-6 sm:right-6 hidden md:block">
-      <nav class="flex items-center space-x-4">
-        <a href="/offers" class="text-white text-sm sm:text-base hover:text-pink-300 transition">Offers</a>
-        <a href="/new-arrivals" class="text-white text-sm sm:text-base hover:text-pink-300 transition">New Arrivals</a>
-      </nav>
-    </div>
-
     <!-- Main Banner Content -->
     <div class="min-h-[60vh] sm:min-h-[70vh] md:min-h-[80vh] flex items-center justify-start">
       <div class="max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl text-left">
         <p class="uppercase tracking-widest text-xs sm:text-sm md:text-base text-white/80">
           ALL YOU NEED IS LESS.
         </p>
-
         <h1
-          class="mt-4 font-serif font-semibold leading-tight text-3xl sm:text-4xl md:text-5xl lg:text-6xl"
+           style="font-family: Aeonik;" class="mt-4 leading-tight text-3xl sm:text-4xl md:text-5xl lg:text-6xl"
         >
           Where
           <span
@@ -351,7 +244,6 @@
           <br class="hidden sm:block" />
           Meets <span class="text-white">Color</span>
         </h1>
-
         <button
           class="mt-6 sm:mt-8 inline-flex items-center justify-center px-6 py-3 rounded-full bg-pink-500 hover:bg-pink-600 hover:scale-105 text-white font-semibold text-sm sm:text-base shadow-lg shadow-pink-500/30 transition duration-300"
         >
@@ -363,99 +255,166 @@
 </section>
 
 <style>
-    /* Custom styles for the mobile sidebar */
-    #mobile-sidebar {
-        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-    }
-    
-    .shop-accordion button svg {
-        transition: transform 0.3s ease;
-    }
-    
-    .shop-accordion.active button svg {
-        transform: rotate(180deg);
-    }
-    
-    .shop-submenu {
-        transition: all 0.3s ease;
-    }
-    
-    /* Nav Menu and Sidebar hover effects with zigzag border */
-    nav ul li a,
-    #mobile-sidebar nav ul li a,
-    #mobile-sidebar nav .shop-accordion button,
-    #mobile-sidebar .border-t + div button {
-        position: relative;
-        display: inline-block;
-    }
-    nav ul li a:hover,
-    #mobile-sidebar nav ul li a:hover,
-    #mobile-sidebar nav .shop-accordion button:hover,
-    #mobile-sidebar .border-t + div button:hover {
-        font-weight: 600;
-        color: white;
-    }
-    nav ul li a:hover::after,
-    nav ul li ul li a:hover::after,
-    #mobile-sidebar nav ul li a:hover::after,
-    #mobile-sidebar nav .shop-accordion button:hover::after,
-    #mobile-sidebar .border-t + div button:hover::after {
-        content: '';
-        position: absolute;
-        bottom: -4px;
-        left: 0;
-        width: 100%;
-        height: 6px; /* Bold border */
-        background: linear-gradient(
-            to right,
-            #FFC107 0%,
-            #FFC107 33.33%,
-            transparent 33.33%,
-            transparent 66.66%,
-            #FFC107 66.66%,
-            #FFC107 100%
-        ), linear-gradient(
-            to right,
-            transparent 0%,
-            #FFC107 0%,
-            #FFC107 100%
-        );
-        background-size: 33.33% 100%, 66.66% 100%;
-        background-position: left bottom, 33.33% bottom;
-        background-repeat: no-repeat;
-        transition: all 0.3s ease;
-    }
-    nav ul li a::after,
-    nav ul li ul li a::after,
-    #mobile-sidebar nav ul li a::after,
-    #mobile-sidebar nav .shop-accordion button::after,
-    #mobile-sidebar .border-t + div button::after {
-        content: '';
-        position: absolute;
-        bottom: -4px;
-        left: 0;
-        width: 0;
-        height: 6px;
-        background: linear-gradient(
-            to right,
-            #FFC107 0%,
-            #FFC107 33.33%,
-            transparent 33.33%,
-            transparent 66.66%,
-            #FFC107 66.66%,
-            #FFC107 100%
-        ), linear-gradient(
-            to right,
-            transparent 0%,
-            #FFC107 0%,
-            #FFC107 100%
-        );
-        background-size: 33.33% 100%, 66.66% 100%;
-        background-position: left bottom, 33.33% bottom;
-        background-repeat: no-repeat;
-        transition: all 0.3s ease;
-    }
+
+  .top-heading p{
+    color: var(--White, #FFF);
+/* font-family: Aeonik; */
+font-size: 18px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+  }
+   /* Custom styles for the mobile sidebar */
+#mobile-sidebar {
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.shop-accordion button svg {
+    transition: transform 0.3s ease;
+}
+
+.shop-accordion.active button svg {
+    transform: rotate(180deg);
+}
+
+.shop-submenu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.shop-accordion.active .shop-submenu {
+    max-height: 500px;
+}
+
+/* Improved Underline Styles */
+.nav-link, .mobile-nav-link, .submenu-link {
+    position: relative;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
+    font-size: 20px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+    padding-bottom: 6px; /* space for underline */
+}
+
+.nav-link:hover, .mobile-nav-link:hover, .submenu-link:hover,
+.nav-link.active, .mobile-nav-link.active, .submenu-link.active {
+    color: #ffffff;
+    font-weight: 600;
+}
+
+/* Desktop Navigation Underline */
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 30%;
+    transform: translateX(-50%) scaleX(0);
+    width: 59px;
+height: 6px;
+    background: url('{{ asset('images/underline.svg') }}') no-repeat center;
+    background-size: contain;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    transform: translateX(-50%) scaleX(1);
+    opacity: 1;
+}
+
+/* Mobile Navigation Underline */
+.mobile-nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; /* underline just below text */
+     left: 30%;
+    transform: translateX(-50%) scaleX(0);
+    width: 59px;
+height: 6px;
+    background: url('{{ asset('images/underline.svg') }}') no-repeat center;
+    background-size: contain;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.mobile-nav-link:hover::after,
+.mobile-nav-link.active::after {
+    transform: translateX(-50%) scaleX(1);
+    opacity: 1;
+}
+
+/* ✅ Submenu (dropdown inside Shop) */
+.submenu-link {
+    display: inline-block; /* fix underline position */
+    padding: 8px 20px;
+    border-radius: 6px;
+    color: rgba(255, 255, 255, 0.8);
+    position: relative; /* anchor underline */
+    transition: all 0.3s ease;
+}
+
+.submenu-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* ✅ Submenu underline fixed */
+.submenu-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; /* exactly below text */
+    left: 30%;
+    transform: translateX(-50%) scaleX(0);
+    width: 59px;
+height: 6px;
+    background: url('{{ asset('images/underline.svg') }}') no-repeat center;
+    background-size: contain;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.submenu-link:hover::after,
+.submenu-link.active::after {
+    transform: translateX(-50%) scaleX(1);
+    opacity: 1;
+}
+
+/* Improved Dropdown Styles */
+nav ul li ul {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+}
+
+nav ul li:hover ul {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Enhanced Mobile Sidebar Styles */
+#mobile-sidebar .bg-gradient-to-b {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.mobile-nav-link {
+    border-radius: 8px;
+    margin: 2px 0;
+    padding: 6px 12px; /* better click area */
+    display: inline-block; /* underline center ke liye */
+    position: relative; /* underline ke anchor ke liye */
+}
+
+.mobile-nav-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
 </style>
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -488,19 +447,14 @@
         
         // Shop accordion in mobile menu
         const shopAccordions = document.querySelectorAll('.shop-accordion');
-        shopAccordions.forEach(accordion => {
-            const button = accordion.querySelector('button');
-            const submenu = accordion.querySelector('.shop-submenu');
-            
-            button.addEventListener('click', function() {
-                accordion.classList.toggle('active');
-                if (submenu.classList.contains('hidden')) {
-                    submenu.classList.remove('hidden');
-                } else {
-                    submenu.classList.add('hidden');
-                }
-            });
-        });
+shopAccordions.forEach(accordion => {
+  const button = accordion.querySelector('button');
+  const submenu = accordion.querySelector('.shop-submenu');
+
+  button.addEventListener('click', function() {
+    accordion.classList.toggle('active');
+  });
+});
         
         // Banner text
         const el = document.getElementById("custom-banner-text");
@@ -518,7 +472,7 @@
                 
                 const symbols = {
                     'USD': '$',
-                    'SAR': 'ر.س', 
+                    'SAR': 'ر.س',
                     'EUR': '€',
                     'GBP': '£',
                     'AED': 'د.إ'
@@ -527,7 +481,7 @@
                 const names = {
                     'USD': 'Dollar',
                     'SAR': 'Riyal',
-                    'EUR': 'Euro', 
+                    'EUR': 'Euro',
                     'GBP': 'Pound',
                     'AED': 'Dirham'
                 };
