@@ -1,106 +1,200 @@
+
 {# | Variable | Type | Description |
 |------------------|------------|---------------------------------------------------------------------|
 | page | object | | | page.title | string | *could be html | | page.slug |
-string | ex: "cat.show" | #}
-{% extends "layouts.master" %}
+string | ex: "cat.show" | #} {% extends "layouts.master" %} {% block content %}
+<!-- Hero Content -->
 
-{# detect locale; adjust this to your project if you already have activeLocale/global var #}
-{% set locale = locale is defined ? locale : (activeLocale is defined ? activeLocale : (get('locale') ?: 'en')) %}
-{% set isArabic = (locale starts with('ar')) %}
-{% set dir = isArabic ? 'rtl' : 'ltr' %}
-{% set langAttr = isArabic ? 'ar' : 'en' %}
 
-{% block content %}
-
-<!-- Root wrapper controls RTL/LTR and lang -->
-<div class="{{ isArabic ? 'rtl' : 'ltr' }}" dir="{{ dir }}" lang="{{ langAttr }}">
 
 <style>
-/* =================== Infinite Marquee Utilities =================== */
-.marquee{
-  --gap:2rem;
-  --duration:30s;
-  display:flex;overflow:hidden;user-select:none;gap:0
+
+/* Infinite Marquee Utilities */
+.marquee {
+  --gap: 2rem;            /* item spacing */
+  --duration: 30s;        /* loop speed (bari value = slow) */
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+  gap: 0;
 }
-.marquee__track{
-  display:flex;align-items:center;gap:var(--gap);min-width:100%;flex-shrink:0;
-  animation:marquee-scroll var(--duration) linear infinite
+
+.marquee__track {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  min-width: 100%;
+  flex-shrink: 0;
+  animation: marquee-scroll var(--duration) linear infinite;
 }
-.marquee__item{
-  display:inline-flex;align-items:center;font-weight:800;white-space:nowrap;
-  font-size:clamp(1.25rem,3vw,2.25rem)
+
+.marquee--reverse .marquee__track {
+  animation-direction: reverse;
 }
-.marquee:hover .marquee__track{animation-play-state:paused}
-@keyframes marquee-scroll{from{transform:translateX(0)}to{transform:translateX(-100%)}}
-@media (prefers-reduced-motion:reduce){
-  .marquee__track{animation-duration:.01ms!important;animation-iteration-count:1!important;transform:translateX(0)!important}
+
+.marquee__item {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 800;
+  white-space: nowrap;
+  font-size: clamp(1.25rem, 3vw, 2.25rem); /* sm → lg responsive */
 }
-/* =================== RTL helpers =================== */
-.rtl{direction:rtl}
-.rtl .text-left{text-align:right}
-.rtl .text-right{text-align:left}
-.rtl .mr-3{margin-left:.75rem;margin-right:0}
-.rtl .space-x-3{--tw-space-x-reverse:1}
-.rtl .space-x-3 > :not([hidden]) ~ :not([hidden]){
-  margin-right:calc(.75rem * var(--tw-space-x-reverse));margin-left:calc(.75rem * calc(1 - var(--tw-space-x-reverse)))
+
+/* Hover to pause (optional) */
+.marquee:hover .marquee__track {
+  animation-play-state: paused;
 }
-/* Marquee direction auto:
-   LTR: row1 normal, row2 reverse
-   RTL: row1 reverse, row2 normal */
-.ltr .row1 .marquee__track{animation-direction:normal}
-.ltr .row2 .marquee__track{animation-direction:reverse}
-.rtl .row1 .marquee__track{animation-direction:reverse}
-.rtl .row2 .marquee__track{animation-direction:normal}
+
+/* Keyframes */
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
+}
+
+/* Accessibility: Respect Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transform: translateX(0) !important;
+  }
+}
+
+
 </style>
 
-{# simple language switcher (optional) #}
-<div class="container flex justify-end gap-3 py-3">
-  <a href="{{ '?locale=en' }}" class="px-3 py-1 rounded-full bg-gray-100 hover:bg-gray-200 text-sm {{ not isArabic ? 'font-bold' : '' }}">English</a>
-  <a href="{{ '?locale=ar' }}" class="px-3 py-1 rounded-full bg-gray-100 hover:bg-gray-200 text-sm {{ isArabic ? 'font-bold' : '' }}">العربية</a>
+
+
+
+
+ {# <section
+    class="relative w-full text-white home-banner"
+    style="
+      background-image: url('{{ asset("images/Banner.jpg") }}');
+      background-size: cover;
+      background-position: center;
+    ">    min-height: 100%;
+
+<div class="px-4 sm:px-8">
+  <div class="min-h-[72vh] md:min-h-[80vh] flex items-center">
+    <div class="max-w-xl">
+      <p class="uppercase tracking-widest text-xs sm:text-sm text-white/80">
+        ALL YOU NEED IS LESS.
+      </p>
+
+      <h1
+        class="mt-4 font-serif font-semibold leading-[1.1] text-4xl sm:text-5xl md:text-6xl"
+      >
+        Where
+        <span
+          class="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent"
+        >
+          Confidence </span
+        ><br class="hidden sm:block" />
+        Meets <span class="text-white">Color</span>
+      </h1>
+
+      <button
+        class="mt-8 inline-flex items-center justify-center px-6 py-3 rounded-full bg-pink-500 hover:bg-pink-600 text-white font-semibold shadow-lg shadow-pink-500/30"
+      >
+        Shop Now
+      </button>
+    </div>
+  </div>
 </div>
+</section> #}
+{% component home %} 
 
-{# component can stay if you use it #}
-{% component home %}
-
-<!-- Moving Text Section (Improved Infinite Marquee + i18n + RTL-aware) -->
+<!-- Moving Text Section -->
+<!-- Moving Text Section (Improved Infinite Marquee) -->
 <section class="py-8 bg-gray-50 overflow-hidden">
   <!-- Row 1 -->
-  <div class="marquee row1" style="--duration:30s;--gap:4rem;">
+  <div class="marquee" style="--duration: 30s; --gap: 4rem;">
     <div class="marquee__track">
-      {% for i in 1..6 %}
       <span class="marquee__item text-[#4CC7A5]">
-        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover">
-        {{ 'home.marquee.cream'|_ }}
+        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Magic Water Cream
       </span>
-      {% endfor %}
+      <span class="marquee__item text-[#4CC7A5]">
+        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Magic Water Cream
+      </span>
+      <span class="marquee__item text-[#4CC7A5]">
+        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Magic Water Cream
+      </span>
+      <span class="marquee__item text-[#4CC7A5]">
+        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Magic Water Cream
+      </span>
+      <span class="marquee__item text-[#4CC7A5]">
+        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Magic Water Cream
+      </span>
+      <span class="marquee__item text-[#4CC7A5]">
+        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Magic Water Cream
+      </span>
     </div>
+    <!-- duplicate track for seamless infinite -->
     <div class="marquee__track" aria-hidden="true">
-      {% for i in 1..6 %}
       <span class="marquee__item text-[#4CC7A5]">
-        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover">
-        {{ 'home.marquee.cream'|_ }}
+        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Magic Water Cream
       </span>
-      {% endfor %}
+      <span class="marquee__item text-[#4CC7A5]">
+        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Magic Water Cream
+      </span>
+      <span class="marquee__item text-[#4CC7A5]">
+        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Magic Water Cream
+      </span>
+      <span class="marquee__item text-[#4CC7A5]">
+        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Magic Water Cream
+      </span>
+      <span class="marquee__item text-[#4CC7A5]">
+        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Magic Water Cream
+      </span>
+      <span class="marquee__item text-[#4CC7A5]">
+        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Magic Water Cream
+      </span>
     </div>
   </div>
 
-  <!-- Row 2 -->
-  <div class="marquee row2 mt-6" style="--duration:34s;--gap:4rem;">
+  <!-- Row 2 (reverse direction) -->
+  <div class="marquee marquee--reverse mt-6" style="--duration: 34s; --gap: 4rem;">
     <div class="marquee__track">
-      {% for i in 1..6 %}
       <span class="marquee__item text-[#2746AA]">
-        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover">
-        {{ 'home.marquee.gloss'|_ }}
+        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Shop Our Best Lip Gloss
       </span>
-      {% endfor %}
+      <span class="marquee__item text-[#2746AA]">
+        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Shop Our Best Lip Gloss
+      </span>
+      <span class="marquee__item text-[#2746AA]">
+        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Shop Our Best Lip Gloss
+      </span>
+      <span class="marquee__item text-[#2746AA]">
+        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Shop Our Best Lip Gloss
+      </span>
+      <span class="marquee__item text-[#2746AA]">
+        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Shop Our Best Lip Gloss
+      </span>
+      <span class="marquee__item text-[#2746AA]">
+        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Shop Our Best Lip Gloss
+      </span>
     </div>
+    <!-- duplicate track -->
     <div class="marquee__track" aria-hidden="true">
-      {% for i in 1..6 %}
       <span class="marquee__item text-[#2746AA]">
-        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover">
-        {{ 'home.marquee.gloss'|_ }}
+        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Shop Our Best Lip Gloss
       </span>
-      {% endfor %}
+      <span class="marquee__item text-[#2746AA]">
+        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Shop Our Best Lip Gloss
+      </span>
+      <span class="marquee__item text-[#2746AA]">
+        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Shop Our Best Lip Gloss
+      </span>
+      <span class="marquee__item text-[#2746AA]">
+        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Shop Our Best Lip Gloss
+      </span>
+      <span class="marquee__item text-[#2746AA]">
+        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Shop Our Best Lip Gloss
+      </span>
+      <span class="marquee__item text-[#2746AA]">
+        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Shop Our Best Lip Gloss
+      </span>
     </div>
   </div>
 </section>
@@ -108,134 +202,186 @@ string | ex: "cat.show" | #}
 <!-- Exclusive Offer Section -->
 <section class="w-full bg-teal-500 py-16">
   <div class="container grid grid-cols-1 md:grid-cols-2 gap-10 items-center px-6 text-white">
+    
+    <!-- Left Side: Image -->
     <div class="flex justify-center">
-      <img src="{{ asset('images/offer.jpg') }}" alt="{{ 'home.offer.alt'|_ }}" class="rounded-2xl shadow-lg object-cover">
+      <img src="{{asset('images/offer.jpg')}}" alt="Exclusive Offer" class="rounded-2xl shadow-lg object-cover">
     </div>
+
+    <!-- Right Side: Content -->
     <div>
-      <h2 class="text-4xl font-extrabold mb-4">{{ 'home.offer.title'|_ }}</h2>
+      <h2 class="text-4xl font-extrabold mb-4">
+        Exclusive offer
+      </h2>
       <p class="mb-6 text-lg leading-relaxed">
-        {{ 'home.offer.body'|_ }}
+        Unlock the ultimate style upgrade with our exclusive offer. Enjoy savings of up to 
+        40% off on our latest New Products.
       </p>
 
       <!-- Countdown Timer -->
       <div id="countdown" class="flex gap-4 mb-6">
         <div class="bg-white text-blue-900 font-bold text-center px-6 py-4 rounded w-24">
           <span id="days" class="text-2xl block">00</span>
-          <span class="text-sm uppercase">{{ 'home.offer.days'|_ }}</span>
+          <span class="text-sm uppercase">Days</span>
         </div>
         <div class="bg-white text-blue-900 font-bold text-center px-6 py-4 rounded w-24">
           <span id="hours" class="text-2xl block">00</span>
-          <span class="text-sm uppercase">{{ 'home.offer.hours'|_ }}</span>
+          <span class="text-sm uppercase">Hours</span>
         </div>
         <div class="bg-white text-blue-900 font-bold text-center px-6 py-4 rounded w-24">
           <span id="minutes" class="text-2xl block">00</span>
-          <span class="text-sm uppercase">{{ 'home.offer.minutes'|_ }}</span>
+          <span class="text-sm uppercase">Min</span>
         </div>
+        
       </div>
 
+      <!-- Buy Now Button -->
       <button class="bg-blue-900 text-white px-10 py-3 rounded-full font-semibold hover:bg-blue-800 transition">
-        {{ 'home.offer.cta'|_ }}
+        BUY NOW
       </button>
     </div>
   </div>
 </section>
 
-<!-- Reviews -->
 <section class="py-16">
-  <div class="container">
-    <h2 class="text-left text-3xl md:text-4xl font-serif font-bold mb-8">{{ 'home.reviews.title'|_ }}</h2>
-  </div>
-  <div class="flex flex-col lg:flex-row items-center justify-between gap-6">
-    <div class="flex space-x-3 overflow-x-auto lg:overflow-visible">
-      <div class="rounded-md overflow-hidden">
-        <img src="{{ asset('images/review-1.jpg') }}" alt="{{ 'home.reviews.thumb'|_ }} 1" class="w-full h-full object-cover"/>
-      </div>
-      <div class="rounded-md overflow-hidden">
-        <img src="{{ asset('images/review-2.jpg') }}" alt="{{ 'home.reviews.thumb'|_ }} 2" class="w-full h-full object-cover"/>
-      </div>
-      <div class="rounded-md overflow-hidden">
-        <img src="{{ asset('images/review-3.jpg') }}" alt="{{ 'home.reviews.thumb'|_ }} 3" class="w-full h-full object-cover"/>
-      </div>
+    <div class="container">
+        <h2 class="text-left text-3xl md:text-4xl font-serif font-bold mb-8">
+            Customer Reviews
+        </h2>
     </div>
-    <div class="relative">
-      <img src="{{ asset('images/review-4.png') }}" alt="{{ 'home.reviews.camera'|_ }}" class="w-full h-auto" />
-    </div>
-  </div>
+      <!-- Top Section: Camera + Thumbnails -->
+      <div class="flex flex-col lg:flex-row items-center justify-between gap-6">
+        <!-- Thumbnails -->
+        <div class="flex space-x-3 overflow-x-auto lg:overflow-visible">
+          <div class=" rounded-md overflow-hidden">
+            <img src="{{asset('images/review-1.jpg')}}" 
+                 alt="Thumbnail 1" class="w-full h-full object-cover"/>
+          </div>
+          <div class=" rounded-md overflow-hidden">
+            <img src="{{asset('images/review-2.jpg')}}" 
+                 alt="Thumbnail 2" class="w-full h-full object-cover"/>
+          </div>
+          <div class=" rounded-md overflow-hidden">
+            <img src="{{asset('images/review-3.jpg')}}" 
+                 alt="Thumbnail 3" class="w-full h-full object-cover"/>
+          </div>
+        </div>
+
+        <!-- Camera Mockup -->
+        <div class="relative">
+          <!-- DSLR camera PNG (transparent background) -->
+          <img src="{{asset('images/review-4.png')}}" 
+               alt="Camera mockup" 
+               class="w-full h-auto" />
+
+          <!-- LCD Screen overlay (positioned to fit inside camera screen) -->
+          {# <div class="absolute top-[23%] left-[19%] w-[62%] h-[55%] rounded-sm overflow-hidden shadow-inner">
+            <img src="{{asset('images/review-4.png')}}" 
+                 alt="Camera display" class="w-full h-full object-cover"/>
+          </div> #}
+        </div>
+      </div>
+    
 </section>
 
-<!-- Product Highlight -->
-<section class="py-16">
-  <div class="container">
+  <section class="py-16">
+    <div class="container">
+
+      <!-- Centered Title -->
+      <!-- Title -->
     <h2 class="text-center text-3xl md:text-4xl font-serif font-bold mb-8">
-      {{ 'home.star.title.part1'|_ }}
+      The 
       <span class="bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
-        {{ 'home.star.title.highlight'|_ }}
-      </span>
-      {{ 'home.star.title.part2'|_ }}
-    </h2>
-
-    <div class="grid lg:grid-cols-2 gap-10 items-center">
-      <div>
-        <h3 class="text-xl font-semibold text-gray-900 mb-2">
-          {{ 'home.star.productName'|_ }}
-        </h3>
-
-        <p class="text-pink-600 font-bold mb-3 font-sans">
-          89 {{ 'home.currency.sar'|_ }}
-          <span class="text-sm text-gray-500 font-medium">{{ 'home.taxIncluded'|_ }}</span>
-        </p>
-
-        <p class="text-gray-600 mb-3 leading-relaxed">{{ 'home.star.p1'|_ }}</p>
-        <p class="text-gray-600 mb-3 leading-relaxed">{{ 'home.star.p2'|_ }}</p>
-        <p class="text-gray-600 mb-6 leading-relaxed">{{ 'home.star.p3'|_ }}</p>
-        <p class="text-gray-600 mb-6 leading-relaxed">{{ 'home.star.p4'|_ }}</p>
-
-        <button class="bg-pink-500 w-full hover:bg-pink-600 text-white font-semibold py-3 px-10 rounded-full transition duration-300">
-          {{ 'home.star.cta'|_ }}
-        </button>
-      </div>
-
-      <div class="rounded-lg overflow-hidden shadow-lg">
-        <img 
-          src="{{ asset('images/Blushin.jpg') }}"
-          alt="{{ 'home.star.imageAlt'|_ }}"
-          class="w-full h-full object-cover"
-        />
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Instagram -->
-<section class="py-16">
-  <div class="container">
-    <h2 class="text-left text-3xl md:text-4xl py-10 font-serif font-bold mb-8">
-      {{ 'home.follow.title'|_ }}
-      <span class="bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
-        {{ 'home.follow.handle'|_ }}
+        Star
       </span> 
+      of Your Routine
     </h2>
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-      <div class="rounded-lg overflow-hidden shadow-md">
-        <img src="{{ asset('images/instagram-1.jpg') }}"
-             alt="{{ 'home.instagram.alt'|_ }} 1" class="w-full h-full object-cover"/>
-      </div>
-      <div class="rounded-lg overflow-hidden shadow-md">
-        <img src="{{ asset('images/instagram-2.jpg') }}"               
-            alt="{{ 'home.instagram.alt'|_ }} 2" class="w-full h-full object-cover"/>
-      </div>
-      <div class="rounded-lg overflow-hidden shadow-md">
-        <img src="{{ asset('images/instagram-3.jpg') }}"
-            alt="{{ 'home.instagram.alt'|_ }} 3" class="w-full h-full object-cover"/>
+
+      <!-- Content Grid -->
+      <div class="grid lg:grid-cols-2 gap-10 items-center">
+        
+        <!-- Left Content -->
+        <div>
+          <!-- Product Name -->
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">
+            Blushin' sweet Cheek and Lip Tint
+          </h3>
+
+          <!-- Price -->
+    <p class="text-pink-600 font-bold mb-3 font-sans">
+      89 SAR <span class="text-sm text-gray-500 font-medium">Tax Included</span>
+    </p>
+
+          <!-- Description -->
+          <p class="text-gray-600 mb-3 leading-relaxed">
+            A buildable lightweight Cheek and Lip Tint, that gives you the natural matte color 
+        you’ve been looking for this summer!
+          </p>
+          <p class="text-gray-600 mb-3 leading-relaxed">
+              This easy-to-apply tint will be your go-to product that never leaves your purse this summer.
+          </p>
+          <p class="text-gray-600 mb-6 leading-relaxed">
+               Its long-lasting hydrating formula will make it your favorite. It’s the...
+          </p>
+          <p class="text-gray-600 mb-6 leading-relaxed">
+                  MAKE products are formulated using botanical and botanically-derived ingredients 
+        and tested synthetic ingredients.
+          </p>
+
+       
+        <!-- Button -->
+    <button class="bg-pink-500 w-full hover:bg-pink-600 text-white font-semibold py-3 px-10 rounded-full transition duration-300">
+      Buy It Now
+    </button>
+        </div>
+
+        <!-- Right Image -->
+        <div class="rounded-lg overflow-hidden shadow-lg">
+          <img 
+            src="{{asset('images/Blushin.jpg')}}"
+            alt="Product model closeup"
+            class="w-full h-full object-cover"
+          />
+        </div>
       </div>
     </div>
-  </div>
+  </sectio>
+
+
+
+
+<section class="py-16">
+    <div class="container">
+        <h2 class="text-left text-3xl md:text-4xl py-10 font-serif font-bold mb-8">
+            Follow us
+            <span class="bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+                @mbbyamani
+            </span> 
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <div class="rounded-lg overflow-hidden shadow-md">
+          <img src="{{asset('images/instagram-1.jpg')}}"
+               alt="Instagram 1" class="w-full h-full object-cover"/>
+        </div>
+        <div class="rounded-lg overflow-hidden shadow-md">
+          <img src="{{asset('images/instagram-2.jpg')}}"               
+              alt="Instagram 2" class="w-full h-full object-cover"/>
+        </div>
+        <div class="rounded-lg overflow-hidden shadow-md">
+          <img src="{{asset('images/instagram-3.jpg')}}"
+              alt="Instagram 3" class="w-full h-full object-cover"/>
+        </div>
+      </div>
+    </div>
 </section>
 
-</div> {# /rtl-ltr wrapper #}
 
-{% endblock %}
+      <!-- Instagram Text -->
+         
 
-{% block scripts %}
+      <!-- Instagram Gallery -->
+      
+    
+{% endblock %} {% block scripts %}
 <script defer src="{{ 'home.js' | asset }}"></script>
 {% endblock %}
