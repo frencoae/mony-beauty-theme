@@ -1,4 +1,3 @@
-
 {# | Variable | Type | Description |
 |------------------|------------|---------------------------------------------------------------------|
 | page | object | | | page.title | string | *could be html | | page.slug |
@@ -60,6 +59,14 @@ string | ex: "cat.show" | #} {% extends "layouts.master" %} {% block content %}
   }
 }
 
+/* RTL adjustments for marquee */
+html[dir="rtl"] .marquee:not(.marquee--reverse) .marquee__track {
+  animation-direction: reverse;
+}
+html[dir="rtl"] .marquee.marquee--reverse .marquee__track {
+  animation-direction: normal;
+}
+
 
 </style>
 
@@ -105,95 +112,118 @@ string | ex: "cat.show" | #} {% extends "layouts.master" %} {% block content %}
 </section> #}
 {% component home %} 
 
-<!-- Moving Text Section -->
 <!-- Moving Text Section (Improved Infinite Marquee) -->
 <section class="py-8 bg-gray-50 overflow-hidden">
   <!-- Row 1 -->
-  <div class="marquee" style="--duration: 30s; --gap: 4rem;">
+  <div class="marquee" style="--duration: 30s; --gap: 4rem;" id="marquee-row1">
     <div class="marquee__track">
       <span class="marquee__item text-[#4CC7A5]">
-        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Magic Water Cream
+        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover">
+        <span class="marquee-text cream-text">Magic Water Cream</span>
       </span>
       <span class="marquee__item text-[#4CC7A5]">
-        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Magic Water Cream
+        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover">
+        <span class="marquee-text cream-text">Magic Water Cream</span>
       </span>
       <span class="marquee__item text-[#4CC7A5]">
-        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Magic Water Cream
+        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover">
+        <span class="marquee-text cream-text">Magic Water Cream</span>
       </span>
       <span class="marquee__item text-[#4CC7A5]">
-        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Magic Water Cream
+        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover">
+        <span class="marquee-text cream-text">Magic Water Cream</span>
       </span>
       <span class="marquee__item text-[#4CC7A5]">
-        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Magic Water Cream
+        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover">
+        <span class="marquee-text cream-text">Magic Water Cream</span>
       </span>
       <span class="marquee__item text-[#4CC7A5]">
-        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Magic Water Cream
+        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover">
+        <span class="marquee-text cream-text">Magic Water Cream</span>
       </span>
     </div>
     <!-- duplicate track for seamless infinite -->
     <div class="marquee__track" aria-hidden="true">
       <span class="marquee__item text-[#4CC7A5]">
-        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Magic Water Cream
+        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover">
+        <span class="marquee-text cream-text">Magic Water Cream</span>
       </span>
       <span class="marquee__item text-[#4CC7A5]">
-        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Magic Water Cream
+        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover">
+        <span class="marquee-text cream-text">Magic Water Cream</span>
       </span>
       <span class="marquee__item text-[#4CC7A5]">
-        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Magic Water Cream
+        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover">
+        <span class="marquee-text cream-text">Magic Water Cream</span>
       </span>
       <span class="marquee__item text-[#4CC7A5]">
-        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Magic Water Cream
+        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover">
+        <span class="marquee-text cream-text">Magic Water Cream</span>
       </span>
       <span class="marquee__item text-[#4CC7A5]">
-        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Magic Water Cream
+        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover">
+        <span class="marquee-text cream-text">Magic Water Cream</span>
       </span>
       <span class="marquee__item text-[#4CC7A5]">
-        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Magic Water Cream
+        <img src="{{ asset('images/cream-icon.jpg') }}" alt="" class="w-8 h-8 mr-3 object-cover">
+        <span class="marquee-text cream-text">Magic Water Cream</span>
       </span>
     </div>
   </div>
 
   <!-- Row 2 (reverse direction) -->
-  <div class="marquee marquee--reverse mt-6" style="--duration: 34s; --gap: 4rem;">
+  <div class="marquee marquee--reverse mt-6" style="--duration: 34s; --gap: 4rem;" id="marquee-row2">
     <div class="marquee__track">
       <span class="marquee__item text-[#2746AA]">
-        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Shop Our Best Lip Gloss
+        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover">
+        <span class="marquee-text lip-text">Shop Our Best Lip Gloss</span>
       </span>
       <span class="marquee__item text-[#2746AA]">
-        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Shop Our Best Lip Gloss
+        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover">
+        <span class="marquee-text lip-text">Shop Our Best Lip Gloss</span>
       </span>
       <span class="marquee__item text-[#2746AA]">
-        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Shop Our Best Lip Gloss
+        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover">
+        <span class="marquee-text lip-text">Shop Our Best Lip Gloss</span>
       </span>
       <span class="marquee__item text-[#2746AA]">
-        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Shop Our Best Lip Gloss
+        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover">
+        <span class="marquee-text lip-text">Shop Our Best Lip Gloss</span>
       </span>
       <span class="marquee__item text-[#2746AA]">
-        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Shop Our Best Lip Gloss
+        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover">
+        <span class="marquee-text lip-text">Shop Our Best Lip Gloss</span>
       </span>
       <span class="marquee__item text-[#2746AA]">
-        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Shop Our Best Lip Gloss
+        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover">
+        <span class="marquee-text lip-text">Shop Our Best Lip Gloss</span>
       </span>
     </div>
     <!-- duplicate track -->
     <div class="marquee__track" aria-hidden="true">
       <span class="marquee__item text-[#2746AA]">
-        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Shop Our Best Lip Gloss
+        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover">
+        <span class="marquee-text lip-text">Shop Our Best Lip Gloss</span>
       </span>
       <span class="marquee__item text-[#2746AA]">
-        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Shop Our Best Lip Gloss
+        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover">
+        <span class="marquee-text lip-text">Shop Our Best Lip Gloss</span>
       </span>
       <span class="marquee__item text-[#2746AA]">
-        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Shop Our Best Lip Gloss
+        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover">
+        <span class="marquee-text lip-text">Shop Our Best Lip Gloss</span>
       </span>
       <span class="marquee__item text-[#2746AA]">
-        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Shop Our Best Lip Gloss
+        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover">
+        <span class="marquee-text lip-text">Shop Our Best Lip Gloss</span>
       </span>
       <span class="marquee__item text-[#2746AA]">
-        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Shop Our Best Lip Gloss
+        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover">
+        <span class="marquee-text lip-text">Shop Our Best Lip Gloss</span>
       </span>
       <span class="marquee__item text-[#2746AA]">
-        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover"> Shop Our Best Lip Gloss
+        <img src="{{ asset('images/lip-gloss.png') }}" alt="" class="w-8 h-8 mr-3 object-cover">
+        <span class="marquee-text lip-text">Shop Our Best Lip Gloss</span>
       </span>
     </div>
   </div>
@@ -210,10 +240,8 @@ string | ex: "cat.show" | #} {% extends "layouts.master" %} {% block content %}
 
     <!-- Right Side: Content -->
     <div>
-      <h2 class="text-4xl font-extrabold mb-4">
-        Exclusive offer
-      </h2>
-      <p class="mb-6 text-lg leading-relaxed">
+      <h2 class="text-4xl font-extrabold mb-4" id="exclusive-title">Exclusive offer</h2>
+      <p class="mb-6 text-lg leading-relaxed" id="exclusive-desc">
         Unlock the ultimate style upgrade with our exclusive offer. Enjoy savings of up to 
         40% off on our latest New Products.
       </p>
@@ -222,21 +250,21 @@ string | ex: "cat.show" | #} {% extends "layouts.master" %} {% block content %}
       <div id="countdown" class="flex gap-4 mb-6">
         <div class="bg-white text-blue-900 font-bold text-center px-6 py-4 rounded w-24">
           <span id="days" class="text-2xl block">00</span>
-          <span class="text-sm uppercase">Days</span>
+          <span id="days-label" class="text-sm uppercase">Days</span>
         </div>
         <div class="bg-white text-blue-900 font-bold text-center px-6 py-4 rounded w-24">
           <span id="hours" class="text-2xl block">00</span>
-          <span class="text-sm uppercase">Hours</span>
+          <span id="hours-label" class="text-sm uppercase">Hours</span>
         </div>
         <div class="bg-white text-blue-900 font-bold text-center px-6 py-4 rounded w-24">
           <span id="minutes" class="text-2xl block">00</span>
-          <span class="text-sm uppercase">Min</span>
+          <span id="minutes-label" class="text-sm uppercase">Min</span>
         </div>
         
       </div>
 
       <!-- Buy Now Button -->
-      <button class="bg-blue-900 text-white px-10 py-3 rounded-full font-semibold hover:bg-blue-800 transition">
+      <button id="buy-now-offer" class="bg-blue-900 text-white px-10 py-3 rounded-full font-semibold hover:bg-blue-800 transition">
         BUY NOW
       </button>
     </div>
@@ -244,52 +272,89 @@ string | ex: "cat.show" | #} {% extends "layouts.master" %} {% block content %}
 </section>
 
 <section class="py-16">
-    <div class="container">
-        <h2 class="text-left text-3xl md:text-4xl font-serif font-bold mb-8">
-            Customer Reviews
-        </h2>
-    </div>
-      <!-- Top Section: Camera + Thumbnails -->
-      <div class="flex flex-col lg:flex-row items-center justify-between gap-6">
-        <!-- Thumbnails -->
-        <div class="flex space-x-3 overflow-x-auto lg:overflow-visible">
-          <div class=" rounded-md overflow-hidden">
-            <img src="{{asset('images/review-1.jpg')}}" 
-                 alt="Thumbnail 1" class="w-full h-full object-cover"/>
+  <div class="container">
+    <h2 class="text-left text-3xl md:text-4xl font-serif font-bold mb-8">
+      Customer Reviews
+    </h2>
+  </div>
+
+  <!-- Top Section: Camera + Thumbnails -->
+  <div class="flex flex-col lg:flex-row items-center justify-between gap-10">
+
+    <!-- Thumbnails Section -->
+    <div class="relative w-full overflow-hidden">
+      <div class="flex animate-infinite-scroll">
+        <!-- Original Images -->
+        <div class="flex gap-4">
+          <div class="min-w-[250px] rounded-md overflow-hidden">
+            <img src="{{asset('images/review-3.jpg')}}" alt="Thumbnail 1" class="w-full h-full object-cover"/>
           </div>
-          <div class=" rounded-md overflow-hidden">
-            <img src="{{asset('images/review-2.jpg')}}" 
-                 alt="Thumbnail 2" class="w-full h-full object-cover"/>
+          <div class="min-w-[250px] rounded-md overflow-hidden">
+            <img src="{{asset('images/review-2.jpg')}}" alt="Thumbnail 2" class="w-full h-full object-cover"/>
           </div>
-          <div class=" rounded-md overflow-hidden">
-            <img src="{{asset('images/review-3.jpg')}}" 
-                 alt="Thumbnail 3" class="w-full h-full object-cover"/>
+          <div class="min-w-[250px] rounded-md overflow-hidden">
+            <img src="{{asset('images/review-3.jpg')}}" alt="Thumbnail 3" class="w-full h-full object-cover"/>
           </div>
         </div>
 
-        <!-- Camera Mockup -->
-        <div class="relative">
-          <!-- DSLR camera PNG (transparent background) -->
-          <img src="{{asset('images/review-4.png')}}" 
-               alt="Camera mockup" 
-               class="w-full h-auto" />
-
-          <!-- LCD Screen overlay (positioned to fit inside camera screen) -->
-          {# <div class="absolute top-[23%] left-[19%] w-[62%] h-[55%] rounded-sm overflow-hidden shadow-inner">
-            <img src="{{asset('images/review-4.png')}}" 
-                 alt="Camera display" class="w-full h-full object-cover"/>
-          </div> #}
+        <!-- Duplicate Images for Seamless Loop -->
+        <div class="flex gap-4">
+          <div class="min-w-[250px] rounded-md overflow-hidden">
+            <img src="{{asset('images/review-3.jpg')}}" alt="Thumbnail 1 duplicate" class="w-full h-full object-cover"/>
+          </div>
+          <div class="min-w-[250px] rounded-md overflow-hidden">
+            <img src="{{asset('images/review-2.jpg')}}" alt="Thumbnail 2 duplicate" class="w-full h-full object-cover"/>
+          </div>
+          <div class="min-w-[250px] rounded-md overflow-hidden">
+            <img src="{{asset('images/review-3.jpg')}}" alt="Thumbnail 3 duplicate" class="w-full h-full object-cover"/>
+          </div>
         </div>
       </div>
-    
+    </div>
+
+    <!-- Camera Mockup -->
+    <div class="relative w-[400px] flex-shrink-0">
+      <img src="{{asset('images/review-4.png')}}" alt="Camera mockup" class="w-full h-auto" />
+    </div>
+  </div>
 </section>
+
+<style>
+@keyframes infinite-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-infinite-scroll {
+  width: max-content;
+  display: flex;
+  animation: infinite-scroll 25s linear infinite;
+}
+
+/* Smooth performance improvement */
+.animate-infinite-scroll img {
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .animate-infinite-scroll {
+    animation-duration: 35s;
+  }
+}
+</style>
 
   <section class="py-16">
     <div class="container">
 
       <!-- Centered Title -->
       <!-- Title -->
-    <h2 class="text-center text-3xl md:text-4xl font-serif font-bold mb-8">
+    <h2 id="star-routine-title" class="text-center text-3xl md:text-4xl font-serif font-bold mb-8">
       The 
       <span class="bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
         Star
@@ -303,34 +368,34 @@ string | ex: "cat.show" | #} {% extends "layouts.master" %} {% block content %}
         <!-- Left Content -->
         <div>
           <!-- Product Name -->
-          <h3 class="text-xl font-semibold text-gray-900 mb-2">
+          <h3 id="product-name" class="text-xl font-semibold text-gray-900 mb-2">
             Blushin' sweet Cheek and Lip Tint
           </h3>
 
           <!-- Price -->
     <p class="text-pink-600 font-bold mb-3 font-sans">
-      89 SAR <span class="text-sm text-gray-500 font-medium">Tax Included</span>
+      89 SAR <span id="tax-included" class="text-sm text-gray-500 font-medium">Tax Included</span>
     </p>
 
           <!-- Description -->
-          <p class="text-gray-600 mb-3 leading-relaxed">
+          <p id="desc1" class="text-gray-600 mb-3 leading-relaxed">
             A buildable lightweight Cheek and Lip Tint, that gives you the natural matte color 
         you’ve been looking for this summer!
           </p>
-          <p class="text-gray-600 mb-3 leading-relaxed">
+          <p id="desc2" class="text-gray-600 mb-3 leading-relaxed">
               This easy-to-apply tint will be your go-to product that never leaves your purse this summer.
           </p>
-          <p class="text-gray-600 mb-6 leading-relaxed">
+          <p id="desc3" class="text-gray-600 mb-6 leading-relaxed">
                Its long-lasting hydrating formula will make it your favorite. It’s the...
           </p>
-          <p class="text-gray-600 mb-6 leading-relaxed">
-                  MAKE products are formulated using botanical and botanically-derived ingredients 
+          <p id="desc4" class="text-gray-600 mb-6 leading-relaxed">
+                  MAKE products are formulated using botanical and Botanically-derived ingredients 
         and tested synthetic ingredients.
           </p>
 
        
         <!-- Button -->
-    <button class="bg-pink-500 w-full hover:bg-pink-600 text-white font-semibold py-3 px-10 rounded-full transition duration-300">
+    <button id="buy-it-now" class="bg-pink-500 w-full hover:bg-pink-600 text-white font-semibold py-3 px-10 rounded-full transition duration-300">
       Buy It Now
     </button>
         </div>
@@ -352,7 +417,7 @@ string | ex: "cat.show" | #} {% extends "layouts.master" %} {% block content %}
 
 <section class="py-16">
     <div class="container">
-        <h2 class="text-left text-3xl md:text-4xl py-10 font-serif font-bold mb-8">
+        <h2 id="follow-us-title" class="text-left text-3xl md:text-4xl py-10 font-serif font-bold mb-8">
             Follow us
             <span class="bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
                 @mbbyamani
@@ -384,4 +449,157 @@ string | ex: "cat.show" | #} {% extends "layouts.master" %} {% block content %}
     
 {% endblock %} {% block scripts %}
 <script defer src="{{ 'home.js' | asset }}"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const htmlEl = document.documentElement;
+  let isRTL = (htmlEl.getAttribute('dir')||'').toLowerCase()==='rtl' || /ar/i.test(htmlEl.getAttribute('lang')||'');
+
+  // i18n map for home page
+  const i18n = {
+    en: {
+      marquee_cream: "Magic Water Cream",
+      marquee_lip: "Shop Our Best Lip Gloss",
+      exclusive_title: "Exclusive offer",
+      exclusive_desc: "Unlock the ultimate style upgrade with our exclusive offer. Enjoy savings of up to 40% off on our latest New Products.",
+      customer_reviews: "Customer Reviews",
+      star_routine: "The Star of Your Routine",
+      product_name: "Blushin' sweet Cheek and Lip Tint",
+      tax_included: "Tax Included",
+      desc1: "A buildable lightweight Cheek and Lip Tint, that gives you the natural matte color you’ve been looking for this summer!",
+      desc2: "This easy-to-apply tint will be your go-to product that never leaves your purse this summer.",
+      desc3: "Its long-lasting hydrating formula will make it your favorite. It’s the...",
+      desc4: "MAKE products are formulated using botanical and Botanically-derived ingredients and tested synthetic ingredients.",
+      buy_it_now: "Buy It Now",
+      follow_us: "Follow us",
+      days: "Days",
+      hours: "Hours",
+      minutes: "Min",
+      buy_now_offer: "BUY NOW"
+    },
+    ar: {
+      marquee_cream: "كريم الماء السحري",
+      marquee_lip: "تسوق أفضل لمعان الشفاه لدينا",
+      exclusive_title: "عرض حصري",
+      exclusive_desc: "افتح الترقية الأخيرة للأسلوب مع عرضنا الحصري. استمتع بخصومات تصل إلى 40% على أحدث المنتجات الجديدة.",
+      customer_reviews: "آراء العملاء",
+      star_routine: "نجم روتينك",
+      product_name: "وميض حلو للخدود والشفاه",
+      tax_included: "الضريبة مشمولة",
+      desc1: "صبغة خفيفة الوزن قابلة للبناء للخدود والشفاه، تعطيك اللون المات الطبيعي الذي تبحث عنه هذا الصيف!",
+      desc2: "هذه الصبغة السهلة التطبيق ستكون منتجك المفضل الذي لا يغادر حقيبتك هذا الصيف.",
+      desc3: "صيغتها المرطبة طويلة الأمد ستجعلها مفضلتك. إنها...",
+      desc4: "منتجات MAKE مصنعة باستخدام مكونات نباتية ومشتقة نباتياً ومكونات اصطناعية مختبرة.",
+      buy_it_now: "اشترِ الآن",
+      follow_us: "تابعنا",
+      days: "أيام",
+      hours: "ساعات",
+      minutes: "دقائق",
+      buy_now_offer: "اشترِ الآن"
+    }
+  };
+
+  const setTxt = (id, txt) => { 
+    const el = document.getElementById(id); 
+    if (el) el.textContent = txt; 
+  };
+
+  const setMarqueeText = (className, txt) => {
+    document.querySelectorAll('.' + className).forEach(el => {
+      el.textContent = txt;
+    });
+  };
+
+  function applyTexts() {
+    const d = isRTL ? i18n.ar : i18n.en;
+    setMarqueeText('cream-text', d.marquee_cream);
+    setMarqueeText('lip-text', d.marquee_lip);
+    setTxt('exclusive-title', d.exclusive_title);
+    setTxt('exclusive-desc', d.exclusive_desc);
+    setTxt('customer-reviews-title', d.customer_reviews);
+    setTxt('star-routine-title', d.star_routine);
+    setTxt('product-name', d.product_name);
+    setTxt('tax-included', d.tax_included);
+    setTxt('desc1', d.desc1);
+    setTxt('desc2', d.desc2);
+    setTxt('desc3', d.desc3);
+    setTxt('desc4', d.desc4);
+    setTxt('buy-it-now', d.buy_it_now);
+    setTxt('follow-us-title', d.follow_us);
+    setTxt('days-label', d.days);
+    setTxt('hours-label', d.hours);
+    setTxt('minutes-label', d.minutes);
+    setTxt('buy-now-offer', d.buy_now_offer);
+
+    // Reset marquee animations for seamless restart after text update
+    resetMarqueeAnimation('marquee-row1');
+    resetMarqueeAnimation('marquee-row2');
+  }
+
+  function resetMarqueeAnimation(rowId) {
+    const row = document.getElementById(rowId);
+    if (!row) return;
+    const tracks = row.querySelectorAll('.marquee__track');
+    tracks.forEach(track => {
+      const style = track.style;
+      const duration = track.parentElement.style.getPropertyValue('--duration') || '30s';
+      style.animation = 'none';
+      // Force reflow
+      track.offsetHeight;
+      style.animation = `marquee-scroll ${duration} linear infinite`;
+    });
+  }
+
+  // Countdown Timer Logic
+  function updateCountdown() {
+    // Assume end date is 7 days from now for demo; adjust as needed
+    const endDate = new Date();
+    endDate.setDate(endDate.getDate() + 7);
+    endDate.setHours(23, 59, 59, 999);
+
+    const now = new Date().getTime();
+    const distance = endDate.getTime() - now;
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+    document.getElementById('days').textContent = days.toString().padStart(2, '0');
+    document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+    document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+
+    if (distance < 0) {
+      document.getElementById('countdown').innerHTML = '<p class="text-center text-white">Offer Ended!</p>';
+    }
+  }
+
+  // Salla events for localization
+  if (typeof salla !== 'undefined') {
+    salla.event.on('localization::changed', function(payload) {
+      try {
+        const lang = (payload && payload.language && payload.language.code || '').toLowerCase();
+        isRTL = lang.startsWith('ar');
+        if (isRTL) { 
+          document.documentElement.classList.add('rtl-active'); 
+          document.documentElement.setAttribute('dir', 'rtl'); 
+        } else { 
+          document.documentElement.classList.remove('rtl-active'); 
+          document.documentElement.setAttribute('dir', 'ltr'); 
+        }
+        applyTexts();
+      } catch(e) {}
+    });
+  }
+
+  // Initialize
+  if (isRTL) { 
+    document.documentElement.classList.add('rtl-active'); 
+    document.documentElement.setAttribute('dir', 'rtl'); 
+  } else { 
+    document.documentElement.setAttribute('dir', 'ltr'); 
+  }
+  applyTexts();
+  updateCountdown();
+  setInterval(updateCountdown, 60000); // Update every minute
+});
+</script>
 {% endblock %}
