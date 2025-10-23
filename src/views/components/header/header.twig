@@ -14,488 +14,636 @@
 } %}
 
 <section class="w-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white text-sm py-2 md:py-3 relative z-10">
-    <div  class="top-heading w-full text-center px-4">
-        <p class="text-sm md:text-lg font-medium" id="custom-banner-text">Free Shipping on Order above 300 SAR</p>
-    </div>
+  <div class="top-heading w-full text-center px-4">
+    <p class="text-sm md:text-lg font-medium" id="custom-banner-text">Free Shipping on Order above 300 SAR</p>
+  </div>
 </section>
 
 <header class="store-header">
-    <div class="relative z-10">
-        <!-- Main Header -->
-        <div class="w-full bg-transparent text-white border-b border-white/20">
-            <div class="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
-                <!-- Left: Mobile Menu Button -->
-                <div class="flex md:hidden">
-                    <button id="mobile-menu-toggle" class="text-white p-2">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                    </button>
-                </div>
-                
-                <!-- Left: Desktop Currency/Language -->
-                <div class="hidden md:flex header-buttons">
-                    {% if store.settings.is_multilingual or store.settings.currencies_enabled %}
-                    <button type="button" onclick="salla.event.dispatch('localization::open')" class="basis-0">
-                        <div class="flex items-center space-x-6">
-                            <!-- Language -->
-                            <div class="flex items-center space-x-1 cursor-pointer">
-                                <span class="flag iti__flag iti__{{ user.language.country_code }} rounded-sm" style="transform: scale(1.5); margin-right: 10px; font-size: 20px;"></span>
-                                <span style="margin-right: 8px; font-size: 18px;">{{ language.name }}</span>
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <path d="M19 9l-7 7-7-7"/>
-                                </svg>
-                            </div>
-                            <!-- Currency -->
-                            <div class="flex items-center space-x-1 cursor-pointer" id="currency-display">
-                                <span id="currency-symbol" style="font-size: 20px;">{{ currency_symbols[currency.code] ?? currency.symbol }}</span>
-                                <span style="font-size: 18px;" id="currency-name">{{ currency_names[currency.code] ?? currency.code }}</span>
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <path d="M19 9l-7 7-7-7"/>
-                                </svg>
-                            </div>
-                        </div>
-                    </button>
-                    <salla-localization-modal></salla-localization-modal>
-                    {% endif %}
-                </div>
-                
-                <!-- Center: Logo -->
-                <div class="flex justify-center items-center flex-1 md:flex-none">
-                    <img src="{{ asset('images/logo.png') }}" alt="MONY BEAUTY Logo" class="w-40 md:w-64 lg:w-80 h-auto">
-                </div>
-                
-                <!-- Right Section: Icons -->
-                <div class="flex items-center space-x-4 md:space-x-5">
-                    <div class="flex items-center gap-4 md:gap-5 text-lg md:text-xl">
-                        <div class="flex items-center justify-end header-custom-icons">
-                            {% if user.type=='user' %}
-                            <salla-user-menu avatar-only show-header></salla-user-menu>
-                            {% else %}
-                            <button
-                                class="header-btn text-white"
-                                aria-label="user-icon"
-                                onclick="salla.event.dispatch('login::open')"
-                            >
-                                <img src="{{ asset('images/user-icon.svg') }}" class="w-5 h-5 md:w-6 md:h-6">
-                            </button>
-                            {% endif %}
-                            <salla-cart-summary class="mx-2 md:mx-4 custom-cart-icon">
-                                <img src="{{ asset('images/cart-icon.svg') }}" alt="Cart Icon" class="w-5 h-5 md:w-6 md:h-6">
-                            </salla-cart-summary>
-                            <button class="hidden md:block">
-                                <img src="{{ asset('images/search-icon.svg') }}" alt="Search Icon" class="w-5 h-5 md:w-6 md:h-6">
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <div class="relative z-10">
+    <!-- Main Header -->
+    <div class="w-full bg-transparent text-white border-b border-white/20 header-bg-row">
+      <div class="max-w-7xl mx-auto flex items-center justify-between px-4 py-3 header-row">
+        <!-- Mobile Menu Button -->
+        <div class="flex md:hidden mobile-menu-btn">
+          <button id="mobile-menu-toggle" class="text-white p-2 focus-ring" aria-label="toggle menu" aria-controls="mobile-sidebar" aria-expanded="false">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
         </div>
-        
-        <!-- Desktop Nav Menu -->
-        <nav class="hidden md:block w-full bg-transparent">
-            <ul class="max-w-7xl mx-auto flex items-center justify-center gap-8 py-2 px-4 text-white/80" style="font-size: 16px; font-weight: 400;">
-                <li class="relative group">
-                    <div class="flex items-center space-x-1">
-                        <a href="/shop" class="nav-link hover:text-white hover:font-semibold transition relative py-1 block">Shop1</a>
-                        <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
-                        </svg>
-                    </div>
-                    <ul class="absolute hidden group-hover:block bg-[#4A2C2A] text-white/80 rounded-md shadow-lg min-w-[180px] z-20 top-full left-1/2 transform -translate-x-1/2 py-2">
-                        <li><a href="/shop/makeup" class="nav-link block px-4 py-2 hover:text-white hover:font-semibold transition relative">Makeup</a></li>
-                        <li><a href="/shop/skincare" class="nav-link block px-4 py-2 hover:text-white hover:font-semibold transition relative">Skincare</a></li>
-                        <li><a href="/shop/haircare" class="nav-link block px-4 py-2 hover:text-white hover:font-semibold transition relative">Haircare</a></li>
-                        <li><a href="/shop/fragrance" class="nav-link block px-4 py-2 hover:text-white hover:font-semibold transition relative">Fragrance</a></li>
-                    </ul>
-                </li>
-                <li><a href="/best-sellers" class="nav-link hover:text-white hover:font-semibold transition relative py-1 block">Best Sellers</a></li>
-                <li><a href="/gifts-and-sets" class="nav-link hover:text-white hover:font-semibold transition relative py-1 block">Gifts & Sets</a></li>
-                <li><a href="/about" class="nav-link hover:text-white hover:font-semibold transition relative py-1 block">About MB</a></li>
-            </ul>
-        </nav>
-    </div>
-    
-    <!-- Mobile Sidebar Navigation -->
-    <div id="mobile-sidebar" class="fixed inset-0 z-50 transform -translate-x-full transition-transform duration-300 md:hidden">
-        <!-- Overlay -->
-        <div class="fixed inset-0 bg-black bg-opacity-50" id="sidebar-overlay"></div>
-        <!-- Sidebar Content -->
-        <div class="relative w-80 max-w-full h-full bg-gradient-to-b from-pink-400 to-blue-500 text-gray-800 overflow-y-auto">
-            <!-- Close Button -->
-            <div class="flex justify-end p-4">
-                <button id="mobile-menu-close" class="text-white p-2">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
-            
-            <!-- Navigation Links -->
-            <nav class="px-4">
-                <ul class="space-y-2">
-                    <li>
-                        <a href="/" class="mobile-nav-link flex items-center py-3 px-4 text-lg font-normal text-white/80 hover:text-white hover:font-semibold rounded-lg transition relative block">Home</a>
-                    </li>
-                    <!-- Shop with Accordion -->
-<li>
-  <div class="shop-accordion">
-    <button type="button" class="flex items-center justify-between w-full py-3 px-4 text-lg font-normal text-white/80 hover:text-white hover:font-semibold rounded-lg transition relative block">
-      <span>Shop</span>
-      <svg class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-      </svg>
-    </button>
-    <div class="shop-submenu pl-4 mt-1">
-  <a href="/shop/makeup" class="submenu-link">Makeup</a>
-  <a href="/shop/skincare" class="submenu-link">Skincare</a>
-  <a href="/shop/haircare" class="submenu-link">Haircare</a>
-  <a href="/shop/fragrance" class="submenu-link">Fragrance</a>
-</div>
-  </div>
-</li>
 
-                    <li>
-                        <a href="/best-sellers" class="mobile-nav-link flex items-center py-3 px-4 text-lg font-normal text-white/80 hover:text-white hover:font-semibold rounded-lg transition relative block">Best Sellers</a>
-                    </li>
-                    <li>
-                        <a href="/gifts-and-sets" class="mobile-nav-link flex items-center py-3 px-4 text-lg font-normal text-white/80 hover:text-white hover:font-semibold rounded-lg transition relative block">Gifts & Sets</a>
-                    </li>
-                    <li>
-                        <a href="/about" class="mobile-nav-link flex items-center py-3 px-4 text-lg font-normal text-white/80 hover:text-white hover:font-semibold rounded-lg transition relative block">About Us</a>
-                    </li>
-                    <li>
-                        <a href="/blog" class="mobile-nav-link flex items-center py-3 px-4 text-lg font-normal text-white/80 hover:text-white hover:font-semibold rounded-lg transition relative block">Blog</a>
-                    </li>
-                    <li>
-                        <a href="/contact" class="mobile-nav-link flex items-center py-3 px-4 text-lg font-normal text-white/80 hover:text-white hover:font-semibold rounded-lg transition relative block">Contact</a>
-                    </li>
-                </ul>
-            </nav>
-            
-            <!-- Currency/Language Section -->
-            <div class="mt-8 px-4">
-                <div class="border-t border-white/30 pt-6">
-                    <h3 class="text-lg font-medium text-white mb-4">Preferences</h3>
-                    <!-- Language -->
-                   <div class="mb-4">
-                        <button onclick="salla.event.dispatch('localization::open')" class="flex items-center w-full text-left py-2 px-4 text-white/80 hover:text-white hover:font-semibold rounded-lg transition relative block">
-                            <span class="flag iti__flag iti__{{ user.language.country_code }} rounded-sm mr-3" style="transform: scale(1.2); font-size: 20px;"></span>
-                            <span class="flex-1" style="font-family: 18px;">{{ language.name }}</span>
-                            <svg  class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path d="M19 9l-7 7-7-7"/>
-                            </svg>
-                        </button>
-                    </div>
-                    <!-- Currency -->
-                    <div>
-                        <button onclick="salla.event.dispatch('localization::open')" class="flex items-center w-full text-left py-2 px-4 text-white/80 hover:text-white hover:font-semibold rounded-lg transition relative block">
-                            <span id="mobile-currency-symbol" class="mr-3" style="font-size: 20px;">{{ currency_symbols[currency.code] ?? currency.symbol }}</span>
-                            <span style="font-family: 180px;" class="flex-1" id="mobile-currency-name">{{ currency_names[currency.code] ?? currency.code }}</span>
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path d="M19 9l-7 7-7-7"/>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
+        <!-- Desktop Currency/Language -->
+        <div class="hidden md:flex header-buttons currency-language-section">
+          {% if store.settings.is_multilingual or store.settings.currencies_enabled %}
+          <button type="button" onclick="salla.event.dispatch('localization::open')" class="basis-0 focus-ring" aria-label="Change language or currency">
+            <div class="flex items-center space-x-6 lang-currency-container">
+              <!-- Language -->
+              <div class="flex items-center space-x-1 cursor-pointer lang-btn">
+                <span class="flag iti__flag iti__{{ user.language.country_code }} rounded-sm" style="transform:scale(1.5); font-size:20px; margin-inline-end:10px;"></span>
+                <span style="margin-inline-end:8px; font-size:18px;">{{ language.name }}</span>
+                <svg class="w-4 h-4 caret-arrow" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M19 9l-7 7-7-7"/>
+                </svg>
+              </div>
+              <!-- Currency -->
+              <div class="flex items-center space-x-1 cursor-pointer" id="currency-display">
+                <span id="currency-symbol" style="font-size:20px;">{{ currency_symbols[currency.code] ?? currency.symbol }}</span>
+                <span style="font-size:18px;" id="currency-name">{{ currency_names[currency.code] ?? currency.code }}</span>
+                <svg class="w-4 h-4 caret-arrow" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M19 9l-7 7-7-7"/>
+                </svg>
+              </div>
             </div>
-            
-            <!-- Search in Mobile Sidebar -->
-            <div class="mt-8 px-4">
-                <div class="relative">
-                    <input type="text" placeholder="Search products..." class="w-full py-3 px-4 pr-10 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent bg-white/10 text-white placeholder-white/60">
-                    <button class="absolute right-3 top-1/2 transform -translate-y-1/2 text-white">
-                        <img src="{{ asset('images/search-icon.svg') }}" alt="Search" class="w-5 h-5">
-                    </button>
-                </div>
-            </div>
+          </button>
+          <salla-localization-modal></salla-localization-modal>
+          {% endif %}
         </div>
+
+        <!-- Center: Logo (SWAP-READY) -->
+        <div class="flex justify-center items-center flex-1 md:flex-none logo-container">
+          <img
+            src="{{ asset('images/logo.png') }}"
+            data-src-dark="{{ asset('images/logo.png') }}"
+            data-src-light="{{ asset('images/logo-black.png') }}"
+            data-src-default="{{ asset('images/logo.png') }}"
+            data-src-scrolled="{{ asset('images/logo2.png') }}"
+            alt="MONY BEAUTY Logo"
+            class="w-40 md:w-64 lg:w-80 h-auto logo-swap header-swap">
+        </div>
+
+        <!-- Profile & Cart Icons -->
+        <div class="flex items-center space-x-4 md:space-x-5 header-icons profile-icons-section">
+          <div class="flex items-center gap-4 md:gap-5 text-lg md:text-xl">
+            <div class="flex items-center justify-end header-custom-icons">
+              <!-- Search Icon - Hidden on Mobile -->
+              <button class="hidden md:block search-btn focus-ring" aria-label="search">
+                <img
+                  src="{{ asset('images/search-icon.svg') }}"
+                  data-src-dark="{{ asset('images/search-icon.svg') }}"
+                  data-src-light="{{ asset('images/search-icon-black.svg') }}"
+                  data-src-default="{{ asset('images/search-icon.svg') }}"
+                  data-src-scrolled="{{ asset('images/search2.svg') }}"
+                  alt="Search Icon" class="w-5 h-5 md:w-6 md:h-6 header-icon-img header-swap">
+              </button>
+              
+              <!-- Cart Icon -->
+              <salla-cart-summary class="mx-2 md:mx-4 custom-cart-icon" aria-label="cart">
+                <img
+                  src="{{ asset('images/cart-icon.svg') }}"
+                  data-src-dark="{{ asset('images/cart-icon.svg') }}"
+                  data-src-light="{{ asset('images/cart-icon-black.svg') }}"
+                  data-src-default="{{ asset('images/cart-icon.svg') }}"
+                  data-src-scrolled="{{ asset('images/cart2.svg') }}"
+                  alt="Cart Icon" class="w-5 h-5 md:w-6 md:h-6 header-icon-img header-swap">
+              </salla-cart-summary>
+              
+              <!-- Profile/User Icon -->
+              {% if user.type=='user' %}
+                <salla-user-menu avatar-only show-header></salla-user-menu>
+              {% else %}
+                <button class="header-btn text-white focus-ring" aria-label="user-icon" onclick="salla.event.dispatch('login::open')">
+                  <img
+                    src="{{ asset('images/user-icon.svg') }}"
+                    data-src-dark="{{ asset('images/user-icon.svg') }}"
+                    data-src-light="{{ asset('images/user-icon-black.svg') }}"
+                    data-src-default="{{ asset('images/user-icon.svg') }}"
+                    data-src-scrolled="{{ asset('images/profile2.svg') }}"
+                    class="w-5 h-5 md:w-6 md:h-6 header-icon-img header-swap" alt="User">
+                </button>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <!-- Desktop Nav Menu -->
+    <nav class="hidden md:block w-full bg-transparent" aria-label="Main Navigation">
+      <ul class="max-w-7xl mx-auto flex items-center justify-center gap-8 py-2 px-4 text-white/80 nav-menu" style="font-size:16px; font-weight:400;">
+        <li class="relative group shop-menu-item">
+          <div class="flex items-center space-x-1">
+            <a href="/shop" class="nav-link hover:text-white hover:font-semibold transition relative py-1 block" id="nav-shop">Shop</a>
+            <svg class="w-4 h-4 dropdown-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+            <div class="hover-vector"></div>
+          </div>
+          <ul class="absolute hidden group-hover:block bg-[#4A2C2A] text-white/80 rounded-md shadow-lg min-w-[200px] z-20 top-full left-1/2 transform -translate-x-1/2 py-2 sub-menu">
+            <li><a href="/shop/makeup" class="nav-link block px-4 py-2 hover:text-white hover:font-semibold transition relative" id="nav-makeup">Makeup</a><div class="hover-vector"></div></li>
+            <li><a href="/shop/skincare" class="nav-link block px-4 py-2 hover:text-white hover:font-semibold transition relative" id="nav-skincare">Skincare</a><div class="hover-vector"></div></li>
+            <li><a href="/shop/haircare" class="nav-link block px-4 py-2 hover:text-white hover:font-semibold transition relative" id="nav-haircare">Haircare</a><div class="hover-vector"></div></li>
+            <li><a href="/shop/fragrance" class="nav-link block px-4 py-2 hover:text-white hover:font-semibold transition relative" id="nav-fragrance">Fragrance</a><div class="hover-vector"></div></li>
+          </ul>
+        </li>
+        <li><a href="/best-sellers" class="nav-link hover:text-white hover:font-semibold transition relative py-1 block" id="nav-best">Best Sellers</a><div class="hover-vector"></div></li>
+        <li><a href="/gifts-and-sets" class="nav-link hover:text-white hover:font-semibold transition relative py-1 block" id="nav-gifts">Gifts & Sets</a><div class="hover-vector"></div></li>
+        <li><a href="/about" class="nav-link hover:text-white hover:font-semibold transition relative py-1 block" id="nav-about">About MB</a><div class="hover-vector"></div></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Mobile Sidebar Navigation -->
+  <div id="mobile-sidebar" class="fixed inset-0 z-50 transform -translate-x-full transition-transform duration-300 md:hidden mobile-sidebar-container" role="dialog" aria-modal="true" aria-label="Mobile Menu">
+    <button class="fixed inset-0 bg-black/60 backdrop-blur-sm tap-overlay" id="sidebar-overlay" aria-label="Close menu (overlay)"></button>
+    <div class="relative w-[85vw] max-w-[320px] h-full bg-gradient-to-b from-purple-600 via-pink-500 to-blue-600 text-white overflow-y-auto side-drawer will-change-transform shadow-2xl">
+      <div class="sticky top-0 z-10 bg-gradient-to-r from-purple-700 to-pink-600 border-b border-white/20">
+        <div class="flex items-center justify-between p-4">
+          <div class="flex items-center">
+            <img src="{{ asset('images/logo.png') }}" alt="MONY BEAUTY Logo" class="w-32 h-auto">
+          </div>
+          <button id="mobile-menu-close" class="p-2 bg-white/10 hover:bg-white/20 rounded-lg transition-all duration-200 focus-ring" aria-label="close menu">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Currency/Language -->
+      <div class="px-4 py-4 border-b border-white/20 bg-white/5 mobile-currency-language">
+        {% if store.settings.is_multilingual or store.settings.currencies_enabled %}
+        <button type="button" onclick="salla.event.dispatch('localization::open')" class="w-full p-3 bg-white/10 hover:bg-white/15 rounded-xl transition-all duration-200 focus-ring group" aria-label="Change language or currency">
+          <div class="flex items-center justify-between lang-currency-container">
+            <div class="flex items-center space-x-3">
+              <div class="flex items-center space-x-2 cursor-pointer">
+                <span class="flag iti__flag iti__{{ user.language.country_code }} rounded-sm shadow-md" style="transform:scale(1.3);"></span>
+                <span style="font-size:16px; font-weight:500;">{{ language.name }}</span>
+              </div>
+              <div class="w-px h-6 bg-white/30"></div>
+              <div class="flex items-center space-x-2 cursor-pointer" id="mobile-currency-display">
+                <span id="mobile-currency-symbol" style="font-size:16px; font-weight:500;">{{ currency_symbols[currency.code] ?? currency.symbol }}</span>
+                <span style="font-size:16px; font-weight:500;" id="mobile-currency-name">{{ currency_names[currency.code] ?? currency.code }}</span>
+              </div>
+            </div>
+            <svg class="w-5 h-5 text-white transform transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </div>
+        </button>
+        {% endif %}
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="px-3 py-4" aria-label="Mobile Navigation">
+        <ul class="space-y-1">
+          <li>
+            <a href="/" class="mobile-nav-link flex items-center py-4 px-4 text-lg font-semibold text-white/90 hover:text-white hover:bg-white/10 rounded-xl transition-all duration-200 relative block focus-ring group" id="m-home">
+              <svg class="w-6 h-6 mr-3 text-white/80 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+              </svg>
+              <span>Home</span>
+            </a>
+          </li>
+
+          <!-- Shop with Accordion -->
+          <li>
+            <div class="shop-accordion">
+              <button type="button" class="flex items-center justify-between w-full py-4 px-4 text-lg font-semibold text-white/90 hover:text-white hover:bg-white/10 rounded-xl transition-all duration-200 relative block focus-ring group" id="m-shop-btn" aria-expanded="false" aria-controls="m-shop-panel">
+                <div class="flex items-center">
+                  <svg class="w-6 h-6 mr-3 text-white/80 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                  </svg>
+                  <span id="m-shop">Shop</span>
+                </div>
+                <svg class="w-5 h-5 transition-transform duration-300 dropdown-arrow text-white/80 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+              <div class="shop-submenu pl-8 mt-1 space-y-1" id="m-shop-panel" hidden>
+                <a href="/shop/makeup" class="submenu-link flex items-center py-3 px-4 text-white/80 hover:text-white hover:bg-white/5 rounded-lg transition-all duration-200 relative focus-ring group" id="m-makeup">
+                  <svg class="w-5 h-5 mr-3 text-white/60 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4"/>
+                  </svg>
+                  <span>Makeup</span>
+                </a>
+                <a href="/shop/skincare" class="submenu-link flex items-center py-3 px-4 text-white/80 hover:text-white hover:bg-white/5 rounded-lg transition-all duration-200 relative focus-ring group" id="m-skincare">
+                  <svg class="w-5 h-5 mr-3 text-white/60 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                  <span>Skincare</span>
+                </a>
+                <a href="/shop/haircare" class="submenu-link flex items-center py-3 px-4 text-white/80 hover:text-white hover:bg-white/5 rounded-lg transition-colors relative focus-ring group" id="m-haircare">
+                  <svg class="w-5 h-5 mr-3 text-white/60 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                  </svg>
+                  <span>Haircare</span>
+                </a>
+                <a href="/shop/fragrance" class="submenu-link flex items-center py-3 px-4 text-white/80 hover:text-white hover:bg-white/5 rounded-lg transition-colors relative focus-ring group" id="m-fragrance">
+                  <svg class="w-5 h-5 mr-3 text-white/60 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                  </svg>
+                  <span>Fragrance</span>
+                </a>
+              </div>
+            </div>
+          </li>
+
+          <li>
+            <a href="/best-sellers" class="mobile-nav-link flex items-center py-4 px-4 text-lg font-semibold text-white/90 hover:text-white hover:bg-white/10 rounded-xl transition-all duration-200 relative block focus-ring group" id="m-best">
+              <svg class="w-6 h-6 mr-3 text-white/80 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+              </svg>
+              <span>Best Sellers</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="/gifts-and-sets" class="mobile-nav-link flex items-center py-4 px-4 text-lg font-semibold text-white/90 hover:text-white hover:bg-white/10 rounded-xl transition-all duration-200 relative block focus-ring group" id="m-gifts">
+              <svg class="w-6 h-6 mr-3 text-white/80 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>
+              </svg>
+              <span>Gifts & Sets</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="/about" class="mobile-nav-link flex items-center py-4 px-4 text-lg font-semibold text-white/90 hover:text-white hover:bg-white/10 rounded-xl transition-all duration-200 relative block focus-ring group" id="m-about">
+              <svg class="w-6 h-6 mr-3 text-white/80 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <span>About Us</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Search in Mobile Sidebar -->
+      <div class="mt-auto px-4 py-6 mobile-search-section border-t border-white/20 bg-white/5">
+        <div class="relative">
+          <input type="text" id="m-search" placeholder="Search products..." class="w-full py-3 px-4 pl-12 pr-4 border border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent bg-white/10 text-white placeholder-white/60 focus-ring text-lg" />
+          <button class="absolute left-4 top-1/2 -translate-y-1/2 p-1 rounded-lg hover:bg-white/10 transition-colors" aria-label="search">
+            <img src="{{ asset('images/search-icon.svg') }}" alt="Search" class="w-5 h-5">
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </header>
 
-<!-- Hero Banner Section -->
+<!-- Hero Banner -->
 <section
   class="relative w-full text-white home-banner"
-  style="
-    background-image: url('{{ asset('images/Banner.jpg') }}');
-    background-size: cover;
-    background-position: center;
-  "
+  style="background-image:url('{{ asset('images/Banner.jpg') }}'); background-size:cover; background-position:center;"
 >
-  <!-- Overlay for text readability -->
   <div class="absolute inset-0 bg-black/30"></div>
-  <!-- Container for content -->
   <div class="relative px-4 sm:px-6 md:px-8 lg:px-12 pt-24 md:pt-40">
-    <!-- Main Banner Content -->
-    <div class="min-h-[60vh] sm:min-h-[70vh] md:min-h-[80vh] flex items-center justify-start">
-      <div class="max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl text-left">
-        <p class="uppercase tracking-widest text-xs sm:text-sm md:text-base text-white/80">
-          ALL YOU NEED IS LESS.
-        </p>
-        <h1
-           style="font-family: Aeonik;" class="mt-4 leading-tight text-3xl sm:text-4xl md:text-5xl lg:text-6xl"
-        >
-          Where
-          <span
-            class="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent"
-          >
-            Confidence
-          </span>
+    <div class="min-h-[60vh] sm:min-h-[70vh] md:min-h-[80vh] flex items-center justify-center hero-container">
+      <div class="max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl hero-content text-center" id="hero-content">
+        <p class="uppercase tracking-widest text-xs sm:text-sm md:text-base text-white/80" id="hero-kicker">ALL YOU NEED IS LESS.</p>
+        <h1 style="font-family: Aeonik;" class="mt-4 leading-tight text-3xl sm:text-4xl md:text-5xl lg:text-6xl hero-heading">
+          <span id="hero-where">Where</span>
+          <span class="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent" id="hero-confidence">Confidence</span>
           <br class="hidden sm:block" />
-          Meets <span class="text-white">Color</span>
+          <span id="hero-meets">Meets</span> <span class="text-white" id="hero-color">Color</span>
         </h1>
-        <button
-          class="mt-6 sm:mt-8 inline-flex items-center justify-center px-6 py-3 rounded-full bg-pink-500 hover:bg-pink-600 hover:scale-105 text-white font-semibold text-sm sm:text-base shadow-lg shadow-pink-500/30 transition duration-300"
-        >
-          Shop Now
-        </button>
+        <button class="mt-6 sm:mt-8 inline-flex items-center justify-center px-6 py-3 rounded-full bg-pink-500 hover:bg-pink-600 hover:scale-105 text-white font-semibold text-sm sm:text-base shadow-lg shadow-pink-500/30 transition duration-300 hero-cta-btn focus-ring" id="hero-cta">Shop Now</button>
       </div>
     </div>
   </div>
 </section>
 
 <style>
+  :root{ --hdr-gap:16px; --hdr-pad-x:20px; --hdr-pad-y:12px; --nav-gap:32px; }
+  @media (min-width:768px){ :root{ --hdr-gap:18px; --hdr-pad-x:24px; --hdr-pad-y:14px; --nav-gap:36px; } }
+  @media (min-width:1280px){ :root{ --hdr-gap:20px; --hdr-pad-x:32px; --hdr-pad-y:16px; --nav-gap:40px; } }
 
-  .top-heading p{
-    color: var(--White, #FFF);
-/* font-family: Aeonik; */
-font-size: 18px;
-font-style: normal;
-font-weight: 500;
-line-height: normal;
+  .top-heading p{ color:#FFF; font-size:16px; font-weight:500; line-height:normal; }
+  @media (min-width:768px){ .top-heading p{ font-size:18px; } }
+
+  .focus-ring:focus-visible{ outline:2px solid rgba(236,72,153,.9); outline-offset:2px; border-radius:8px; }
+
+  /* MOBILE HEADER LAYOUT */
+  .header-row{ gap:var(--hdr-gap); padding:var(--hdr-pad-y) var(--hdr-pad-x); }
+  @media (max-width: 767px) {
+    .header-row { display:flex; align-items:center; justify-content:space-between; }
+    .mobile-menu-btn { order: 1; }
+    .logo-container { order: 2; flex: 1; display:flex; justify-content:center; }
+    .profile-icons-section { order: 3; }
+    .currency-language-section { display: none !important; }
+    .header-custom-icons { gap: 16px; }
+    .header-custom-icons img { width: 22px; height: 22px; }
   }
-   /* Custom styles for the mobile sidebar */
-#mobile-sidebar {
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+
+  /* RTL tweaks */
+  @media (max-width: 767px) {
+    html[dir="rtl"] .header-row, html.rtl-active .header-row { flex-direction: row; }
+    html[dir="rtl"] .mobile-menu-btn, html.rtl-active .mobile-menu-btn { order: 3; }
+    html[dir="rtl"] .logo-container, html.rtl-active .logo-container { order: 2; flex:1; display:flex; justify-content:center; }
+    html[dir="rtl"] .profile-icons-section, html.rtl-active .profile-icons-section { order: 1; }
+  }
+  @media (min-width:768px){
+    .header-row>.currency-language-section{ display:flex; order: 1; }
+    .header-row>.logo-container{ order: 2; flex: none; }
+    .header-row>.profile-icons-section{ order: 3; }
+    html[dir="rtl"] .header-row, html.rtl-active .header-row{ flex-direction:row-reverse; }
+    html[dir="rtl"] .currency-language-section, html.rtl-active .currency-language-section { order: 3; justify-content:flex-end; }
+    html[dir="rtl"] .logo-container, html.rtl-active .logo-container { order: 2; }
+    html[dir="rtl"] .profile-icons-section, html.rtl-active .profile-icons-section { order: 1; justify-content:flex-start; }
+  }
+  .header-custom-icons{ gap:18px; }
+  @media (max-width:640px){ .header-custom-icons{ gap:16px; } .header-custom-icons img{ width:22px; height:22px; } }
+  @media (min-width:1280px){ .header-custom-icons{ gap:22px; } }
+
+  /* HERO */
+  .hero-container{ justify-content: center !important; padding:40px 20px; }
+  .hero-content{ text-align: center !important; margin: 0 auto; }
+  @media (min-width:768px){
+    html[dir="ltr"] .hero-container, html:not([dir]), html:not([dir]) .hero-container{ justify-content:flex-start !important; }
+    html[dir="ltr"] #hero-content, html:not([dir]) #hero-content{ text-align:left !important; margin-left:0; margin-right:auto; }
+    html[dir="rtl"] .hero-container, html.rtl-active .hero-container{ justify-content:flex-end !important; }
+    html[dir="rtl"] #hero-content, html.rtl-active #hero-content{ text-align:right !important; margin-left:auto; margin-right:0; }
+  }
+  @media (min-width:1024px){ .hero-container{ padding:60px 40px; } }
+
+  /* Mobile Sidebar */
+  .mobile-sidebar-container{ box-shadow: 4px 0 25px rgba(0,0,0,0.3); }
+  .side-drawer { background: linear-gradient(135deg, #7c3aed 0%, #ec4899 50%, #3b82f6 100%); }
+  #mobile-sidebar.open{ transform:translateX(0); }
+  html[dir="rtl"] #mobile-sidebar{ transform:translateX(100%); right:0; left:auto; }
+  html[dir="rtl"] #mobile-sidebar.open{ transform:translateX(0); }
+  .mobile-sidebar-container { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+  .tap-overlay { transition: opacity 0.3s ease; }
+  .shop-accordion .dropdown-arrow{ transition:transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+  .shop-accordion.active .dropdown-arrow{ transform:rotate(180deg); }
+  .shop-submenu{ max-height:0; overflow:hidden; transition:max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+  .shop-accordion.active .shop-submenu{ max-height:600px; }
+  html[dir="rtl"] .shop-submenu{ padding-left:0; padding-right:2rem; }
+  html[dir="rtl"] .shop-accordion .dropdown-arrow{ transform:rotate(180deg); }
+  html[dir="rtl"] .shop-accordion.active .dropdown-arrow{ transform:rotate(0deg); }
+  .mobile-nav-link{ border-radius:12px; margin:4px 0; padding:12px 16px; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+  .mobile-nav-link:hover{ background:rgba(255,255,255,.15); transform: translateX(4px); }
+  .mobile-currency-language button { border-radius: 12px; backdrop-filter: blur(10px); }
+  .mobile-search-section input { border-radius: 12px; backdrop-filter: blur(10px); }
+
+  /* Desktop Navigation */
+  .nav-menu{ gap:var(--nav-gap); }
+  .nav-link,.mobile-nav-link,.submenu-link{
+    position:relative; color:rgba(255,255,255,.85); font-weight:500; font-size:18px;
+    text-decoration:none; transition:all .25s ease; display:inline-block; padding-bottom:12px;
+  }
+  .nav-link:hover,.mobile-nav-link:hover,.submenu-link:hover,
+  .nav-link.active,.mobile-nav-link.active,.submenu-link.active{ color:#fff; font-weight:600; }
+  .nav-link::after,.mobile-nav-link::after,.submenu-link::after{
+    content:''; position:absolute; bottom:-6px; left:50%; transform:translateX(-50%) scaleX(0);
+    width:100%; height:8px; z-index:6; background:url('{{ asset('images/hovervector.svg') }}') no-repeat center/contain;
+    opacity:0; transition:transform .25s ease,opacity .25s ease;
+    filter: none !important;
+  }
+  .nav-link:hover::after,.nav-link.active::after,
+  .mobile-nav-link:hover::after,.mobile-nav-link.active::after,
+  .submenu-link:hover::after,.submenu-link.active::after{ transform:translateX(-50%) scaleX(1); opacity:1; }
+
+  nav ul li ul{ opacity:0; visibility:hidden; transform:translateY(-8px); transition:all .22s ease; }
+  nav ul li:hover ul{ opacity:1; visibility:visible; transform:translateY(0); }
+  .dropdown-icon{ transition:transform .3s ease; margin-left:4px; }
+  .shop-menu-item.group:hover .dropdown-icon{ transform:rotate(180deg); }
+  .caret-arrow{ transform-origin:center; }
+  .sub-menu{ left:50%; transform:translateX(-50%); min-width:220px; }
+  html[dir="rtl"] .nav-menu{ flex-direction:row-reverse; }
+  html[dir="rtl"] .caret-arrow, html[dir="rtl"] .dropdown-icon{ transform:rotate(180deg); }
+  html[dir="rtl"] .shop-menu-item.group:hover .dropdown-icon{ transform:rotate(0deg); }
+  html[dir="rtl"] .sub-menu{ left:auto; right:0; transform:none; }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion:reduce){
+    *{ transition:none !important; animation:none !important; }
+  }
+
+  /* ===== Sticky Header + Scroll Color Switch ===== */
+  .store-header { position: sticky; top: 0; z-index: 9999; }
+  .store-header .header-bg-row {
+    background: transparent; color:#fff;
+    transition: background-color .25s ease, color .25s ease, border-color .25s ease;
+  }
+  .store-header nav{
+    background: transparent;
+    transition: background-color .25s ease, border-color .25s ease;
+  }
+  .store-header .nav-link { color: rgba(255,255,255,.85); }
+  .store-header .nav-link:hover, .store-header .nav-link.active { color:#fff; }
+  .store-header .sub-menu { background:#4A2C2A; color:rgba(255,255,255,.85); }
+
+  .store-header.scrolled .header-bg-row {
+    background:#fff; color:#000; border-bottom:1px solid rgba(0,0,0,.08);
+  }
+  .store-header.scrolled nav{
+    background:#fff;
+    border-bottom:1px solid rgba(0,0,0,.08);
+  }
+  .store-header.scrolled .nav-link { color: rgba(0,0,0,.8); }
+  .store-header.scrolled .nav-link:hover, .store-header.scrolled .nav-link.active { color:#000; }
+  .store-header.scrolled .sub-menu {
+    background:#fff; color:rgba(0,0,0,.85);
+    border:1px solid rgba(0,0,0,.06); box-shadow:0 10px 25px rgba(0,0,0,.08);
+  }
+  .store-header.scrolled .sub-menu .nav-link,
+  .store-header.scrolled .sub-menu .submenu-link { color:rgba(0,0,0,.75); }
+  .store-header.scrolled .sub-menu .submenu-link:hover { color:#000; }
+
+  .store-header .dropdown-icon, .store-header .caret-arrow { stroke: currentColor; }
+  .store-header.scrolled .dropdown-icon,
+  .store-header.scrolled .caret-arrow{ color: rgba(0,0,0,.85); }
+
+  .header-icon-img { transition: filter .2s ease, opacity .2s ease; }
+
+  /* Fallback if black icons not present (also for logo if no light src) */
+  .store-header.scrolled .header-custom-icons img:not([data-src-light]),
+  .store-header.scrolled .logo-container img:not([data-src-light]) {
+    filter: invert(1) grayscale(1) brightness(.1);
+  }
+
+  .store-header.scrolled .top-heading p { color:#000; }
+
+  /* Hover vector stays original */
+  .store-header.scrolled .nav-link::after,
+  .store-header.scrolled .submenu-link::after { filter: none !important; }
+
+  /* Mobile hamburger color control */
+  .store-header #mobile-menu-toggle { color:#fff; }
+  .store-header.scrolled #mobile-menu-toggle { color:#000; }
+  #mobile-menu-toggle svg { stroke: currentColor; }
+
+
+  /* scroll par pure white background enforce */
+.store-header.scrolled .header-bg-row,
+.store-header.scrolled nav {
+  background:#ffffff !important;
+  border-bottom:1px solid rgba(0,0,0,.08);
 }
 
-.shop-accordion button svg {
-    transition: transform 0.3s ease;
+/* links & icons ko dark karna */
+.store-header.scrolled .nav-link { color: rgba(0,0,0,.8) !important; }
+.store-header.scrolled .nav-link:hover,
+.store-header.scrolled .nav-link.active { color:#000 !important; }
+.store-header.scrolled .dropdown-icon,
+.store-header.scrolled .caret-arrow { color: rgba(0,0,0,.85) !important; }
+
+/* top announcement text ko dark (agar header ke andar hee chalta ho) */
+.store-header.scrolled .top-heading p { color:#000 !important; }
+
+/* scroll par pure white background enforce */
+.store-header.scrolled .header-bg-row,
+.store-header.scrolled nav {
+  background:#ffffff !important;
+  border-bottom:1px solid rgba(0,0,0,.08);
 }
 
-.shop-accordion.active button svg {
-    transform: rotate(180deg);
-}
+/* links & icons ko dark karna */
+.store-header.scrolled .nav-link { color: rgba(0,0,0,.8) !important; }
+.store-header.scrolled .nav-link:hover,
+.store-header.scrolled .nav-link.active { color:#000 !important; }
+.store-header.scrolled .dropdown-icon,
+.store-header.scrolled .caret-arrow { color: rgba(0,0,0,.85) !important; }
 
-.shop-submenu {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease;
-}
+/* top announcement text ko dark (agar header ke andar hee chalta ho) */
+.store-header.scrolled .top-heading p { color:#000 !important; }
 
-.shop-accordion.active .shop-submenu {
-    max-height: 500px;
-}
-
-/* Improved Underline Styles */
-.nav-link, .mobile-nav-link, .submenu-link {
-    position: relative;
-    color: rgba(255, 255, 255, 0.8);
-    font-weight: 500;
-    font-size: 20px;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    display: inline-block;
-    padding-bottom: 6px; /* space for underline */
-}
-
-.nav-link:hover, .mobile-nav-link:hover, .submenu-link:hover,
-.nav-link.active, .mobile-nav-link.active, .submenu-link.active {
-    color: #ffffff;
-    font-weight: 600;
-}
-
-/* Desktop Navigation Underline */
-.nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 30%;
-    transform: translateX(-50%) scaleX(0);
-    width: 59px;
-height: 6px;
-    background: url('{{ asset('images/underline.svg') }}') no-repeat center;
-    background-size: contain;
-    opacity: 0;
-    transition: all 0.3s ease;
-}
-
-.nav-link:hover::after,
-.nav-link.active::after {
-    transform: translateX(-50%) scaleX(1);
-    opacity: 1;
-}
-
-/* Mobile Navigation Underline */
-.mobile-nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: -2px; /* underline just below text */
-     left: 30%;
-    transform: translateX(-50%) scaleX(0);
-    width: 59px;
-height: 6px;
-    background: url('{{ asset('images/underline.svg') }}') no-repeat center;
-    background-size: contain;
-    opacity: 0;
-    transition: all 0.3s ease;
-}
-
-.mobile-nav-link:hover::after,
-.mobile-nav-link.active::after {
-    transform: translateX(-50%) scaleX(1);
-    opacity: 1;
-}
-
-/* ✅ Submenu (dropdown inside Shop) */
-.submenu-link {
-    display: inline-block; /* fix underline position */
-    padding: 8px 20px;
-    border-radius: 6px;
-    color: rgba(255, 255, 255, 0.8);
-    position: relative; /* anchor underline */
-    transition: all 0.3s ease;
-}
-
-.submenu-link:hover {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-/* ✅ Submenu underline fixed */
-.submenu-link::after {
-    content: '';
-    position: absolute;
-    bottom: -2px; /* exactly below text */
-    left: 30%;
-    transform: translateX(-50%) scaleX(0);
-    width: 59px;
-height: 6px;
-    background: url('{{ asset('images/underline.svg') }}') no-repeat center;
-    background-size: contain;
-    opacity: 0;
-    transition: all 0.3s ease;
-}
-
-.submenu-link:hover::after,
-.submenu-link.active::after {
-    transform: translateX(-50%) scaleX(1);
-    opacity: 1;
-}
-
-/* Improved Dropdown Styles */
-nav ul li ul {
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
-    transition: all 0.3s ease;
-}
-
-nav ul li:hover ul {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-/* Enhanced Mobile Sidebar Styles */
-#mobile-sidebar .bg-gradient-to-b {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-.mobile-nav-link {
-    border-radius: 8px;
-    margin: 2px 0;
-    padding: 6px 12px; /* better click area */
-    display: inline-block; /* underline center ke liye */
-    position: relative; /* underline ke anchor ke liye */
-}
-
-.mobile-nav-link:hover {
-    background: rgba(255, 255, 255, 0.1);
-}
 
 </style>
 
-
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Mobile menu toggle
-        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-        const mobileMenuClose = document.getElementById('mobile-menu-close');
-        const mobileSidebar = document.getElementById('mobile-sidebar');
-        const sidebarOverlay = document.getElementById('sidebar-overlay');
-        
-        if (mobileMenuToggle && mobileSidebar) {
-            mobileMenuToggle.addEventListener('click', function() {
-                mobileSidebar.classList.remove('-translate-x-full');
-                document.body.style.overflow = 'hidden';
-            });
-        }
-        
-        if (mobileMenuClose && mobileSidebar) {
-            mobileMenuClose.addEventListener('click', function() {
-                mobileSidebar.classList.add('-translate-x-full');
-                document.body.style.overflow = '';
-            });
-        }
-        
-        if (sidebarOverlay && mobileSidebar) {
-            sidebarOverlay.addEventListener('click', function() {
-                mobileSidebar.classList.add('-translate-x-full');
-                document.body.style.overflow = '';
-            });
-        }
-        
-        // Shop accordion in mobile menu
-        const shopAccordions = document.querySelectorAll('.shop-accordion');
-shopAccordions.forEach(accordion => {
-  const button = accordion.querySelector('button');
-  const submenu = accordion.querySelector('.shop-submenu');
+document.addEventListener("DOMContentLoaded", () => {
+  const htmlEl = document.documentElement;
+  let isRTL = (htmlEl.getAttribute('dir')||'').toLowerCase()==='rtl' || /ar/i.test(htmlEl.getAttribute('lang')||'');
 
-  button.addEventListener('click', function() {
-    accordion.classList.toggle('active');
+  // i18n map
+  const i18n = {
+    en:{ banner:"Free Shipping on Order above 300 SAR",
+      shop:"Shop", makeup:"Makeup", skincare:"Skincare", haircare:"Haircare", fragrance:"Fragrance",
+      best:"Best Sellers", gifts:"Gifts & Sets", about:"About MB",
+      m_home:"Home", m_shop:"Shop", m_about:"About Us",
+      search:"Search products...",
+      hero_kicker:"ALL YOU NEED IS LESS.", where:"Where", confidence:"Confidence", meets:"Meets", color:"Color", cta:"Shop Now",
+      currencyNames:{USD:"Dollar",SAR:"Riyal",EUR:"Euro",GBP:"Pound",AED:"Dirham"} },
+    ar:{ banner:"شحن مجاني للطلبات فوق 300 ريال",
+      shop:"تسوق", makeup:"مكياج", skincare:"العناية بالبشرة", haircare:"العناية بالشعر", fragrance:"العطور",
+      best:"الأكثر مبيعاً", gifts:"الهدايا والمجموعات", about:"عن MB",
+      m_home:"الرئيسية", m_shop:"تسوق", m_about:"من نحن",
+      search:"ابحث عن المنتجات...",
+      hero_kicker:"القليل يكفي.", where:"حيث", confidence:"الثقة", meets:"تلتقي", color:"الألوان", cta:"تسوق الآن",
+      currencyNames:{USD:"دولار",SAR:"ريال",EUR:"يورو",GBP:"جنيه",AED:"درهم"} }
+  };
+
+  const setTxt=(id,txt)=>{ const el=document.getElementById(id); if(el) el.textContent=txt; };
+
+  function applyTexts(){
+    const d=isRTL?i18n.ar:i18n.en;
+    setTxt('custom-banner-text', d.banner);
+    setTxt('nav-shop', d.shop); setTxt('nav-makeup', d.makeup); setTxt('nav-skincare', d.skincare);
+    setTxt('nav-haircare', d.haircare); setTxt('nav-fragrance', d.fragrance);
+    setTxt('nav-best', d.best); setTxt('nav-gifts', d.gifts); setTxt('nav-about', d.about);
+    setTxt('m-home', d.m_home); setTxt('m-shop', d.m_shop);
+    setTxt('m-makeup', d.makeup); setTxt('m-skincare', d.skincare);
+    setTxt('m-haircare', d.haircare); setTxt('m-fragrance', d.fragrance);
+    setTxt('m-best', d.best); setTxt('m-gifts', d.gifts); setTxt('m-about', d.m_about);
+    const mSearch=document.getElementById('m-search'); if(mSearch) mSearch.setAttribute('placeholder', d.search);
+    setTxt('hero-kicker', d.hero_kicker); setTxt('hero-where', d.where); setTxt('hero-confidence', d.confidence);
+    setTxt('hero-meets', d.meets); setTxt('hero-color', d.color); setTxt('hero-cta', d.cta);
+
+    const map=d.currencyNames;
+    const nameEl=document.getElementById('currency-name'); if(nameEl){ const code=(nameEl.textContent||'').trim().toUpperCase(); if(map[code]) nameEl.textContent=map[code]; }
+    const mNameEl=document.getElementById('mobile-currency-name'); if(mNameEl){ const code=(mNameEl.textContent||'').trim().toUpperCase(); if(map[code]) mNameEl.textContent=map[code]; }
+  }
+
+  // Sidebar controls
+  const sidebar   = document.getElementById('mobile-sidebar');
+  const openBtn   = document.getElementById('mobile-menu-toggle');
+  const closeBtn  = document.getElementById('mobile-menu-close');
+  const overlay   = document.getElementById('sidebar-overlay');
+
+  function openSidebar(){ if(!sidebar) return; sidebar.classList.add('open'); openBtn && openBtn.setAttribute('aria-expanded','true'); document.body.style.overflow='hidden'; document.documentElement.style.overflow='hidden'; }
+  function closeSidebar(){ if(!sidebar) return; sidebar.classList.remove('open'); openBtn && openBtn.setAttribute('aria-expanded','false'); document.body.style.overflow=''; document.documentElement.style.overflow=''; }
+  openBtn && openBtn.addEventListener('click', openSidebar);
+  closeBtn && closeBtn.addEventListener('click', closeSidebar);
+  overlay && overlay.addEventListener('click', closeSidebar);
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ closeSidebar(); }});
+  document.querySelectorAll('#mobile-sidebar a').forEach(a=>{ a.addEventListener('click', ()=> setTimeout(closeSidebar, 300)); });
+
+  // Mobile shop accordion
+  document.querySelectorAll('.shop-accordion').forEach(acc=>{
+    const btn=acc.querySelector('button'); const panel=acc.querySelector('.shop-submenu');
+    if(btn && panel){
+      btn.addEventListener('click',()=>{
+        const active=acc.classList.toggle('active'); panel.hidden=!active; btn.setAttribute('aria-expanded', String(active));
+      });
+    }
   });
-});
-        
-        // Banner text
-        const el = document.getElementById("custom-banner-text");
-        if (el) {
-            el.innerText = "Free Shipping on Order above 300 SAR";
-        }
-        
-        // Currency display update
-        if (typeof salla !== 'undefined') {
-            salla.event.on('currency::changed', function(currency) {
-                const symbolElement = document.getElementById('currency-symbol');
-                const nameElement = document.getElementById('currency-name');
-                const mobileSymbolElement = document.getElementById('mobile-currency-symbol');
-                const mobileNameElement = document.getElementById('mobile-currency-name');
-                
-                const symbols = {
-                    'USD': '$',
-                    'SAR': 'ر.س',
-                    'EUR': '€',
-                    'GBP': '£',
-                    'AED': 'د.إ'
-                };
-                
-                const names = {
-                    'USD': 'Dollar',
-                    'SAR': 'Riyal',
-                    'EUR': 'Euro',
-                    'GBP': 'Pound',
-                    'AED': 'Dirham'
-                };
-                
-                if (symbolElement && nameElement) {
-                    symbolElement.textContent = symbols[currency.code] || currency.symbol;
-                    nameElement.textContent = names[currency.code] || currency.code;
-                }
-                
-                if (mobileSymbolElement && mobileNameElement) {
-                    mobileSymbolElement.textContent = symbols[currency.code] || currency.symbol;
-                    mobileNameElement.textContent = names[currency.code] || currency.code;
-                }
-            });
-        }
+
+  // Salla events for currency and lang
+  if(typeof salla!=='undefined'){
+    salla.event.on('currency::changed', function(currency){
+      const symEl=document.getElementById('currency-symbol'); const nameEl=document.getElementById('currency-name');
+      const mSymEl=document.getElementById('mobile-currency-symbol'); const mNameEl=document.getElementById('mobile-currency-name');
+      const symbols={USD:'$',SAR:'ر.س',EUR:'€',GBP:'£',AED:'د.إ'}; const dict=isRTL?i18n.ar:i18n.en;
+      if(symEl) symEl.textContent = symbols[currency.code] || currency.symbol || '';
+      if(nameEl) nameEl.textContent = dict.currencyNames[currency.code] || currency.code || '';
+      if(mSymEl) mSymEl.textContent = symbols[currency.code] || currency.symbol || '';
+      if(mNameEl) mNameEl.textContent = dict.currencyNames[currency.code] || currency.code || '';
     });
+
+    salla.event.on('localization::changed', function(payload){
+      try{
+        const lang=(payload && payload.language && payload.language.code || '').toLowerCase();
+        isRTL = lang.startsWith('ar');
+        if(isRTL){ document.documentElement.classList.add('rtl-active'); document.documentElement.setAttribute('dir','rtl'); }
+        else { document.documentElement.classList.remove('rtl-active'); document.documentElement.setAttribute('dir','ltr'); }
+        applyTexts();
+        setTimeout(() => onScrollSwap(), 50);
+        closeSidebar();
+      }catch(e){}
+    });
+  }
+
+  const storeHeader = document.querySelector('.store-header');
+
+  /* --------- NEW: Preload + Improved Swap ---------- */
+  function preload(src) {
+    if (!src) return;
+    const img = new Image();
+    img.src = src;
+  }
+
+  // UPDATED: swap prefers data-src-default / data-src-scrolled; falls back to dark/light if present
+  function setIconMode(scrolled) {
+    const swapImgs = document.querySelectorAll('.header-swap'); // only header-targeted imgs
+    swapImgs.forEach(img => {
+      const defSrc     = img.getAttribute('data-src-default');
+      const scrollSrc  = img.getAttribute('data-src-scrolled');
+      const darkSrc    = img.getAttribute('data-src-dark');   // fallback
+      const lightSrc   = img.getAttribute('data-src-light');  // fallback
+
+      let nextSrc;
+      if (scrolled && (scrollSrc || lightSrc)) {
+        nextSrc = scrollSrc || lightSrc;
+      } else {
+        nextSrc = defSrc || darkSrc || img.getAttribute('src');
+      }
+      if (nextSrc && img.src !== nextSrc) img.src = nextSrc;
+    });
+  }
+
+  function onScrollSwap() {
+    const scrolled = window.scrollY > 10;
+    if (!storeHeader) return;
+    if (scrolled) storeHeader.classList.add('scrolled');
+    else storeHeader.classList.remove('scrolled');
+    setIconMode(scrolled);
+  }
+
+  // Initialize
+  if(isRTL){ document.documentElement.classList.add('rtl-active'); document.documentElement.setAttribute('dir','rtl'); }
+  else { document.documentElement.setAttribute('dir','ltr'); }
+  applyTexts();
+
+  // Preload scrolled variants to avoid flicker
+  document.querySelectorAll('.header-swap').forEach(img => {
+    const s = img.getAttribute('data-src-scrolled');
+    if (s) preload(s);
+  });
+
+  onScrollSwap();
+  window.addEventListener('scroll', onScrollSwap, { passive: true });
+});
 </script>
