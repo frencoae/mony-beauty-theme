@@ -1,10 +1,9 @@
 {
     "name": {
-        "en": "Mony Beauty",
-        "ar": "Mony Beauty"
-        
+        "ar": "Mony Beauty",
+        "en": "Mony Beauty"
     },
-    "repository": "https://github.com/arslanshahid-com/mony-beauty",
+    "repository": "https://github.com/frencoae/mony-beauty-theme",
     "author_email": "shameel@frenco.ae",
     "features": [
         "mega-menu",
@@ -1043,9 +1042,9 @@
             ]
         }
     ],
-    "support_url": "https://example.com",
+    "support_url": "https://frenco.ae",
     "description": {
-        "en": "",
-        "ar": ""
+        "ar": "",
+        "en": ""
     }
 }
