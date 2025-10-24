@@ -279,33 +279,33 @@ html[dir="rtl"] .marquee.marquee--reverse .marquee__track {
   </div>
 
   <!-- Top Section: Camera + Thumbnails -->
-  <div class="flex flex-col lg:flex-row items-center justify-between gap-10">
+  <div class="flex flex-col lg:flex-row items-center justify-between ">
 
     <!-- Thumbnails Section -->
     <div class="relative w-full overflow-hidden">
       <div class="flex animate-infinite-scroll">
         <!-- Original Images -->
-        <div class="flex gap-4">
-          <div class="min-w-[250px] rounded-md overflow-hidden">
+        <div class="flex">
+          <div class="min-w-[50px] rounded-md overflow-hidden">
             <img src="{{asset('images/review-3.jpg')}}" alt="Thumbnail 1" class="w-full h-full object-cover"/>
           </div>
-          <div class="min-w-[250px] rounded-md overflow-hidden">
+          <div class="min-w-[50px] rounded-md overflow-hidden">
             <img src="{{asset('images/review-2.jpg')}}" alt="Thumbnail 2" class="w-full h-full object-cover"/>
           </div>
-          <div class="min-w-[250px] rounded-md overflow-hidden">
+          <div class="min-w-[50px] rounded-md overflow-hidden">
             <img src="{{asset('images/review-3.jpg')}}" alt="Thumbnail 3" class="w-full h-full object-cover"/>
           </div>
         </div>
 
         <!-- Duplicate Images for Seamless Loop -->
-        <div class="flex gap-4">
-          <div class="min-w-[250px] rounded-md overflow-hidden">
+        <div class="flex gap-">
+          <div class="min-w-[50px] rounded-md overflow-hidden">
             <img src="{{asset('images/review-3.jpg')}}" alt="Thumbnail 1 duplicate" class="w-full h-full object-cover"/>
           </div>
-          <div class="min-w-[250px] rounded-md overflow-hidden">
+          <div class="min-w-[50px] rounded-md overflow-hidden">
             <img src="{{asset('images/review-2.jpg')}}" alt="Thumbnail 2 duplicate" class="w-full h-full object-cover"/>
           </div>
-          <div class="min-w-[250px] rounded-md overflow-hidden">
+          <div class="min-w-[50px] rounded-md overflow-hidden">
             <img src="{{asset('images/review-3.jpg')}}" alt="Thumbnail 3 duplicate" class="w-full h-full object-cover"/>
           </div>
         </div>
@@ -313,8 +313,8 @@ html[dir="rtl"] .marquee.marquee--reverse .marquee__track {
     </div>
 
     <!-- Camera Mockup -->
-    <div class="relative w-[400px] flex-shrink-0">
-      <img src="{{asset('images/review-4.png')}}" alt="Camera mockup" class="w-full h-auto" />
+    <div class=" min-w-[300px] flex-shrink-0">
+      <img src="{{asset('images/review-4.png')}}" alt="Camera mockup" class="w-full h-full" />
     </div>
   </div>
 </section>
@@ -349,70 +349,104 @@ html[dir="rtl"] .marquee.marquee--reverse .marquee__track {
 }
 </style>
 
-  <section class="py-16">
-    <div class="container">
+<section class="py-16">
+  <div class="container mx-auto px-4">
+    
+    <!-- Centered Title -->
+   <h2 class="relative text-center text-3xl md:text-4xl font-serif font-bold mb-12 leading-tight text-black">
+                The
+                <span class="relative inline-block bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+                    Star
+                    <!-- Decorative Vector Underline -->
+                    <img src="{{asset('images/hovervector.svg')}}" alt="Decorative underline" class="absolute left-1/2 -translate-x-1/2 bottom-[-6px] w-24 md:w-32" style="stroke: #2746AA; stroke-width: 2px; filter: brightness(0) saturate(100%) invert(12%) sepia(79%) saturate(1093%) hue-rotate(203deg) brightness(95%) contrast(91%);" />
+                </span>
+                of Your Routine
+            </h2>
 
-      <!-- Centered Title -->
-      <!-- Title -->
-    <h2 id="star-routine-title" class="text-center text-3xl md:text-4xl font-serif font-bold mb-8">
-      The 
-      <span class="bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
-        Star
-      </span> 
-      of Your Routine
-    </h2>
+    <!-- Responsive Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
 
-      <!-- Content Grid -->
-      <div class="grid lg:grid-cols-2 gap-10 items-center">
-        
-        <!-- Left Content -->
-        <div>
-          <!-- Product Name -->
-          <h3 id="product-name" class="text-xl font-semibold text-gray-900 mb-2">
-            Blushin' sweet Cheek and Lip Tint
-          </h3>
-
-          <!-- Price -->
-    <p class="text-pink-600 font-bold mb-3 font-sans">
-      89 SAR <span id="tax-included" class="text-sm text-gray-500 font-medium">Tax Included</span>
-    </p>
-
-          <!-- Description -->
-          <p id="desc1" class="text-gray-600 mb-3 leading-relaxed">
-            A buildable lightweight Cheek and Lip Tint, that gives you the natural matte color 
-        you’ve been looking for this summer!
-          </p>
-          <p id="desc2" class="text-gray-600 mb-3 leading-relaxed">
-              This easy-to-apply tint will be your go-to product that never leaves your purse this summer.
-          </p>
-          <p id="desc3" class="text-gray-600 mb-6 leading-relaxed">
-               Its long-lasting hydrating formula will make it your favorite. It’s the...
-          </p>
-          <p id="desc4" class="text-gray-600 mb-6 leading-relaxed">
-                  MAKE products are formulated using botanical and Botanically-derived ingredients 
-        and tested synthetic ingredients.
-          </p>
-
-       
-        <!-- Button -->
-    <button id="buy-it-now" class="bg-pink-500 w-full hover:bg-pink-600 text-white font-semibold py-3 px-10 rounded-full transition duration-300">
-      Buy It Now
-    </button>
-        </div>
-
-        <!-- Right Image -->
-        <div class="rounded-lg overflow-hidden shadow-lg">
+      <!-- Right Image (on mobile this comes first) -->
+      <div class="order-1 lg:order-2 flex justify-center">
+        <div class="rounded-lg overflow-hidden shadow-lg max-w-xs md:max-w-sm lg:max-w-md">
           <img 
             src="{{asset('images/Blushin.jpg')}}"
             alt="Product model closeup"
-            class="w-full h-full object-cover"
+            class="w-full h-auto object-cover"
           />
         </div>
       </div>
+
+      <!-- Left Content (on mobile this comes second) -->
+      <div class="order-2 lg:order-1">
+        <!-- Product Name -->
+        <h3 id="product-name" class="text-xl font-semibold text-gray-900 mb-2">
+          Blushin' Sweet Cheek and Lip Tint
+        </h3>
+
+        <!-- Price -->
+        <p class="text-pink-600 font-bold mb-3 font-sans">
+          89 SAR <span id="tax-included" class="text-sm text-gray-500 font-medium">Tax Included</span>
+        </p>
+
+        <!-- Description -->
+        <p id="desc1" class="text-gray-600 mb-3 leading-relaxed">
+          A buildable lightweight Cheek and Lip Tint that gives you the natural matte color 
+          you’ve been looking for this summer!
+        </p>
+        <p id="desc2" class="text-gray-600 mb-3 leading-relaxed">
+          This easy-to-apply tint will be your go-to product that never leaves your purse this summer.
+        </p>
+        <p id="desc3" class="text-gray-600 mb-6 leading-relaxed">
+          Its long-lasting hydrating formula will make it your favorite. It’s the...
+        </p>
+        <p id="desc4" class="text-gray-600 mb-6 leading-relaxed">
+          MAKE products are formulated using botanical and botanically-derived ingredients 
+          and tested synthetic ingredients.
+        </p>
+
+        <!-- Button -->
+        <button id="buy-it-now" class="bg-pink-500 w-full hover:bg-pink-600 text-white font-semibold py-3 px-10 rounded-full transition duration-300">
+          Buy It Now
+        </button>
+      </div>
     </div>
-  </sectio>
+  </div>
+</section>
 
+<style>
+/* Responsive Enhancements */
+@media (max-width: 1024px) {
+  #star-routine-title {
+    font-size: 1.75rem;
+  }
+}
 
+@media (max-width: 768px) {
+  section {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+  #product-name {
+    text-align: center;
+  }
+  #buy-it-now {
+    width: 100%;
+  }
+  #desc1, #desc2, #desc3, #desc4 {
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  h2 {
+    font-size: 1.5rem;
+  }
+  p {
+    font-size: 0.95rem;
+  }
+}
+</style>
 
 
 <section class="py-16">

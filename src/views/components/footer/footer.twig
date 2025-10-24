@@ -72,84 +72,83 @@
 
 
 
-
 <footer class="bg-white text-gray-700">
 	<section class="footer-bg text-white py-6">
 		<div class="container">
 			<div class="grid grid-cols-1 md:grid-cols-4 gap-6 text-center">
-				<div class="flex flex-row items-center">
-					<img src="{{ asset('images/Secure-payment.png') }}" alt="Secure Payment" class="w-8 h-8 mr-3 rounded-full object-cover"/>
-					<p class="font-bold px-2 m-0">Secure Payment</p>
+				<div class="flex flex-row items-center justify-center">
+					<img src="{{ asset('images/Secure-payment.png') }}" alt="Secure Payment" class="w-8 h-8 me-3 rounded-full object-cover"/>
+					<p class="font-bold px-2 m-0 footer-text" data-key="secure_payment">Secure Payment</p>
 				</div>
-				<div class="flex flex-row items-center">
-					<img src="{{ asset('images/Fast-delivery.png')}}" alt="Fast Delivery!" class="w-8 h-8 mr-3 rounded-full object-cover"/>
-					<p class="font-bold px-2 m-0">Fast Delivery!</p>
+				<div class="flex flex-row items-center justify-center">
+					<img src="{{ asset('images/Fast-delivery.png')}}" alt="Fast Delivery" class="w-8 h-8 me-3 rounded-full object-cover"/>
+					<p class="font-bold px-2 m-0 footer-text" data-key="fast_delivery">Fast Delivery!</p>
 				</div>
-				<div class="flex flex-row items-center">
-					<img src="{{ asset('images/Customer-service.png') }}" alt="Customer Service" class="w-8 h-8 mr-3 rounded-full object-cover"/>
-					<p class="font-bold px-2 m-0">Customer Service</p>
+				<div class="flex flex-row items-center justify-center">
+					<img src="{{ asset('images/Customer-service.png') }}" alt="Customer Service" class="w-8 h-8 me-3 rounded-full object-cover"/>
+					<p class="font-bold px-2 m-0 footer-text" data-key="customer_service">Customer Service</p>
 				</div>
-				<div class="flex flex-row items-center">
-					<img src="{{ asset('images/Quality-assurance.png') }}" alt="Quality Assurance" class="w-8 h-8 mr-3 rounded-full object-cover"/>
-					<p class="font-bold px-2 m-0">Quality Assurance</p>
+				<div class="flex flex-row items-center justify-center">
+					<img src="{{ asset('images/Quality-assurance.png') }}" alt="Quality Assurance" class="w-8 h-8 me-3 rounded-full object-cover"/>
+					<p class="font-bold px-2 m-0 footer-text" data-key="quality_assurance">Quality Assurance</p>
 				</div>
 			</div>
 		</div>
 	</section>
+  
   <div class="container px-6 grid grid-cols-1 md:grid-cols-5 gap-8 mt-10">
-
     <!-- Brand Info -->
     <div>
-      <div class="text-2xl font-light tracking-widest">MONY BEAUTY</div>
-      <p class="text-sm leading-relaxed mb-4">
+      <div class="text-2xl font-light tracking-widest footer-text" data-key="brand_name">MONY BEAUTY</div>
+      <p class="text-sm leading-relaxed mb-4 footer-text" data-key="brand_description">
         Mony Beauty is a makeup brand created with love in South Korea after years of research and development under the supervision of the beauty icon Amani Alhenti
       </p>
       <!-- Social Icons -->
       <div class="flex gap-3 text-2xl text-emerald-600">
         <img src="{{ asset('images/insta-icon.svg') }}" alt="Instagram" class="w-6 h-6 object-cover"/>
-        <img src="{{ asset('images/ticktok-icon.svg') }}" alt="Ticktok" class="w-6 h-6 object-cover"/>
+        <img src="{{ asset('images/ticktok-icon.svg') }}" alt="TikTok" class="w-6 h-6 object-cover"/>
         <img src="{{ asset('images/bell-icon.svg') }}" alt="Bell" class="w-6 h-6 object-cover"/>
       </div>
     </div>
 
     <!-- Shop -->
     <div>
-      <h3 class="font-semibold mb-3">Shop</h3>
+      <h3 class="font-semibold mb-3 footer-text" data-key="shop">Shop</h3>
       <ul class="space-y-2 text-sm">
-        <li>All Product</li>
-        <li>Best Sellers</li>
-        <li>Gift Card</li>
+        <li class="footer-text" data-key="all_products">All Product</li>
+        <li class="footer-text" data-key="best_sellers">Best Sellers</li>
+        <li class="footer-text" data-key="gift_card">Gift Card</li>
       </ul>
     </div>
 
     <!-- Information -->
     <div>
-      <h3 class="font-semibold mb-3">Information</h3>
+      <h3 class="font-semibold mb-3 footer-text" data-key="information">Information</h3>
       <ul class="space-y-2 text-sm">
-        <li>FAQ’s</li>
-        <li>Affiliate</li>
-        <li>Job opportunities</li>
+        <li class="footer-text" data-key="faqs">FAQ's</li>
+        <li class="footer-text" data-key="affiliate">Affiliate</li>
+        <li class="footer-text" data-key="job_opportunities">Job opportunities</li>
       </ul>
     </div>
 
     <!-- About -->
     <div>
-      <h3 class="font-semibold mb-3">About</h3>
+      <h3 class="font-semibold mb-3 footer-text" data-key="about">About</h3>
       <ul class="space-y-2 text-sm">
-        <li>Our Story</li>
-        <li>MB community</li>
+        <li class="footer-text" data-key="our_story">Our Story</li>
+        <li class="footer-text" data-key="mb_community">MB community</li>
       </ul>
     </div>
 
     <!-- Contact -->
     <div>
-      <h3 class="font-semibold mb-3">Contact</h3>
+      <h3 class="font-semibold mb-3 footer-text" data-key="contact">Contact</h3>
       <ul class="space-y-3 text-sm">
-        <li class="flex items-center space-x-2">
+        <li class="flex items-center space-x-2 rtl:space-x-reverse">
           <i class="fab fa-whatsapp text-green-500"></i>
           <span>+96650719333</span>
         </li>
-        <li class="flex items-center space-x-2">
+        <li class="flex items-center space-x-2 rtl:space-x-reverse">
           <i class="fas fa-envelope text-gray-500"></i>
           <span>info@MBbyAmani.com</span>
         </li>
@@ -161,22 +160,146 @@
   <div class="border-t mt-8 pt-4">
 	<div class="container">
 		<div class="text-sm text-gray-600 flex flex-col md:flex-row justify-between items-center px-6">
-			<div class="flex space-x-6">
-			<a href="#" class="bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 bg-clip-text text-transparent ml-4">Privacy Policy</a>
-			<a href="#" class="bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 bg-clip-text text-transparent ml-4">Terms and Condition</a>
+			<div class="flex space-x-6 rtl:space-x-reverse">
+				<a href="#" class="bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 bg-clip-text text-transparent footer-text" data-key="privacy_policy">Privacy Policy</a>
+				<a href="#" class="bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 bg-clip-text text-transparent footer-text" data-key="terms_conditions">Terms and Condition</a>
 			</div>
-			<p class="mt-4 md:mt-0">Copyright | 2025 Mony Beauty</p>
+			<p class="mt-4 md:mt-0 footer-text" data-key="copyright">Copyright | 2025 Mony Beauty</p>
 			<!-- Payment Icons -->
 			<div class="flex gap-2 text-xl mt-4 md:mt-0">
-				<img src="{{ asset('images/mada-icon.svg') }}"/>
-				<img src="{{ asset('images/visa-icon.svg') }}"/>
-				<img src="{{ asset('images/bank-icon.svg') }}"/>
-				<img src="{{ asset('images/pay-icon.svg') }}"/>
-				<img src="{{ asset('images/gpay-icon.svg') }}"/>
-			
+				<img src="{{ asset('images/mada-icon.svg') }}" alt="Mada"/>
+				<img src="{{ asset('images/visa-icon.svg') }}" alt="Visa"/>
+				<img src="{{ asset('images/bank-icon.svg') }}" alt="Bank"/>
+				<img src="{{ asset('images/pay-icon.svg') }}" alt="Pay"/>
+				<img src="{{ asset('images/gpay-icon.svg') }}" alt="Google Pay"/>
 			</div>
 		</div>
 	</div>
   </div>
-  
 </footer>
+
+<style>
+/* Footer RTL Support */
+.rtl-active .footer-bg .flex {
+  flex-direction: row-reverse;
+}
+
+.rtl-active .footer-bg img {
+  margin-right: 0;
+  margin-left: 0.75rem;
+}
+
+.rtl-active .contact-info li {
+  direction: ltr;
+  text-align: right;
+}
+
+/* Ensure proper text alignment for RTL */
+.rtl-active .text-left {
+  text-align: right;
+}
+
+.rtl-active .text-right {
+  text-align: left;
+}
+
+/* Flex direction adjustments for RTL */
+.rtl-active .flex-row {
+  flex-direction: row-reverse;
+}
+
+/* Space adjustments for RTL */
+.rtl-active .space-x-2 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 1;
+}
+
+.rtl-active .space-x-6 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 1;
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // Footer i18n
+  const footerI18n = {
+    en: {
+      secure_payment: "Secure Payment",
+      fast_delivery: "Fast Delivery!",
+      customer_service: "Customer Service",
+      quality_assurance: "Quality Assurance",
+      brand_name: "MONY BEAUTY",
+      brand_description: "Mony Beauty is a makeup brand created with love in South Korea after years of research and development under the supervision of the beauty icon Amani Alhenti",
+      shop: "Shop",
+      all_products: "All Product",
+      best_sellers: "Best Sellers",
+      gift_card: "Gift Card",
+      information: "Information",
+      faqs: "FAQ's",
+      affiliate: "Affiliate",
+      job_opportunities: "Job opportunities",
+      about: "About",
+      our_story: "Our Story",
+      mb_community: "MB community",
+      contact: "Contact",
+      privacy_policy: "Privacy Policy",
+      terms_conditions: "Terms and Condition",
+      copyright: "Copyright | 2025 Mony Beauty"
+    },
+    ar: {
+      secure_payment: "دفع آمن",
+      fast_delivery: "توصيل سريع!",
+      customer_service: "خدمة العملاء",
+      quality_assurance: "ضمان الجودة",
+      brand_name: "موني بيوتي",
+      brand_description: "موني بيوتي هي علامة تجارية للمكياج تم إنشاؤها بحب في كوريا الجنوبية بعد سنوات من البحث والتطوير تحت إشراف أيقونة الجمال أماني الحنتي",
+      shop: "تسوق",
+      all_products: "جميع المنتجات",
+      best_sellers: "الأكثر مبيعاً",
+      gift_card: "بطاقة هدية",
+      information: "معلومات",
+      faqs: "الأسئلة الشائعة",
+      affiliate: "الشركاء",
+      job_opportunities: "فرص العمل",
+      about: "من نحن",
+      our_story: "قصتنا",
+      mb_community: "مجتمع MB",
+      contact: "اتصل بنا",
+      privacy_policy: "سياسة الخصوصية",
+      terms_conditions: "الشروط والأحكام",
+      copyright: "حقوق الطبع | 2025 موني بيوتي"
+    }
+  };
+
+  function updateFooterTexts(isRTL) {
+    const langData = isRTL ? footerI18n.ar : footerI18n.en;
+    const footerTexts = document.querySelectorAll('.footer-text');
+    
+    footerTexts.forEach(element => {
+      const key = element.getAttribute('data-key');
+      if (key && langData[key]) {
+        element.textContent = langData[key];
+      }
+    });
+  }
+
+  // Check initial language
+  const htmlEl = document.documentElement;
+  let isRTL = (htmlEl.getAttribute('dir') || '').toLowerCase() === 'rtl' || /ar/i.test(htmlEl.getAttribute('lang') || '');
+
+  // Apply initial footer texts
+  updateFooterTexts(isRTL);
+
+  // Listen for language changes (Salla event)
+  if (typeof salla !== 'undefined') {
+    salla.event.on('localization::changed', function(payload) {
+      try {
+        const lang = (payload && payload.language && payload.language.code || '').toLowerCase();
+        isRTL = lang.startsWith('ar');
+        updateFooterTexts(isRTL);
+      } catch(e) {
+        console.error('Footer language change error:', e);
+      }
+    });
+  }
+});
+</script>
