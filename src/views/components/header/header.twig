@@ -1,3 +1,4 @@
+
 {% set currency_names = {
   'USD': 'Dollar',
   'SAR': 'Riyal',
@@ -37,19 +38,19 @@
         <div class="hidden md:flex header-buttons currency-language-section">
           {% if store.settings.is_multilingual or store.settings.currencies_enabled %}
           <button type="button" onclick="salla.event.dispatch('localization::open')" class="basis-0 focus-ring" aria-label="Change language or currency">
-            <div class="flex items-center space-x-6 lang-currency-container">
+            <div class="flex items-center space-x-6 rtl:space-x-reverse lang-currency-container">
               <!-- Language -->
-              <div class="flex items-center space-x-1 cursor-pointer lang-btn">
+              <div class="flex items-center space-x-1 rtl:space-x-reverse cursor-pointer lang-btn">
                 <span class="flag iti__flag iti__{{ user.language.country_code }} rounded-sm" style="transform:scale(1.5); font-size:20px; margin-inline-end:10px;"></span>
-                <span style="margin-inline-end:8px; font-size:18px;">{{ language.name }}</span>
+                <span style="margin-inline-end:8px; font-size:18px;" class="lang-name">{{ language.name }}</span>
                 <svg class="w-4 h-4 caret-arrow" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M19 9l-7 7-7-7"/>
                 </svg>
               </div>
               <!-- Currency -->
-              <div class="flex items-center space-x-1 cursor-pointer" id="currency-display">
+              <div class="flex items-center space-x-1 rtl:space-x-reverse cursor-pointer" id="currency-display">
                 <span id="currency-symbol" style="font-size:20px;">{{ currency_symbols[currency.code] ?? currency.symbol }}</span>
-                <span style="font-size:18px;" id="currency-name">{{ currency_names[currency.code] ?? currency.code }}</span>
+                <span style="font-size:18px;" id="currency-name" class="currency-name">{{ currency_names[currency.code] ?? currency.code }}</span>
                 <svg class="w-4 h-4 caret-arrow" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M19 9l-7 7-7-7"/>
                 </svg>
@@ -60,7 +61,7 @@
           {% endif %}
         </div>
 
-        <!-- Center: Logo (SWAP-READY) -->
+        <!-- Center: Logo -->
         <div class="flex justify-center items-center flex-1 md:flex-none logo-container">
           <img
             src="{{ asset('images/logo.png') }}"
@@ -122,18 +123,18 @@
     <nav class="hidden md:block w-full bg-transparent" aria-label="Main Navigation">
       <ul class="max-w-7xl mx-auto flex items-center justify-center gap-8 py-2 px-4 text-white/80 nav-menu" style="font-size:16px; font-weight:400;">
         <li class="relative group shop-menu-item">
-          <div class="flex items-center space-x-1">
+          <div class="flex items-center space-x-1 rtl:space-x-reverse">
             <a href="/shop" class="nav-link hover:text-white hover:font-semibold transition relative py-1 block" id="nav-shop">Shop</a>
             <svg class="w-4 h-4 dropdown-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
             </svg>
             <div class="hover-vector"></div>
           </div>
-          <ul class="absolute hidden group-hover:block bg-[#4A2C2A] text-white/80 rounded-md shadow-lg min-w-[200px] z-20 top-full left-1/2 transform -translate-x-1/2 py-2 sub-menu">
-            <li><a href="/shop/makeup" class="nav-link block px-4 py-2 hover:text-white hover:font-semibold transition relative" id="nav-makeup">Makeup</a><div class="hover-vector"></div></li>
-            <li><a href="/shop/skincare" class="nav-link block px-4 py-2 hover:text-white hover:font-semibold transition relative" id="nav-skincare">Skincare</a><div class="hover-vector"></div></li>
-            <li><a href="/shop/haircare" class="nav-link block px-4 py-2 hover:text-white hover:font-semibold transition relative" id="nav-haircare">Haircare</a><div class="hover-vector"></div></li>
-            <li><a href="/shop/fragrance" class="nav-link block px-4 py-2 hover:text-white hover:font-semibold transition relative" id="nav-fragrance">Fragrance</a><div class="hover-vector"></div></li>
+          <ul class="absolute hidden group-hover:block bg-[#4A2C2A] text-white/80 rounded-md shadow-lg min-w-[200px] z-20 top-full left-1/2 transform -translate-x-1/2 py-2 sub-menu rtl:left-auto rtl:right-0 rtl:transform-none">
+            <li><a href="/shop/makeup" class="nav-link block px-4 py-2 hover:text-white hover:font-semibold transition relative text-start" id="nav-makeup">Makeup</a><div class="hover-vector"></div></li>
+            <li><a href="/shop/skincare" class="nav-link block px-4 py-2 hover:text-white hover:font-semibold transition relative text-start" id="nav-skincare">Skincare</a><div class="hover-vector"></div></li>
+            <li><a href="/shop/haircare" class="nav-link block px-4 py-2 hover:text-white hover:font-semibold transition relative text-start" id="nav-haircare">Haircare</a><div class="hover-vector"></div></li>
+            <li><a href="/shop/fragrance" class="nav-link block px-4 py-2 hover:text-white hover:font-semibold transition relative text-start" id="nav-fragrance">Fragrance</a><div class="hover-vector"></div></li>
           </ul>
         </li>
         <li><a href="/best-sellers" class="nav-link hover:text-white hover:font-semibold transition relative py-1 block" id="nav-best">Best Sellers</a><div class="hover-vector"></div></li>
@@ -165,15 +166,15 @@
         {% if store.settings.is_multilingual or store.settings.currencies_enabled %}
         <button type="button" onclick="salla.event.dispatch('localization::open')" class="w-full p-3 bg-white/10 hover:bg-white/15 rounded-xl transition-all duration-200 focus-ring group" aria-label="Change language or currency">
           <div class="flex items-center justify-between lang-currency-container">
-            <div class="flex items-center space-x-3">
-              <div class="flex items-center space-x-2 cursor-pointer">
+            <div class="flex items-center space-x-3 rtl:space-x-reverse">
+              <div class="flex items-center space-x-2 rtl:space-x-reverse cursor-pointer">
                 <span class="flag iti__flag iti__{{ user.language.country_code }} rounded-sm shadow-md" style="transform:scale(1.3);"></span>
-                <span style="font-size:16px; font-weight:500;">{{ language.name }}</span>
+                <span style="font-size:16px; font-weight:500;" class="lang-name">{{ language.name }}</span>
               </div>
               <div class="w-px h-6 bg-white/30"></div>
-              <div class="flex items-center space-x-2 cursor-pointer" id="mobile-currency-display">
+              <div class="flex items-center space-x-2 rtl:space-x-reverse cursor-pointer" id="mobile-currency-display">
                 <span id="mobile-currency-symbol" style="font-size:16px; font-weight:500;">{{ currency_symbols[currency.code] ?? currency.symbol }}</span>
-                <span style="font-size:16px; font-weight:500;" id="mobile-currency-name">{{ currency_names[currency.code] ?? currency.code }}</span>
+                <span style="font-size:16px; font-weight:500;" id="mobile-currency-name" class="currency-name">{{ currency_names[currency.code] ?? currency.code }}</span>
               </div>
             </div>
             <svg class="w-5 h-5 text-white transform transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -189,7 +190,7 @@
         <ul class="space-y-1">
           <li>
             <a href="/" class="mobile-nav-link flex items-center py-4 px-4 text-lg font-semibold text-white/90 hover:text-white hover:bg-white/10 rounded-xl transition-all duration-200 relative block focus-ring group" id="m-home">
-              <svg class="w-6 h-6 mr-3 text-white/80 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-6 h-6 me-3 text-white/80 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
               </svg>
               <span>Home</span>
@@ -201,37 +202,34 @@
             <div class="shop-accordion">
               <button type="button" class="flex items-center justify-between w-full py-4 px-4 text-lg font-semibold text-white/90 hover:text-white hover:bg-white/10 rounded-xl transition-all duration-200 relative block focus-ring group" id="m-shop-btn" aria-expanded="false" aria-controls="m-shop-panel">
                 <div class="flex items-center">
-                  <svg class="w-6 h-6 mr-3 text-white/80 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
-                  </svg>
                   <span id="m-shop">Shop</span>
                 </div>
                 <svg class="w-5 h-5 transition-transform duration-300 dropdown-arrow text-white/80 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                 </svg>
               </button>
-              <div class="shop-submenu pl-8 mt-1 space-y-1" id="m-shop-panel" hidden>
+              <div class="shop-submenu ps-8 mt-1 space-y-1" id="m-shop-panel" hidden>
                 <a href="/shop/makeup" class="submenu-link flex items-center py-3 px-4 text-white/80 hover:text-white hover:bg-white/5 rounded-lg transition-all duration-200 relative focus-ring group" id="m-makeup">
-                  <svg class="w-5 h-5 mr-3 text-white/60 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg class="w-5 h-5 me-3 text-white/60 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4"/>
                   </svg>
                   <span>Makeup</span>
                 </a>
                 <a href="/shop/skincare" class="submenu-link flex items-center py-3 px-4 text-white/80 hover:text-white hover:bg-white/5 rounded-lg transition-all duration-200 relative focus-ring group" id="m-skincare">
-                  <svg class="w-5 h-5 mr-3 text-white/60 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg class="w-5 h-5 me-3 text-white/60 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                   </svg>
                   <span>Skincare</span>
                 </a>
                 <a href="/shop/haircare" class="submenu-link flex items-center py-3 px-4 text-white/80 hover:text-white hover:bg-white/5 rounded-lg transition-colors relative focus-ring group" id="m-haircare">
-                  <svg class="w-5 h-5 mr-3 text-white/60 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg class="w-5 h-5 me-3 text-white/60 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                   </svg>
                   <span>Haircare</span>
                 </a>
                 <a href="/shop/fragrance" class="submenu-link flex items-center py-3 px-4 text-white/80 hover:text-white hover:bg-white/5 rounded-lg transition-colors relative focus-ring group" id="m-fragrance">
-                  <svg class="w-5 h-5 mr-3 text-white/60 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg class="w-5 h-5 me-3 text-white/60 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
                   </svg>
                   <span>Fragrance</span>
@@ -242,7 +240,7 @@
 
           <li>
             <a href="/best-sellers" class="mobile-nav-link flex items-center py-4 px-4 text-lg font-semibold text-white/90 hover:text-white hover:bg-white/10 rounded-xl transition-all duration-200 relative block focus-ring group" id="m-best">
-              <svg class="w-6 h-6 mr-3 text-white/80 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-6 h-6 me-3 text-white/80 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
               </svg>
               <span>Best Sellers</span>
@@ -251,7 +249,7 @@
 
           <li>
             <a href="/gifts-and-sets" class="mobile-nav-link flex items-center py-4 px-4 text-lg font-semibold text-white/90 hover:text-white hover:bg-white/10 rounded-xl transition-all duration-200 relative block focus-ring group" id="m-gifts">
-              <svg class="w-6 h-6 mr-3 text-white/80 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-6 h-6 me-3 text-white/80 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>
               </svg>
               <span>Gifts & Sets</span>
@@ -260,7 +258,7 @@
 
           <li>
             <a href="/about" class="mobile-nav-link flex items-center py-4 px-4 text-lg font-semibold text-white/90 hover:text-white hover:bg-white/10 rounded-xl transition-all duration-200 relative block focus-ring group" id="m-about">
-              <svg class="w-6 h-6 mr-3 text-white/80 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-6 h-6 me-3 text-white/80 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>
               <span>About Us</span>
@@ -272,8 +270,8 @@
       <!-- Search in Mobile Sidebar -->
       <div class="mt-auto px-4 py-6 mobile-search-section border-t border-white/20 bg-white/5">
         <div class="relative">
-          <input type="text" id="m-search" placeholder="Search products..." class="w-full py-3 px-4 pl-12 pr-4 border border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent bg-white/10 text-white placeholder-white/60 focus-ring text-lg" />
-          <button class="absolute left-4 top-1/2 -translate-y-1/2 p-1 rounded-lg hover:bg-white/10 transition-colors" aria-label="search">
+          <input type="text" id="m-search" placeholder="Search products..." class="w-full py-3 px-4 ps-12 pe-4 border border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent bg-white/10 text-white placeholder-white/60 focus-ring text-lg" />
+          <button class="absolute start-4 top-1/2 -translate-y-1/2 p-1 rounded-lg hover:bg-white/10 transition-colors" aria-label="search">
             <img src="{{ asset('images/search-icon.svg') }}" alt="Search" class="w-5 h-5">
           </button>
         </div>
@@ -326,7 +324,7 @@
     .header-custom-icons img { width: 22px; height: 22px; }
   }
 
-  /* RTL tweaks */
+  /* RTL Layout Adjustments */
   @media (max-width: 767px) {
     html[dir="rtl"] .header-row, html.rtl-active .header-row { flex-direction: row; }
     html[dir="rtl"] .mobile-menu-btn, html.rtl-active .mobile-menu-btn { order: 3; }
@@ -374,6 +372,7 @@
   html[dir="rtl"] .shop-accordion.active .dropdown-arrow{ transform:rotate(0deg); }
   .mobile-nav-link{ border-radius:12px; margin:4px 0; padding:12px 16px; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
   .mobile-nav-link:hover{ background:rgba(255,255,255,.15); transform: translateX(4px); }
+  html[dir="rtl"] .mobile-nav-link:hover{ transform: translateX(-4px); }
   .mobile-currency-language button { border-radius: 12px; backdrop-filter: blur(10px); }
   .mobile-search-section input { border-radius: 12px; backdrop-filter: blur(10px); }
 
@@ -397,7 +396,7 @@
 
   nav ul li ul{ opacity:0; visibility:hidden; transform:translateY(-8px); transition:all .22s ease; }
   nav ul li:hover ul{ opacity:1; visibility:visible; transform:translateY(0); }
-  .dropdown-icon{ transition:transform .3s ease; margin-left:4px; }
+  .dropdown-icon{ transition:transform .3s ease; margin-inline-start:4px; }
   .shop-menu-item.group:hover .dropdown-icon{ transform:rotate(180deg); }
   .caret-arrow{ transform-origin:center; }
   .sub-menu{ left:50%; transform:translateX(-50%); min-width:220px; }
@@ -448,7 +447,7 @@
 
   .header-icon-img { transition: filter .2s ease, opacity .2s ease; }
 
-  /* Fallback if black icons not present (also for logo if no light src) */
+  /* Fallback if black icons not present */
   .store-header.scrolled .header-custom-icons img:not([data-src-light]),
   .store-header.scrolled .logo-container img:not([data-src-light]) {
     filter: invert(1) grayscale(1) brightness(.1);
@@ -465,42 +464,22 @@
   .store-header.scrolled #mobile-menu-toggle { color:#000; }
   #mobile-menu-toggle svg { stroke: currentColor; }
 
-
   /* scroll par pure white background enforce */
-.store-header.scrolled .header-bg-row,
-.store-header.scrolled nav {
-  background:#ffffff !important;
-  border-bottom:1px solid rgba(0,0,0,.08);
-}
+  .store-header.scrolled .header-bg-row,
+  .store-header.scrolled nav {
+    background:#ffffff !important;
+    border-bottom:1px solid rgba(0,0,0,.08);
+  }
 
-/* links & icons ko dark karna */
-.store-header.scrolled .nav-link { color: rgba(0,0,0,.8) !important; }
-.store-header.scrolled .nav-link:hover,
-.store-header.scrolled .nav-link.active { color:#000 !important; }
-.store-header.scrolled .dropdown-icon,
-.store-header.scrolled .caret-arrow { color: rgba(0,0,0,.85) !important; }
+  /* links & icons ko dark karna */
+  .store-header.scrolled .nav-link { color: rgba(0,0,0,.8) !important; }
+  .store-header.scrolled .nav-link:hover,
+  .store-header.scrolled .nav-link.active { color:#000 !important; }
+  .store-header.scrolled .dropdown-icon,
+  .store-header.scrolled .caret-arrow { color: rgba(0,0,0,.85) !important; }
 
-/* top announcement text ko dark (agar header ke andar hee chalta ho) */
-.store-header.scrolled .top-heading p { color:#000 !important; }
-
-/* scroll par pure white background enforce */
-.store-header.scrolled .header-bg-row,
-.store-header.scrolled nav {
-  background:#ffffff !important;
-  border-bottom:1px solid rgba(0,0,0,.08);
-}
-
-/* links & icons ko dark karna */
-.store-header.scrolled .nav-link { color: rgba(0,0,0,.8) !important; }
-.store-header.scrolled .nav-link:hover,
-.store-header.scrolled .nav-link.active { color:#000 !important; }
-.store-header.scrolled .dropdown-icon,
-.store-header.scrolled .caret-arrow { color: rgba(0,0,0,.85) !important; }
-
-/* top announcement text ko dark (agar header ke andar hee chalta ho) */
-.store-header.scrolled .top-heading p { color:#000 !important; }
-
-
+  /* top announcement text ko dark */
+  .store-header.scrolled .top-heading p { color:#000 !important; }
 </style>
 
 <script>
@@ -510,41 +489,80 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // i18n map
   const i18n = {
-    en:{ banner:"Free Shipping on Order above 300 SAR",
+    en:{ 
+      banner:"Free Shipping on Order above 300 SAR",
       shop:"Shop", makeup:"Makeup", skincare:"Skincare", haircare:"Haircare", fragrance:"Fragrance",
       best:"Best Sellers", gifts:"Gifts & Sets", about:"About MB",
       m_home:"Home", m_shop:"Shop", m_about:"About Us",
       search:"Search products...",
       hero_kicker:"ALL YOU NEED IS LESS.", where:"Where", confidence:"Confidence", meets:"Meets", color:"Color", cta:"Shop Now",
-      currencyNames:{USD:"Dollar",SAR:"Riyal",EUR:"Euro",GBP:"Pound",AED:"Dirham"} },
-    ar:{ banner:"شحن مجاني للطلبات فوق 300 ريال",
+      currencyNames:{USD:"Dollar",SAR:"Riyal",EUR:"Euro",GBP:"Pound",AED:"Dirham"} 
+    },
+    ar:{ 
+      banner:"شحن مجاني للطلبات فوق 300 ريال",
       shop:"تسوق", makeup:"مكياج", skincare:"العناية بالبشرة", haircare:"العناية بالشعر", fragrance:"العطور",
       best:"الأكثر مبيعاً", gifts:"الهدايا والمجموعات", about:"عن MB",
       m_home:"الرئيسية", m_shop:"تسوق", m_about:"من نحن",
       search:"ابحث عن المنتجات...",
       hero_kicker:"القليل يكفي.", where:"حيث", confidence:"الثقة", meets:"تلتقي", color:"الألوان", cta:"تسوق الآن",
-      currencyNames:{USD:"دولار",SAR:"ريال",EUR:"يورو",GBP:"جنيه",AED:"درهم"} }
+      currencyNames:{USD:"دولار",SAR:"ريال",EUR:"يورو",GBP:"جنيه",AED:"درهم"} 
+    }
   };
 
   const setTxt=(id,txt)=>{ const el=document.getElementById(id); if(el) el.textContent=txt; };
 
   function applyTexts(){
     const d=isRTL?i18n.ar:i18n.en;
+    
+    // Banner text
     setTxt('custom-banner-text', d.banner);
-    setTxt('nav-shop', d.shop); setTxt('nav-makeup', d.makeup); setTxt('nav-skincare', d.skincare);
-    setTxt('nav-haircare', d.haircare); setTxt('nav-fragrance', d.fragrance);
-    setTxt('nav-best', d.best); setTxt('nav-gifts', d.gifts); setTxt('nav-about', d.about);
-    setTxt('m-home', d.m_home); setTxt('m-shop', d.m_shop);
-    setTxt('m-makeup', d.makeup); setTxt('m-skincare', d.skincare);
-    setTxt('m-haircare', d.haircare); setTxt('m-fragrance', d.fragrance);
-    setTxt('m-best', d.best); setTxt('m-gifts', d.gifts); setTxt('m-about', d.m_about);
-    const mSearch=document.getElementById('m-search'); if(mSearch) mSearch.setAttribute('placeholder', d.search);
-    setTxt('hero-kicker', d.hero_kicker); setTxt('hero-where', d.where); setTxt('hero-confidence', d.confidence);
-    setTxt('hero-meets', d.meets); setTxt('hero-color', d.color); setTxt('hero-cta', d.cta);
+    
+    // Desktop navigation
+    setTxt('nav-shop', d.shop); 
+    setTxt('nav-makeup', d.makeup); 
+    setTxt('nav-skincare', d.skincare);
+    setTxt('nav-haircare', d.haircare); 
+    setTxt('nav-fragrance', d.fragrance);
+    setTxt('nav-best', d.best); 
+    setTxt('nav-gifts', d.gifts); 
+    setTxt('nav-about', d.about);
+    
+    // Mobile navigation
+    setTxt('m-home', d.m_home); 
+    setTxt('m-shop', d.m_shop);
+    setTxt('m-makeup', d.makeup); 
+    setTxt('m-skincare', d.skincare);
+    setTxt('m-haircare', d.haircare); 
+    setTxt('m-fragrance', d.fragrance);
+    setTxt('m-best', d.best); 
+    setTxt('m-gifts', d.gifts); 
+    setTxt('m-about', d.m_about);
+    
+    // Search placeholder
+    const mSearch=document.getElementById('m-search'); 
+    if(mSearch) mSearch.setAttribute('placeholder', d.search);
+    
+    // Hero section
+    setTxt('hero-kicker', d.hero_kicker); 
+    setTxt('hero-where', d.where); 
+    setTxt('hero-confidence', d.confidence);
+    setTxt('hero-meets', d.meets); 
+    setTxt('hero-color', d.color); 
+    setTxt('hero-cta', d.cta);
 
-    const map=d.currencyNames;
-    const nameEl=document.getElementById('currency-name'); if(nameEl){ const code=(nameEl.textContent||'').trim().toUpperCase(); if(map[code]) nameEl.textContent=map[code]; }
-    const mNameEl=document.getElementById('mobile-currency-name'); if(mNameEl){ const code=(mNameEl.textContent||'').trim().toUpperCase(); if(map[code]) mNameEl.textContent=map[code]; }
+    // Currency names
+    const map = d.currencyNames;
+    const nameEl = document.getElementById('currency-name'); 
+    if(nameEl){ 
+      const code = (nameEl.textContent||'').trim().toUpperCase(); 
+      if(map[code]) nameEl.textContent = map[code]; 
+    }
+    
+    const mNameEl = document.getElementById('mobile-currency-name'); 
+    if(mNameEl){ 
+      const code = (mNameEl.textContent||'').trim().toUpperCase(); 
+      if(map[code]) mNameEl.textContent = map[code]; 
+    }
   }
 
   // Sidebar controls
@@ -553,20 +571,45 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeBtn  = document.getElementById('mobile-menu-close');
   const overlay   = document.getElementById('sidebar-overlay');
 
-  function openSidebar(){ if(!sidebar) return; sidebar.classList.add('open'); openBtn && openBtn.setAttribute('aria-expanded','true'); document.body.style.overflow='hidden'; document.documentElement.style.overflow='hidden'; }
-  function closeSidebar(){ if(!sidebar) return; sidebar.classList.remove('open'); openBtn && openBtn.setAttribute('aria-expanded','false'); document.body.style.overflow=''; document.documentElement.style.overflow=''; }
+  function openSidebar(){ 
+    if(!sidebar) return; 
+    sidebar.classList.add('open'); 
+    openBtn && openBtn.setAttribute('aria-expanded','true'); 
+    document.body.style.overflow='hidden'; 
+    document.documentElement.style.overflow='hidden'; 
+  }
+  
+  function closeSidebar(){ 
+    if(!sidebar) return; 
+    sidebar.classList.remove('open'); 
+    openBtn && openBtn.setAttribute('aria-expanded','false'); 
+    document.body.style.overflow=''; 
+    document.documentElement.style.overflow=''; 
+  }
+  
   openBtn && openBtn.addEventListener('click', openSidebar);
   closeBtn && closeBtn.addEventListener('click', closeSidebar);
   overlay && overlay.addEventListener('click', closeSidebar);
-  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ closeSidebar(); }});
-  document.querySelectorAll('#mobile-sidebar a').forEach(a=>{ a.addEventListener('click', ()=> setTimeout(closeSidebar, 300)); });
+  
+  document.addEventListener('keydown', (e)=>{ 
+    if(e.key==='Escape'){ 
+      closeSidebar(); 
+    }
+  });
+  
+  document.querySelectorAll('#mobile-sidebar a').forEach(a=>{ 
+    a.addEventListener('click', ()=> setTimeout(closeSidebar, 300)); 
+  });
 
   // Mobile shop accordion
   document.querySelectorAll('.shop-accordion').forEach(acc=>{
-    const btn=acc.querySelector('button'); const panel=acc.querySelector('.shop-submenu');
+    const btn=acc.querySelector('button'); 
+    const panel=acc.querySelector('.shop-submenu');
     if(btn && panel){
       btn.addEventListener('click',()=>{
-        const active=acc.classList.toggle('active'); panel.hidden=!active; btn.setAttribute('aria-expanded', String(active));
+        const active=acc.classList.toggle('active'); 
+        panel.hidden=!active; 
+        btn.setAttribute('aria-expanded', String(active));
       });
     }
   });
@@ -574,9 +617,14 @@ document.addEventListener("DOMContentLoaded", () => {
   // Salla events for currency and lang
   if(typeof salla!=='undefined'){
     salla.event.on('currency::changed', function(currency){
-      const symEl=document.getElementById('currency-symbol'); const nameEl=document.getElementById('currency-name');
-      const mSymEl=document.getElementById('mobile-currency-symbol'); const mNameEl=document.getElementById('mobile-currency-name');
-      const symbols={USD:'$',SAR:'ر.س',EUR:'€',GBP:'£',AED:'د.إ'}; const dict=isRTL?i18n.ar:i18n.en;
+      const symEl=document.getElementById('currency-symbol'); 
+      const nameEl=document.getElementById('currency-name');
+      const mSymEl=document.getElementById('mobile-currency-symbol'); 
+      const mNameEl=document.getElementById('mobile-currency-name');
+      
+      const symbols={USD:'$',SAR:'ر.س',EUR:'€',GBP:'£',AED:'د.إ'}; 
+      const dict=isRTL?i18n.ar:i18n.en;
+      
       if(symEl) symEl.textContent = symbols[currency.code] || currency.symbol || '';
       if(nameEl) nameEl.textContent = dict.currencyNames[currency.code] || currency.code || '';
       if(mSymEl) mSymEl.textContent = symbols[currency.code] || currency.symbol || '';
@@ -587,8 +635,14 @@ document.addEventListener("DOMContentLoaded", () => {
       try{
         const lang=(payload && payload.language && payload.language.code || '').toLowerCase();
         isRTL = lang.startsWith('ar');
-        if(isRTL){ document.documentElement.classList.add('rtl-active'); document.documentElement.setAttribute('dir','rtl'); }
-        else { document.documentElement.classList.remove('rtl-active'); document.documentElement.setAttribute('dir','ltr'); }
+        if(isRTL){ 
+          document.documentElement.classList.add('rtl-active'); 
+          document.documentElement.setAttribute('dir','rtl'); 
+        }
+        else { 
+          document.documentElement.classList.remove('rtl-active'); 
+          document.documentElement.setAttribute('dir','ltr'); 
+        }
         applyTexts();
         setTimeout(() => onScrollSwap(), 50);
         closeSidebar();
@@ -598,21 +652,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const storeHeader = document.querySelector('.store-header');
 
-  /* --------- NEW: Preload + Improved Swap ---------- */
   function preload(src) {
     if (!src) return;
     const img = new Image();
     img.src = src;
   }
 
-  // UPDATED: swap prefers data-src-default / data-src-scrolled; falls back to dark/light if present
   function setIconMode(scrolled) {
-    const swapImgs = document.querySelectorAll('.header-swap'); // only header-targeted imgs
+    const swapImgs = document.querySelectorAll('.header-swap');
     swapImgs.forEach(img => {
       const defSrc     = img.getAttribute('data-src-default');
       const scrollSrc  = img.getAttribute('data-src-scrolled');
-      const darkSrc    = img.getAttribute('data-src-dark');   // fallback
-      const lightSrc   = img.getAttribute('data-src-light');  // fallback
+      const darkSrc    = img.getAttribute('data-src-dark');
+      const lightSrc   = img.getAttribute('data-src-light');
 
       let nextSrc;
       if (scrolled && (scrollSrc || lightSrc)) {
@@ -633,8 +685,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Initialize
-  if(isRTL){ document.documentElement.classList.add('rtl-active'); document.documentElement.setAttribute('dir','rtl'); }
-  else { document.documentElement.setAttribute('dir','ltr'); }
+  if(isRTL){ 
+    document.documentElement.classList.add('rtl-active'); 
+    document.documentElement.setAttribute('dir','rtl'); 
+  }
+  else { 
+    document.documentElement.setAttribute('dir','ltr'); 
+  }
+  
   applyTexts();
 
   // Preload scrolled variants to avoid flicker
