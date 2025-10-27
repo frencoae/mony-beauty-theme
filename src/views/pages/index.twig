@@ -1,731 +1,1557 @@
-{# | Variable | Type | Description |
-|------------------|------------|---------------------------------------------------------------------|
-| page | object | | | page.title | string | *could be html | | page.slug |
-string | ex: "cat.show" | #} {% extends "layouts.master" %} {% block content %}
-<!-- Hero Content -->
+{% extends "layouts.master" %}
+
+{% block content %}
 
 <style>
-/* Marquee Container */
-.marquee-section {
-  background-color: #f9fafb;
-  padding: 2rem 0;
-  overflow: hidden;
-}
+    /* ===== GLOBAL STYLES ===== */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: system-ui, -apple-system, sans-serif;
+        line-height: 1.6;
+        color: #333;
+    }
+    
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+    }
+    
+    .section-title {
+        font-family: serif;
+        font-weight: 700;
+        font-size: 1.875rem;
+        margin-bottom: 2rem;
+        color: #000;
+    }
+    
+    /* .section-title span {
+        background: linear-gradient(to right, #f472b6, #c084fc);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    } */
+    
+    .section-padding {
+        padding: 50px 0;
+    }
+    
+    /* ===== BEST SELLERS SECTION ===== */
+    .bs-section {
+        padding: 50px 0;
+        position: relative;
+    }
+    
+    .bs-slider-container {
+        position: relative;
+        padding: 0 40px;
+    }
+    
+    .bs-slider-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #FF69B4;
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1.25rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        z-index: 10;
+        border: 0;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    
+    .bs-slider-btn:hover {
+        transform: translateY(-50%) scale(1.05);
+        background: #FF1493;
+    }
+    
+    .bs-left-btn {
+        left: 0;
+    }
+    
+    .bs-right-btn {
+        right: 0;
+    }
+    
+    .bs-products-container {
+        display: flex;
+        gap: 1rem;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        scroll-snap-type: x mandatory;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        padding: 10px 0;
+    }
+    
+    .bs-products-container::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .bs-product-card-wrapper {
+        flex-shrink: 0;
+        width: calc(85% - 0.5rem);
+        min-width: 280px;
+        scroll-snap-align: start;
+    }
+    
+    .bs-product-card {
+        position: relative;
+        background: #fff;
+        border-radius: 1rem;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s;
+    }
+    
+    .bs-product-card:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .bs-product-image {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
+    }
+    
+    .bs-gradient-btn {
+        background: linear-gradient(90deg, #FC668C 0%, #90B4E4 24.45%, #FB6C8B 56.13%, #90B4E4 94.29%);
+        color: white;
+        font-weight: 500;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        transition: all 0.3s ease-in-out;
+        border: none;
+        cursor: pointer;
+        padding: 10px 40px;
+        font-size: 0.875rem;
+        border-radius: 50px;
+    }
+    
+    .bs-gradient-btn:hover {
+        transform: scale(1.05);
+        opacity: 0.9;
+    }
+    
+    .bs-overlay-buttons {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        padding-bottom: 1rem;
+        opacity: 0;
+        transform: translateY(1rem);
+        transition: all 0.5s;
+    }
+    
+    .bs-product-card:hover .bs-overlay-buttons {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .bs-hover-icons {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+    
+    .bs-product-card:hover .bs-hover-icons {
+        opacity: 1;
+    }
+    
+    .bs-hover-icons button {
+        background: rgba(255, 255, 255, 0.9);
+        color: #FF69B4;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 0;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    
+    .bs-hover-icons button:hover {
+        background: #fff;
+    }
+    
+    .bs-product-info {
+        margin-top: 0.5rem;
+        text-align: center;
+        padding: 0 10px 10px;
+    }
+    
+    .bs-product-name {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #333;
+        margin: 0;
+    }
+    
+    .bs-product-price {
+        color: #25D366;
+        font-weight: 700;
+        font-size: 0.875rem;
+        margin: 5px 0 0;
+    }
+    
+    .bs-shop-button {
+        margin-top: 2.5rem;
+        text-align: center;
+    }
+    
+    .bs-shop-all-btn {
+        background: #FF69B4;
+        color: white;
+        padding: 0.75rem 2.5rem;
+        border-radius: 50px;
+        font-weight: 600;
+        border: 0;
+        cursor: pointer;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s;
+    }
+    
+    .bs-shop-all-btn:hover {
+        background: #FF1493;
+    }
+    
+    /* ===== FIXED MARQUEE SECTION ===== */
+    .marq {
+        padding: 2rem 0;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .marq__row {
+        display: flex;
+        overflow: hidden;
+        justify-content: center;
+    }
+    
+    .marq__track {
+        display: flex;
+        white-space: nowrap;
+        animation: marquee-scroll 30s linear infinite;
+    }
+    
+    .marq__track--alt {
+        animation: marquee-scroll2 34s linear infinite;
+    }
+    
+    .marq__text {
+        display: flex;
+        align-items: center;
+        font-size: 1.5rem;
+        letter-spacing: 2px;
+        gap: 4rem;
+    }
+    
+    .marq__text--a {
+        color: #4CC7A5;
+    }
+    
+    .marq__text--b {
+        color: #2746AA;
+    }
+    
+    .marq__img {
+        width: 3.5rem;
+        height: 3.5rem;
+        margin-right: 1rem;
+        object-fit: cover;
+    }
+    
+    @keyframes marquee-scroll {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-100%); }
+    }
+    
+    @keyframes marquee-scroll2 {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(0); }
+    }
+    
+    /* ===== EXCLUSIVE OFFER SECTION ===== */
+    .exclusive-section {
+        width: 100%;
+        background-color: #0d9488;
+        padding: 2rem 0.5rem;
+    }
+    
+    .exclusive-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        align-items: stretch;
+    }
+    
+    .exclusive-image img {
+        width: 100%;
+        max-width: 28rem;
+        border-radius: 1rem;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        object-fit: cover;
+        max-height: 450px;
+        margin: 0 auto;
+    }
+    
+    .exclusive-content {
+        color: white;
+        text-align: left;
+        padding: 2rem 1rem 0;
+    }
+    
+    .exclusive-heading {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+    
+    .exclusive-description {
+        font-size: 1rem;
+        line-height: 1.625;
+        margin-bottom: 1.25rem;
+        max-width: 28rem;
+    }
+    
+    .exclusive-countdown {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+        width: fit-content;
+    }
+    
+    .countdown-item {
+        background-color: white;
+        color: #1e3a8a;
+        font-weight: bold;
+        padding: 0.5rem 1rem;
+        border-radius: 0.25rem;
+        text-align: center;
+        width: 4rem;
+    }
+    
+    .countdown-item span {
+        display: block;
+        font-size: 1.25rem;
+    }
+    
+    .countdown-item small {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+    }
+    
+    .exclusive-button {
+        background-color: #1e3a8a;
+        color: white;
+        padding: 0.625rem 1.5rem;
+        border-radius: 9999px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        transition: all 0.3s ease;
+    }
+    
+    .exclusive-button:hover {
+        background-color: #1e40af;
+    }
+    
+    /* ===== CUSTOMER REVIEWS SECTION ===== */
+    .reviews-section {
+        padding: 4rem 0;
+    }
+    
+    .reviews-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .reviews-slider-wrapper {
+        display: flex;
+        width: 100%;
+        position: relative;
+    }
+    
+    .reviews-thumbnails {
+        width: 100%;
+        overflow: hidden;
+    }
+    
+    .reviews-track {
+        display: flex;
+        animation: slide-left 20s linear infinite;
+        will-change: transform;
+    }
+    
+    .reviews-thumbnails:hover .reviews-track {
+        animation-play-state: paused;
+    }
+    
+    .review-item {
+        flex: 0 0 auto;
+        height: 250px;
+        overflow: hidden;
+        background: #000;
+    }
+    
+    .review-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        background: #000;
+    }
+    
+    .reviews-camera {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 520px;
+        z-index: 10;
+        pointer-events: none;
+    }
+    
+    .reviews-camera img {
+        width: 100%;
+        height: auto;
+    }
+    
+    @keyframes slide-left {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+    
+    /* ===== STAR OF YOUR ROUTINE SECTION ===== */
+    .star-section {
+        padding: 4rem 0;
+    }
+    
+    .star-title {
+        position: relative;
+        text-align: center;
+        font-family: serif;
+        font-weight: 700;
+        font-size: 1.875rem;
+        line-height: 1.25;
+        color: #000;
+        margin-bottom: 3rem;
+    }
+    
+    .star-title span {
+        position: relative;
+        display: inline-block;
+        background: linear-gradient(to right, #f472b6, #c084fc);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+    
+    .star-title span img {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: -6px;
+        width: 6rem;
+    }
+    
+    .star-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+        align-items: flex-start;
+    }
+    
+    .star-image {
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        order: 1;
+    }
+    
+    .star-image img {
+        width: 100%;
+        max-width: 100%;
+        object-fit: contain;
+        transition: transform 0.3s;
+    }
+    
+    .star-image img:hover {
+        transform: scale(1.05);
+    }
+    
+    .star-content {
+        order: 2;
+    }
+    
+    .star-content h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #111827;
+        margin-bottom: 0.5rem;
+    }
+    
+    .star-price {
+        color: #db2777;
+        font-weight: bold;
+        font-family: sans-serif;
+        margin-bottom: 0.75rem;
+    }
+    
+    .star-price span {
+        color: #6b7280;
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+    
+    .star-content p {
+        color: #4b5563;
+        line-height: 1.625;
+        margin-bottom: 0.75rem;
+    }
+    
+    .star-content p:last-child {
+        margin-bottom: 1.5rem;
+    }
+    
+    .star-button {
+        background: #F7658F;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+        color: white;
+        font-weight: 600;
+        border-radius: 2.5rem;Aeonik
 
-/* Marquee Row Base Styles */
-.marquee-row {
-  display: flex;
-  width: 100%;
+
+        padding: 0.75rem 1.5rem;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s;
+    }
+    
+    .star-button:hover {
+        background: #e45681;
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        transform: translateY(-1px);
+    }
+    
+    /* ===== FOLLOW US SECTION ===== */
+    .follow-section {
+        padding: 4rem 0;
+    }
+    
+    .follow-title {
+        text-align: left;
+        font-size: 1.875rem;
+        padding: 2.5rem 0;
+        font-family: serif;
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+        color: #000;
+    }
+    
+    .follow-title span {
+        background: linear-gradient(to right, #f472b6, #c084fc);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+    
+    .follow-grid {
+        display: flex;
+        overflow-x: auto;
+        gap: 1rem;
+        scroll-snap-type: x mandatory;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    
+    .follow-grid::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .follow-item {
+        position: relative;
+        flex-shrink: 0;
+        width: 80%;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        height: 16rem;
+    }
+    
+    .follow-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s;
+    }
+    
+    .follow-item:hover img {
+        transform: scale(1.05);
+    }
+    
+    .follow-overlay {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: #000;
+        opacity: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.5s ease-in-out;
+    }
+    
+    .follow-item:hover .follow-overlay {
+        opacity: 0.4;
+    }
+    
+    .follow-icon {
+        color: white;
+        font-size: 3rem;
+        opacity: 0;
+        transform: scale(0.9);
+        transition: all 0.5s ease-in-out;
+    }
+    
+    .follow-item:hover .follow-icon {
+        opacity: 0.8;
+        transform: scale(1);
+    }
+    
+    /* ===== RESPONSIVE STYLES ===== */
+    @media (max-width: 480px) {
+        .section-padding {
+            padding: 30px 0;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Best Sellers */
+        .bs-slider-container {
+            padding: 0;
+        }
+        
+        .bs-slider-btn {
+            display: none;
+        }
+        
+        .bs-products-container {
+            padding: 0 5px;
+            gap: 0.75rem;
+        }
+        
+        .bs-product-card-wrapper {
+            width: calc(90% - 0.5rem);
+            min-width: 260px;
+        }
+        
+        .bs-product-image {
+            height: 200px;
+        }
+        
+        .bs-gradient-btn {
+            padding: 8px 25px;
+            font-size: 0.75rem;
+        }
+        
+        .bs-product-info {
+            padding: 0 5px 5px;
+        }
+        
+        .bs-product-name {
+            font-size: 0.8rem;
+        }
+        
+        .bs-product-price {
+            font-size: 0.8rem;
+        }
+        
+        .bs-shop-button {
+            margin-top: 2rem;
+        }
+        
+        .bs-shop-all-btn {
+            padding: 0.6rem 2rem;
+            font-size: 0.9rem;
+        }
+/* Marquee Styles */
+.py-8.overflow-hidden.relative {
+  padding: 2rem 0;
   overflow: hidden;
   position: relative;
 }
 
-/* Marquee Content */
-.marquee-content {
+.flex.overflow-hidden.justify-center {
   display: flex;
-  align-items: center;
-  flex-shrink: 0;
-  gap: 4rem;
-  padding: 0.75rem 0;
+  overflow: hidden;
+  justify-content: center;
 }
 
-/* First Row Animation (Left to Right in LTR) */
-.marquee-row-1 .marquee-content {
-  animation: marquee-scroll-left 30s linear infinite;
-}
-
-/* Second Row Animation (Right to Left in LTR) */
-.marquee-row-2 .marquee-content {
-  animation: marquee-scroll-right 34s linear infinite;
-}
-
-/* Marquee Item */
-.marquee-item {
+.animate-marquee {
   display: flex;
-  align-items: center;
   white-space: nowrap;
-  font-weight: 800;
-  font-size: clamp(1.25rem, 3vw, 2.25rem);
-  flex-shrink: 0;
+  animation: marquee-scroll 30s linear infinite;
 }
 
-/* Marquee Item Image */
-.marquee-item img {
-  width: 2rem;
-  height: 2rem;
-  object-fit: cover;
-  margin-right: 0.75rem;
+.animate-marquee2 {
+  display: flex;
+  white-space: nowrap;
+  animation: marquee-scroll2 34s linear infinite;
 }
 
-/* First Row Color */
-.marquee-row-1 .marquee-item {
+.flex.space-x-16 {
+  display: flex;
+  gap: 4rem;
+}
+
+.custom-text {
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+}
+
+.text-\[\#4CC7A5\] {
   color: #4CC7A5;
 }
 
-/* Second Row Color */
-.marquee-row-2 .marquee-item {
+.text-\[\#2746AA\] {
   color: #2746AA;
 }
 
-/* Hover to Pause */
-.marquee-row:hover .marquee-content {
-  animation-play-state: paused;
+.flex.items-center {
+  display: flex;
+  align-items: center;
 }
 
-/* Keyframes for LTR Direction */
-@keyframes marquee-scroll-left {
+.w-14.h-14 {
+  width: 3.5rem;
+  height: 3.5rem;
+}
+
+.mr-4 {
+  margin-right: 1rem;
+}
+
+.object-cover {
+  object-fit: cover;
+}
+
+.mt-10 {
+  margin-top: 2.5rem;
+}
+
+@keyframes marquee-scroll {
   0% { transform: translateX(0); }
   100% { transform: translateX(-100%); }
 }
 
-@keyframes marquee-scroll-right {
+@keyframes marquee-scroll2 {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(0); }
 }
 
-/* RTL Direction Adjustments */
-html[dir="rtl"] .marquee-row-1 .marquee-content {
-  animation: marquee-scroll-right 30s linear infinite;
+/* RTL Support */
+[dir="rtl"] .animate-marquee {
+  animation: marquee-scroll2 30s linear infinite;
 }
 
-html[dir="rtl"] .marquee-row-2 .marquee-content {
-  animation: marquee-scroll-left 34s linear infinite;
+[dir="rtl"] .animate-marquee2 {
+  animation: marquee-scroll 34s linear infinite;
 }
 
-/* Accessibility: Reduced Motion */
-@media (prefers-reduced-motion: reduce) {
-  .marquee-content {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transform: translateX(0) !important;
-  }
+[dir="rtl"] .mr-4 {
+  margin-right: 0;
+  margin-left: 1rem;
 }
 
-/* Row Spacing */
-.marquee-row + .marquee-row {
-  margin-top: 1.5rem;
-}
-
-/* Infinite Marquee Utilities (old styles - keeping for reference but not using) */
-.marquee {
-  --gap: 2rem;            /* item spacing */
-  --duration: 30s;        /* loop speed (bari value = slow) */
-  display: flex;
-  overflow: hidden;
-  user-select: none;
-  gap: 0;
-}
-
-.marquee__track {
-  display: flex;
-  align-items: center;
-  gap: var(--gap);
-  min-width: 100%;
-  flex-shrink: 0;
-  animation: marquee-scroll var(--duration) linear infinite;
-}
-
-.marquee--reverse .marquee__track {
-  animation-direction: reverse;
-}
-
-.marquee__item {
-  display: inline-flex;
-  align-items: center;
-  font-weight: 800;
-  white-space: nowrap;
-  font-size: clamp(1.25rem, 3vw, 2.25rem); /* sm → lg responsive */
-}
-
-/* Hover to pause (optional) */
-.marquee:hover .marquee__track {
-  animation-play-state: paused;
-}
-
-/* Keyframes */
-@keyframes marquee-scroll {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-100%); }
-}
-
-/* Accessibility: Respect Reduced Motion */
-@media (prefers-reduced-motion: reduce) {
-  .marquee__track {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transform: translateX(0) !important;
-  }
-}
-
-/* RTL adjustments for marquee */
-html[dir="rtl"] .marquee:not(.marquee--reverse) .marquee__track {
-  animation-direction: reverse;
-}
-html[dir="rtl"] .marquee.marquee--reverse .marquee__track {
-  animation-direction: normal;
-}
-</style>
-
- {# <section
-    class="relative w-full text-white home-banner"
-    style="
-      background-image: url('{{ asset("images/Banner.jpg") }}');
-      background-size: cover;
-      background-position: center;
-    ">    min-height: 100%;
-
-<div class="px-4 sm:px-8">
-  <div class="min-h-[72vh] md:min-h-[80vh] flex items-center">
-    <div class="max-w-xl">
-      <p class="uppercase tracking-widest text-xs sm:text-sm text-white/80">
-        ALL YOU NEED IS LESS.
-      </p>
-
-      <h1
-        class="mt-4 font-serif font-semibold leading-[1.1] text-4xl sm:text-5xl md:text-6xl"
-      >
-        Where
-        <span
-          class="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent"
-        >
-          Confidence </span
-        ><br class="hidden sm:block" />
-        Meets <span class="text-white">Color</span>
-      </h1>
-
-      <button
-        class="mt-8 inline-flex items-center justify-center px-6 py-3 rounded-full bg-pink-500 hover:bg-pink-600 text-white font-semibold shadow-lg shadow-pink-500/30"
-      >
-        Shop Now
-      </button>
-    </div>
-  </div>
-</div>
-</section> #}
-{% component home %} 
-
-<!-- Moving Text Section (Improved Infinite Marquee) -->
-<section class="marquee-section">
-  <!-- Row 1 - Slides from left to right (LTR) -->
-  <div class="marquee-row marquee-row-1">
-    <div class="marquee-content">
-      <!-- Original items -->
-      <span class="marquee-item">
-        <img src="{{ asset('images/cream-icon.jpg') }}" alt="Cream Icon">
-        <span class="marquee-text cream-text">Magic Water Cream</span>
-      </span>
-      <span class="marquee-item">
-        <img src="{{ asset('images/cream-icon.jpg') }}" alt="Cream Icon">
-        <span class="marquee-text cream-text">Magic Water Cream</span>
-      </span>
-      <span class="marquee-item">
-        <img src="{{ asset('images/cream-icon.jpg') }}" alt="Cream Icon">
-        <span class="marquee-text cream-text">Magic Water Cream</span>
-      </span>
-      <span class="marquee-item">
-        <img src="{{ asset('images/cream-icon.jpg') }}" alt="Cream Icon">
-        <span class="marquee-text cream-text">Magic Water Cream</span>
-      </span>
-      <span class="marquee-item">
-        <img src="{{ asset('images/cream-icon.jpg') }}" alt="Cream Icon">
-        <span class="marquee-text cream-text">Magic Water Cream</span>
-      </span>
-      <span class="marquee-item">
-        <img src="{{ asset('images/cream-icon.jpg') }}" alt="Cream Icon">
-        <span class="marquee-text cream-text">Magic Water Cream</span>
-      </span>
-      <!-- Duplicate items for seamless loop -->
-      <span class="marquee-item">
-        <img src="{{ asset('images/cream-icon.jpg') }}" alt="Cream Icon">
-        <span class="marquee-text cream-text">Magic Water Cream</span>
-      </span>
-      <span class="marquee-item">
-        <img src="{{ asset('images/cream-icon.jpg') }}" alt="Cream Icon">
-        <span class="marquee-text cream-text">Magic Water Cream</span>
-      </span>
-      <span class="marquee-item">
-        <img src="{{ asset('images/cream-icon.jpg') }}" alt="Cream Icon">
-        <span class="marquee-text cream-text">Magic Water Cream</span>
-      </span>
-      <span class="marquee-item">
-        <img src="{{ asset('images/cream-icon.jpg') }}" alt="Cream Icon">
-        <span class="marquee-text cream-text">Magic Water Cream</span>
-      </span>
-      <span class="marquee-item">
-        <img src="{{ asset('images/cream-icon.jpg') }}" alt="Cream Icon">
-        <span class="marquee-text cream-text">Magic Water Cream</span>
-      </span>
-      <span class="marquee-item">
-        <img src="{{ asset('images/cream-icon.jpg') }}" alt="Cream Icon">
-        <span class="marquee-text cream-text">Magic Water Cream</span>
-      </span>
-    </div>
-  </div>
-
-  <!-- Row 2 - Slides from right to left (LTR) -->
-  <div class="marquee-row marquee-row-2">
-    <div class="marquee-content">
-      <!-- Original items -->
-      <span class="marquee-item">
-        <img src="{{ asset('images/lip-gloss.png') }}" alt="Lip Gloss">
-        <span class="marquee-text lip-text">Shop Our Best Lip Gloss</span>
-      </span>
-      <span class="marquee-item">
-        <img src="{{ asset('images/lip-gloss.png') }}" alt="Lip Gloss">
-        <span class="marquee-text lip-text">Shop Our Best Lip Gloss</span>
-      </span>
-      <span class="marquee-item">
-        <img src="{{ asset('images/lip-gloss.png') }}" alt="Lip Gloss">
-        <span class="marquee-text lip-text">Shop Our Best Lip Gloss</span>
-      </span>
-      <span class="marquee-item">
-        <img src="{{ asset('images/lip-gloss.png') }}" alt="Lip Gloss">
-        <span class="marquee-text lip-text">Shop Our Best Lip Gloss</span>
-      </span>
-      <span class="marquee-item">
-        <img src="{{ asset('images/lip-gloss.png') }}" alt="Lip Gloss">
-        <span class="marquee-text lip-text">Shop Our Best Lip Gloss</span>
-      </span>
-      <span class="marquee-item">
-        <img src="{{ asset('images/lip-gloss.png') }}" alt="Lip Gloss">
-        <span class="marquee-text lip-text">Shop Our Best Lip Gloss</span>
-      </span>
-      <!-- Duplicate items for seamless loop -->
-      <span class="marquee-item">
-        <img src="{{ asset('images/lip-gloss.png') }}" alt="Lip Gloss">
-        <span class="marquee-text lip-text">Shop Our Best Lip Gloss</span>
-      </span>
-      <span class="marquee-item">
-        <img src="{{ asset('images/lip-gloss.png') }}" alt="Lip Gloss">
-        <span class="marquee-text lip-text">Shop Our Best Lip Gloss</span>
-      </span>
-      <span class="marquee-item">
-        <img src="{{ asset('images/lip-gloss.png') }}" alt="Lip Gloss">
-        <span class="marquee-text lip-text">Shop Our Best Lip Gloss</span>
-      </span>
-      <span class="marquee-item">
-        <img src="{{ asset('images/lip-gloss.png') }}" alt="Lip Gloss">
-        <span class="marquee-text lip-text">Shop Our Best Lip Gloss</span>
-      </span>
-      <span class="marquee-item">
-        <img src="{{ asset('images/lip-gloss.png') }}" alt="Lip Gloss">
-        <span class="marquee-text lip-text">Shop Our Best Lip Gloss</span>
-      </span>
-      <span class="marquee-item">
-        <img src="{{ asset('images/lip-gloss.png') }}" alt="Lip Gloss">
-        <span class="marquee-text lip-text">Shop Our Best Lip Gloss</span>
-      </span>
-    </div>
-  </div>
-</section>
-
-<!-- Exclusive Offer Section -->
-<section class="w-full bg-teal-500 py-16">
-  <div class="container grid grid-cols-1 md:grid-cols-2 gap-10 items-center px-6 text-white">
-    
-    <!-- Left Side: Image -->
-    <div class="flex justify-center">
-      <img src="{{asset('images/offer.jpg')}}" alt="Exclusive Offer" class="rounded-2xl shadow-lg object-cover">
-    </div>
-
-    <!-- Right Side: Content -->
-    <div>
-      <h2 class="text-4xl font-extrabold mb-4" id="exclusive-title">Exclusive offer</h2>
-      <p class="mb-6 text-lg leading-relaxed" id="exclusive-desc">
-        Unlock the ultimate style upgrade with our exclusive offer. Enjoy savings of up to 
-        40% off on our latest New Products.
-      </p>
-
-      <!-- Countdown Timer -->
-      <div id="countdown" class="flex gap-4 mb-6">
-        <div class="bg-white text-blue-900 font-bold text-center px-6 py-4 rounded w-24">
-          <span id="days" class="text-2xl block">00</span>
-          <span id="days-label" class="text-sm uppercase">Days</span>
-        </div>
-        <div class="bg-white text-blue-900 font-bold text-center px-6 py-4 rounded w-24">
-          <span id="hours" class="text-2xl block">00</span>
-          <span id="hours-label" class="text-sm uppercase">Hours</span>
-        </div>
-        <div class="bg-white text-blue-900 font-bold text-center px-6 py-4 rounded w-24">
-          <span id="minutes" class="text-2xl block">00</span>
-          <span id="minutes-label" class="text-sm uppercase">Min</span>
-        </div>
         
-      </div>
-
-      <!-- Buy Now Button -->
-      <button id="buy-now-offer" class="bg-blue-900 text-white px-10 py-3 rounded-full font-semibold hover:bg-blue-800 transition">
-        BUY NOW
-      </button>
-    </div>
-  </div>
-</section>
-
-<section class="py-16">
-  <div class="container">
-    <h2 class="text-left text-3xl md:text-4xl font-serif font-bold mb-8">
-      Customer Reviews
-    </h2>
-  </div>
-
-  <!-- Top Section: Camera + Thumbnails -->
-  <div class="flex flex-col lg:flex-row items-center justify-between ">
-
-    <!-- Thumbnails Section -->
-    <div class="relative w-full overflow-hidden">
-      <div class="flex animate-infinite-scroll">
-        <!-- Original Images -->
-        <div class="flex">
-          <div class="min-w-[50px] rounded-md overflow-hidden">
-            <img src="{{asset('images/review-3.jpg')}}" alt="Thumbnail 1" class="w-full h-full object-cover"/>
-          </div>
-          <div class="min-w-[50px] rounded-md overflow-hidden">
-            <img src="{{asset('images/review-2.jpg')}}" alt="Thumbnail 2" class="w-full h-full object-cover"/>
-          </div>
-          <div class="min-w-[50px] rounded-md overflow-hidden">
-            <img src="{{asset('images/review-3.jpg')}}" alt="Thumbnail 3" class="w-full h-full object-cover"/>
-          </div>
-        </div>
-
-        <!-- Duplicate Images for Seamless Loop -->
-        <div class="flex gap-">
-          <div class="min-w-[50px] rounded-md overflow-hidden">
-            <img src="{{asset('images/review-3.jpg')}}" alt="Thumbnail 1 duplicate" class="w-full h-full object-cover"/>
-          </div>
-          <div class="min-w-[50px] rounded-md overflow-hidden">
-            <img src="{{asset('images/review-2.jpg')}}" alt="Thumbnail 2 duplicate" class="w-full h-full object-cover"/>
-          </div>
-          <div class="min-w-[50px] rounded-md overflow-hidden">
-            <img src="{{asset('images/review-3.jpg')}}" alt="Thumbnail 3 duplicate" class="w-full h-full object-cover"/>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Camera Mockup -->
-    <div class=" min-w-[300px] flex-shrink-0">
-      <img src="{{asset('images/review-4.png')}}" alt="Camera mockup" class="w-full h-full" />
-    </div>
-  </div>
-</section>
-
-<style>
-@keyframes infinite-scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-.animate-infinite-scroll {
-  width: max-content;
-  display: flex;
-  animation: infinite-scroll 25s linear infinite;
-}
-
-/* Smooth performance improvement */
-.animate-infinite-scroll img {
-  will-change: transform;
-  backface-visibility: hidden;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .animate-infinite-scroll {
-    animation-duration: 35s;
-  }
-}
-</style>
-
-<section class="py-16">
-  <div class="container mx-auto px-4">
+        /* Exclusive Offer */
+        .exclusive-section {
+            padding: 2rem 0.5rem;
+        }
+        
+        .exclusive-content {
+            text-align: center;
+            padding: 1rem 0.5rem 0;
+        }
+        
+        .exclusive-heading {
+            font-size: 1.25rem;
+        }
+        
+        .exclusive-description {
+            font-size: 0.9rem;
+            margin: 0 auto 1.25rem;
+        }
+        
+        .exclusive-countdown {
+            margin: 0 auto 1.5rem;
+        }
+        
+        .countdown-item {
+            padding: 0.4rem 0.8rem;
+            width: 3.5rem;
+        }
+        
+        .countdown-item span {
+            font-size: 1rem;
+        }
+        
+        .countdown-item small {
+            font-size: 0.65rem;
+        }
+        
+        /* Customer Reviews */
+        .review-item {
+            height: 180px;
+        }
+        
+        .reviews-camera {
+            width: 300px;
+        }
+        
+        /* Star of Routine */
+        .star-title {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .star-title span img {
+            width: 5rem;
+            bottom: -5px;
+        }
+        
+        .star-image img {
+            max-height: 250px;
+        }
+        
+        /* Follow Us */
+        .follow-title {
+            font-size: 1.5rem;
+            text-align: center;
+            padding: 1.5rem 0;
+        }
+        
+        .follow-item {
+            width: 85%;
+            height: 14rem;
+        }
+    }
     
-    <!-- Centered Title -->
-   <h2 class="relative text-center text-3xl md:text-4xl font-serif font-bold mb-12 leading-tight text-black">
-                The
-                <span class="relative inline-block bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
-                    Star
-                    <!-- Decorative Vector Underline -->
-                    <img src="{{asset('images/hovervector.svg')}}" alt="Decorative underline" class="absolute left-1/2 -translate-x-1/2 bottom-[-6px] w-24 md:w-32" style="stroke: #2746AA; stroke-width: 2px; filter: brightness(0) saturate(100%) invert(12%) sepia(79%) saturate(1093%) hue-rotate(203deg) brightness(95%) contrast(91%);" />
-                </span>
-                of Your Routine
-            </h2>
-
-    <!-- Responsive Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-
-      <!-- Right Image (on mobile this comes first) -->
-      <div class="order-1 lg:order-2 flex justify-center">
-        <div class="rounded-lg overflow-hidden shadow-lg max-w-xs md:max-w-sm lg:max-w-md">
-          <img 
-            src="{{asset('images/Blushin.jpg')}}"
-            alt="Product model closeup"
-            class="w-full h-auto object-cover"
-          />
-        </div>
-      </div>
-
-      <!-- Left Content (on mobile this comes second) -->
-      <div class="order-2 lg:order-1">
-        <!-- Product Name -->
-        <h3 id="product-name" class="text-xl font-semibold text-gray-900 mb-2">
-          Blushin' Sweet Cheek and Lip Tint
-        </h3>
-
-        <!-- Price -->
-        <p class="text-pink-600 font-bold mb-3 font-sans">
-          89 SAR <span id="tax-included" class="text-sm text-gray-500 font-medium">Tax Included</span>
-        </p>
-
-        <!-- Description -->
-        <p id="desc1" class="text-gray-600 mb-3 leading-relaxed">
-          A buildable lightweight Cheek and Lip Tint that gives you the natural matte color 
-          you've been looking for this summer!
-        </p>
-        <p id="desc2" class="text-gray-600 mb-3 leading-relaxed">
-          This easy-to-apply tint will be your go-to product that never leaves your purse this summer.
-        </p>
-        <p id="desc3" class="text-gray-600 mb-6 leading-relaxed">
-          Its long-lasting hydrating formula will make it your favorite. It's the...
-        </p>
-        <p id="desc4" class="text-gray-600 mb-6 leading-relaxed">
-          MAKE products are formulated using botanical and botanically-derived ingredients 
-          and tested synthetic ingredients.
-        </p>
-
-        <!-- Button -->
-        <button id="buy-it-now" class="bg-pink-500 w-full hover:bg-pink-600 text-white font-semibold py-3 px-10 rounded-full transition duration-300">
-          Buy It Now
-        </button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<style>
-/* Responsive Enhancements */
-@media (max-width: 1024px) {
-  #star-routine-title {
-    font-size: 1.75rem;
-  }
-}
-
-@media (max-width: 768px) {
-  section {
-    padding-top: 3rem;
-    padding-bottom: 3rem;
-  }
-  #product-name {
-    text-align: center;
-  }
-  #buy-it-now {
-    width: 100%;
-  }
-  #desc1, #desc2, #desc3, #desc4 {
-    text-align: center;
-  }
-}
-
-@media (max-width: 480px) {
-  h2 {
-    font-size: 1.5rem;
-  }
-  p {
-    font-size: 0.95rem;
-  }
-}
+    @media (min-width: 481px) and (max-width: 767px) {
+        .bs-slider-container {
+            padding: 0;
+        }
+        
+        .bs-slider-btn {
+            display: none;
+        }
+        
+        .bs-products-container {
+            padding: 0 10px;
+            gap: 1rem;
+        }
+        
+        .bs-product-card-wrapper {
+            width: calc(85% - 0.5rem);
+            min-width: 280px;
+        }
+        
+        .bs-product-image {
+            height: 220px;
+        }
+        
+        .bs-gradient-btn {
+            padding: 8px 30px;
+            font-size: 0.75rem;
+        }
+        
+        .exclusive-content {
+            text-align: center;
+        }
+        
+        .exclusive-countdown {
+            margin: 0 auto 1.5rem;
+        }
+        
+        .reviews-camera {
+            width: 350px;
+        }
+        
+        .follow-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            overflow-x: visible;
+            gap: 1.5rem;
+        }
+        
+        .follow-item {
+            width: 100%;
+            height: auto;
+        }
+    }
+    
+    @media (min-width: 768px) {
+        .section-padding {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            font-size: 2.25rem;
+        }
+        
+        /* Best Sellers */
+        .bs-products-container {
+            gap: 1.5rem;
+        }
+        
+        .bs-product-card-wrapper {
+            width: calc(30% - 1rem);
+            min-width: 300px;
+        }
+        
+        .bs-product-image {
+            height: 350px;
+        }
+        
+        .bs-gradient-btn {
+            padding: 13px 100px;
+        }
+        
+        .bs-hover-icons {
+            top: 1rem;
+            right: 1rem;
+            gap: 0.75rem;
+        }
+        
+        .bs-hover-icons button {
+            width: 2.25rem;
+            height: 2.25rem;
+        }
+        
+        .bs-product-info {
+            margin-top: 0.75rem;
+        }
+        
+        .bs-product-name,
+        .bs-product-price {
+            font-size: 1rem;
+        }
+        
+        /* Exclusive Offer */
+        .exclusive-section {
+            padding: 4rem 1.5rem;
+        }
+        
+        .exclusive-grid {
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+        }
+        
+        .exclusive-image img {
+            max-width: none;
+        }
+        
+        .exclusive-content {
+            padding-top: 3rem;
+        }
+        
+        .exclusive-heading {
+            font-size: 2.25rem;
+        }
+        
+        .exclusive-description {
+            font-size: 1.125rem;
+        }
+        
+        .exclusive-countdown {
+            gap: 0.75rem;
+        }
+        
+        .countdown-item {
+            padding: 0.75rem 1.5rem;
+            width: 5rem;
+        }
+        
+        .countdown-item span {
+            font-size: 1.5rem;
+        }
+        
+        .countdown-item small {
+            font-size: 0.875rem;
+        }
+        
+        .exclusive-button {
+            width: auto;
+        }
+        
+        /* Star of Routine */
+        .star-title {
+            font-size: 2.25rem;
+        }
+        
+        .star-title span img {
+            width: 8rem;
+            bottom: -10px;
+        }
+        
+        .star-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .star-image {
+            order: 2;
+        }
+        
+        .star-image img {
+            max-width: 70%;
+        }
+        
+        .star-content {
+            order: 1;
+        }
+        
+        .star-button {
+            width: auto;
+        }
+        
+        /* Follow Us */
+        .follow-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            overflow-x: visible;
+            gap: 1.5rem;
+        }
+        
+        .follow-item {
+            width: 100%;
+            height: auto;
+        }
+    }
+    
+    @media (min-width: 1024px) {
+        .bs-product-card-wrapper {
+            width: calc(23% - 1rem);
+            min-width: 300px;
+        }
+        
+        .reviews-container {
+            flex-direction: row;
+            justify-content: space-between;
+        }
+    }
 </style>
 
+<!-- ===== BEST SELLERS SECTION ===== -->
 
-<section class="py-16">
+<section class="bs-section section-padding">
     <div class="container">
-        <h2 id="follow-us-title" class="text-left text-3xl md:text-4xl py-10 font-serif font-bold mb-8">
-            Follow us
-            <span class="bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
-                @mbbyamani
-            </span> 
+        <h2 class="section-title">
+            Our <span>Best Sellers</span>
         </h2>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        <div class="rounded-lg overflow-hidden shadow-md">
-          <img src="{{asset('images/instagram-1.jpg')}}"
-               alt="Instagram 1" class="w-full h-full object-cover"/>
+        
+        <!-- Slider Wrapper -->
+        <div class="bs-slider-container">
+            <!-- Left Arrow -->
+            <button class="bs-slider-btn bs-left-btn" id="bsLeftBtn">
+                ‹
+            </button>
+            
+            <!-- Product Cards -->
+            <div class="bs-products-container" id="bsProductSlider">
+                <!-- CARD 1 -->
+                <div class="bs-product-card-wrapper">
+                    <div class="bs-product-card">
+                        <img src="{{ asset('images/magic-water-cream.jpg') }}" class="bs-product-image">
+                        
+                        <!-- Add to Cart Button -->
+                        <div class="bs-overlay-buttons">
+                            <button class="bs-gradient-btn">ADD TO CART</button>
+                        </div>
+                        
+                        <!-- Hover Icons -->
+                        <div class="bs-hover-icons">
+                            <button>
+                                <img src="{{ asset('images/hrt.svg') }}" alt="">
+                            </button>
+                            <button>
+                                <img src="{{ asset('images/eve.svg') }}" alt="">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="bs-product-info">
+                        <h3 class="bs-product-name">Water Tint</h3>
+                        <p class="bs-product-price">88 SAR</p>
+                    </div>
+                </div>
+                
+                <!-- CARD 2 -->
+                <div class="bs-product-card-wrapper">
+                    <div class="bs-product-card">
+                        <img src="{{ asset('images/matte-beauty-bluss-band.jpg') }}" alt="Magic Water Cream" class="bs-product-image">
+                        
+                        <div class="bs-overlay-buttons">
+                            <button class="bs-gradient-btn">ADD TO CART</button>
+                        </div>
+                        
+                        <div class="bs-hover-icons">
+                            <button>
+                                <img src="{{ asset('images/hrt.svg') }}" alt="">
+                            </button>
+                            <button>
+                                <img src="{{ asset('images/eve.svg') }}" alt="">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="bs-product-info">
+                        <h3 class="bs-product-name">Magic Water Cream</h3>
+                        <p class="bs-product-price">88 SAR</p>
+                    </div>
+                </div>
+                
+                <!-- CARD 3 -->
+                <div class="bs-product-card-wrapper">
+                    <div class="bs-product-card">
+                        <img src="{{ asset('images/water-tint.jpg') }}" alt="Lip Gloss" class="bs-product-image">
+                        
+                        <div class="bs-overlay-buttons">
+                            <button class="bs-gradient-btn">ADD TO CART</button>
+                        </div>
+                        
+                        <div class="bs-hover-icons">
+                            <button>
+                               <button>
+                                <img src="{{ asset('images/hrt.svg') }}" alt="">
+                            </button>
+                            <button>
+                                <img src="{{ asset('images/eve.svg') }}" alt="">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="bs-product-info">
+                        <h3 class="bs-product-name">Lip Gloss</h3>
+                        <p class="bs-product-price">88 SAR</p>
+                    </div>
+                </div>
+                
+                <!-- CARD 4 -->
+                <div class="bs-product-card-wrapper">
+                    <div class="bs-product-card">
+                        <img src="{{ asset('images/instagram-2.jpg') }}" alt="Matte Beauty Blush Wand" class="bs-product-image">
+                        
+                        <div class="bs-overlay-buttons">
+                            <button class="bs-gradient-btn">ADD TO CART</button>
+                        </div>
+                        
+                        <div class="bs-hover-icons">
+                            <button>
+                                <img src="{{ asset('images/hrt.svg') }}" alt="">
+                            </button>
+                            <button>
+                                <img src="{{ asset('images/eve.svg') }}" alt="">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="bs-product-info">
+                        <h3 class="bs-product-name">Matte Beauty Blush Wand</h3>
+                        <p class="bs-product-price">88 SAR</p>
+                    </div>
+                </div>
+                
+                <!-- CARD 5 -->
+                <div class="bs-product-card-wrapper">
+                    <div class="bs-product-card">
+                        <img src="{{ asset('images/instagram-3.jpg') }}" alt="Foundation" class="bs-product-image">
+                        
+                        <div class="bs-overlay-buttons">
+                            <button class="bs-gradient-btn">ADD TO CART</button>
+                        </div>
+                        
+                        <div class="bs-hover-icons">
+                           <button>
+                                <img src="{{ asset('images/hrt.svg') }}" alt="">
+                            </button>
+                            <button>
+                                <img src="{{ asset('images/eve.svg') }}" alt="">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="bs-product-info">
+                        <h3 class="bs-product-name">Foundation</h3>
+                        <p class="bs-product-price">88 SAR</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Arrow -->
+            <button class="bs-slider-btn bs-right-btn" id="bsRightBtn">
+                ›
+            </button>
         </div>
-        <div class="rounded-lg overflow-hidden shadow-md">
-          <img src="{{asset('images/instagram-2.jpg')}}"               
-              alt="Instagram 2" class="w-full h-full object-cover"/>
+        
+        <!-- Shop All Button -->
+        <div class="bs-shop-button">
+            <button class="bs-shop-all-btn">Shop All</button>
         </div>
-        <div class="rounded-lg overflow-hidden shadow-md">
-          <img src="{{asset('images/instagram-3.jpg')}}"
-              alt="Instagram 3" class="w-full h-full object-cover"/>
-        </div>
-      </div>
     </div>
 </section>
 
-{% endblock %} {% block scripts %}
-<script defer src="{{ 'home.js' | asset }}"></script>
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const htmlEl = document.documentElement;
-  let isRTL = (htmlEl.getAttribute('dir')||'').toLowerCase()==='rtl' || /ar/i.test(htmlEl.getAttribute('lang')||'');
+<!-- ===== FIXED MARQUEE SECTION ===== -->
+<section class="py-8 overflow-hidden relative">
+    <!-- Row 1 -->
+    <div class="flex overflow-hidden justify-center">
+        <div class="animate-marquee flex whitespace-nowrap">
+            <div class="flex space-x-16 custom-text">
+                <span class="text-[#4CC7A5] flex items-center">
+                    <img src="{{ asset('images/cream-icon.jpg') }}" alt="Magic Water Cream" class="w-14 h-14 mr-4 object-cover"> Magic Water Cream
+                </span>
+                <span class="text-[#4CC7A5] flex items-center">
+                    <img src="{{ asset('images/cream-icon.jpg') }}" alt="Magic Water Cream" class="w-14 h-14 mr-4 object-cover"> Magic Water Cream
+                </span>
+                <span class="text-[#4CC7A5] flex items-center">
+                    <img src="{{ asset('images/cream-icon.jpg') }}" alt="Magic Water Cream" class="w-14 h-14 mr-4 object-cover"> Magic Water Cream
+                </span>
 
-  // i18n map for home page
-  const i18n = {
-    en: {
-      marquee_cream: "Magic Water Cream",
-      marquee_lip: "Shop Our Best Lip Gloss",
-      exclusive_title: "Exclusive offer",
-      exclusive_desc: "Unlock the ultimate style upgrade with our exclusive offer. Enjoy savings of up to 40% off on our latest New Products.",
-      customer_reviews: "Customer Reviews",
-      star_routine: "The Star of Your Routine",
-      product_name: "Blushin' sweet Cheek and Lip Tint",
-      tax_included: "Tax Included",
-      desc1: "A buildable lightweight Cheek and Lip Tint, that gives you the natural matte color you've been looking for this summer!",
-      desc2: "This easy-to-apply tint will be your go-to product that never leaves your purse this summer.",
-      desc3: "Its long-lasting hydrating formula will make it your favorite. It's the...",
-      desc4: "MAKE products are formulated using botanical and Botanically-derived ingredients and tested synthetic ingredients.",
-      buy_it_now: "Buy It Now",
-      follow_us: "Follow us",
-      days: "Days",
-      hours: "Hours",
-      minutes: "Min",
-      buy_now_offer: "BUY NOW"
-    },
-    ar: {
-      marquee_cream: "كريم الماء السحري",
-      marquee_lip: "تسوق أفضل لمعان الشفاه لدينا",
-      exclusive_title: "عرض حصري",
-      exclusive_desc: "افتح الترقية الأخيرة للأسلوب مع عرضنا الحصري. استمتع بخصومات تصل إلى 40% على أحدث المنتجات الجديدة.",
-      customer_reviews: "آراء العملاء",
-      star_routine: "نجم روتينك",
-      product_name: "وميض حلو للخدود والشفاه",
-      tax_included: "الضريبة مشمولة",
-      desc1: "صبغة خفيفة الوزن قابلة للبناء للخدود والشفاه، تعطيك اللون المات الطبيعي الذي تبحث عنه هذا الصيف!",
-      desc2: "هذه الصبغة السهلة التطبيق ستكون منتجك المفضل الذي لا يغادر حقيبتك هذا الصيف.",
-      desc3: "صيغتها المرطبة طويلة الأمد ستجعلها مفضلتك. إنها...",
-      desc4: "منتجات MAKE مصنعة باستخدام مكونات نباتية ومشتقة نباتياً ومكونات اصطناعية مختبرة.",
-      buy_it_now: "اشترِ الآن",
-      follow_us: "تابعنا",
-      days: "أيام",
-      hours: "ساعات",
-      minutes: "دقائق",
-      buy_now_offer: "اشترِ الآن"
-    }
-  };
+                <span class="text-[#4CC7A5] flex items-center">
+                    <img src="{{ asset('images/cream-icon.jpg') }}" alt="Magic Water Cream" class="w-14 h-14 mr-4 object-cover"> Magic Water Cream
+                </span>
+                <span class="text-[#4CC7A5] flex items-center">
+                    <img src="{{ asset('images/cream-icon.jpg') }}" alt="Magic Water Cream" class="w-14 h-14 mr-4 object-cover"> Magic Water Cream
+                </span>
+                <span class="text-[#4CC7A5] flex items-center">
+                    <img src="{{ asset('images/cream-icon.jpg') }}" alt="Magic Water Cream" class="w-14 h-14 mr-4 object-cover"> Magic Water Cream
+                </span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Row 2 -->
+    <div class="flex overflow-hidden mt-10 justify-center">
+        <div class="animate-marquee2 flex whitespace-nowrap">
+            <div class="flex space-x-16 custom-text">
+                <span class="text-[#2746AA] flex items-center">
+                    <img src="{{ asset('images/lip-gloss.png') }}" alt="Lip Gloss" class="w-14 h-14 mr-4 object-cover"> 
+                            <span class="marquee-text lip-text">Shop Our Best Lip Gloss</span>
 
-  const setTxt = (id, txt) => { 
-    const el = document.getElementById(id); 
-    if (el) el.textContent = txt; 
-  };
+                </span>
+                <span class="text-[#2746AA] flex items-center">
+                    <img src="{{ asset('images/lip-gloss.png') }}" alt="Lip Gloss" class="w-14 h-14 mr-4 object-cover"> 
+                            <span class="marquee-text lip-text">Shop Our Best Lip Gloss</span>
 
-  const setMarqueeText = (className, txt) => {
-    document.querySelectorAll('.' + className).forEach(el => {
-      el.textContent = txt;
-    });
-  };
+                </span>
+                <span class="text-[#2746AA] flex items-center">
+                    <img src="{{ asset('images/lip-gloss.png') }}" alt="Lip Gloss" class="w-14 h-14 mr-4 object-cover"> 
+                            <span class="marquee-text lip-text">Shop Our Best Lip Gloss</span>
 
-  function applyTexts() {
-    const d = isRTL ? i18n.ar : i18n.en;
-    setMarqueeText('cream-text', d.marquee_cream);
-    setMarqueeText('lip-text', d.marquee_lip);
-    setTxt('exclusive-title', d.exclusive_title);
-    setTxt('exclusive-desc', d.exclusive_desc);
-    setTxt('customer-reviews-title', d.customer_reviews);
-    setTxt('star-routine-title', d.star_routine);
-    setTxt('product-name', d.product_name);
-    setTxt('tax-included', d.tax_included);
-    setTxt('desc1', d.desc1);
-    setTxt('desc2', d.desc2);
-    setTxt('desc3', d.desc3);
-    setTxt('desc4', d.desc4);
-    setTxt('buy-it-now', d.buy_it_now);
-    setTxt('follow-us-title', d.follow_us);
-    setTxt('days-label', d.days);
-    setTxt('hours-label', d.hours);
-    setTxt('minutes-label', d.minutes);
-    setTxt('buy-now-offer', d.buy_now_offer);
+                </span>
+                <span class="text-[#2746AA] flex items-center">
+                    <img src="{{ asset('images/lip-gloss.png') }}" alt="Lip Gloss" class="w-14 h-14 mr-4 object-cover"> 
+                            <span class="marquee-text lip-text">Shop Our Best Lip Gloss</span>
 
-    // Reset marquee animations for seamless restart after text update
-    resetMarqueeAnimation();
-  }
+                </span>
+                <span class="text-[#2746AA] flex items-center">
+                    <img src="{{ asset('images/lip-gloss.png') }}" alt="Lip Gloss" class="w-14 h-14 mr-4 object-cover"> 
+                            <span class="marquee-text lip-text">Shop Our Best Lip Gloss</span>
 
-  function resetMarqueeAnimation() {
-    const rows = document.querySelectorAll('.marquee-row');
-    rows.forEach(row => {
-      const content = row.querySelector('.marquee-content');
-      if (content) {
-        const style = content.style;
-        style.animation = 'none';
-        // Force reflow
-        content.offsetHeight;
+                </span>
+                <span class="text-[#2746AA] flex items-center">
+                    <img src="{{ asset('images/lip-gloss.png') }}" alt="Lip Gloss" class="w-14 h-14 mr-4 object-cover"> 
+                            <span class="marquee-text lip-text">Shop Our Best Lip Gloss</span>
+
+                </span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== EXCLUSIVE OFFER SECTION ===== -->
+<section class="exclusive-section">
+    <div class="container">
+        <div class="exclusive-grid">
+            <!-- Image -->
+            <div class="exclusive-image">
+                <img src="{{ asset('images/offer.jpg') }}" alt="Exclusive Offer">
+            </div>
+            
+            <!-- Content -->
+            <div class="exclusive-content">
+                <h2 class="exclusive-heading">Exclusive Offer</h2>
+                <p class="exclusive-description">
+                    Unlock the ultimate style upgrade with our exclusive offer. Enjoy savings of up to
+                    40% off on our latest New Products.
+                </p>
+                
+                <!-- Countdown Timer -->
+                <div class="exclusive-countdown">
+                    <div class="countdown-item">
+                        <span id="days">00</span>
+                        <small>Days</small>
+                    </div>
+                    <div class="countdown-item">
+                        <span id="hours">00</span>
+                        <small>Hours</small>
+                    </div>
+                    <div class="countdown-item">
+                        <span id="minutes">00</span>
+                        <small>Min</small>
+                    </div>
+                </div>
+                
+                <!-- Buy Now Button -->
+                <button class="exclusive-button">BUY NOW</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CUSTOMER REVIEWS SECTION ===== -->
+<section class="reviews-section">
+    <div class="container">
+        <h2 class="section-title">Customer Reviews</h2>
+    </div>
+
+    <div class="container reviews-container">
+        <div class="reviews-slider-wrapper">
+            <!-- Left Sliding Images -->
+            <div class="reviews-thumbnails">
+                <div class="reviews-track">
+                    <!-- Original Images -->
+
+
+                    <div class="review-item"><img src="{{ asset('images/review-1.jpg') }}"></div>
+                    <div class="review-item"><img src="{{ asset('images/review-1.jpg') }}"></div>
+                    <div class="review-item"><img src="{{ asset('images/review-3.jpg') }}"></div>
+
+
+                    <!-- Duplicate set for seamless loop -->
+                    <div class="review-item"><img src="{{ asset('images/review-1.jpg') }}"></div>
+                    <div class="review-item"><img src="{{ asset('images/review-1.jpg') }}"></div>
+                    <div class="review-item"><img src="{{ asset('images/review-3.jpg') }}"></div>
+                </div>
+            </div>
+
+            <!-- Fixed Camera on Right -->
+            <div class="reviews-camera">
+                <img src="{{ asset('images/review-4.png') }}" alt="Camera mockup">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== STAR OF YOUR ROUTINE SECTION ===== -->
+<section class="star-section">
+    <div class="container">
+        <!-- Centered Title -->
+        <h2 class="star-title">
+            The
+            <span>
+                Star
+                <img src="{{ asset('images/hovervector.svg') }}" alt="Decorative underline">
+            </span>
+            of Your Routine
+        </h2>
         
-        // Reapply animation based on row class and direction
-        if (row.classList.contains('marquee-row-1')) {
-          style.animation = isRTL ? 
-            'marquee-scroll-right 30s linear infinite' : 
-            'marquee-scroll-left 30s linear infinite';
-        } else if (row.classList.contains('marquee-row-2')) {
-          style.animation = isRTL ? 
-            'marquee-scroll-left 34s linear infinite' : 
-            'marquee-scroll-right 34s linear infinite';
+        <!-- Content Grid -->
+        <div class="star-grid">
+            <!-- Left Content -->
+            <div class="star-content">
+                <h3>Blushin' Sweet Cheek and Lip Tint</h3>
+                <p class="star-price">89 SAR <span>Tax Included</span></p>
+                <p>A buildable lightweight Cheek and Lip Tint, that gives you the natural matte color you've been looking for this summer!</p>
+                <p>This easy-to-apply tint will be your go-to product that never leaves your purse this summer.</p>
+                <p>Its long-lasting hydrating formula will make it your favorite. It's the...</p>
+                <p>MAKE products are formulated using botanical and Botanically-derived ingredients and tested synthetic ingredients.</p>
+                <button class="star-button">Buy It Now</button>
+            </div>
+            
+            <!-- Right Image -->
+            <div class="star-image">
+                <img src="{{ asset('images/Blushin.jpg') }}" alt="Product model closeup">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== FOLLOW US SECTION ===== -->
+<section class="follow-section">
+    <div class="container">
+        <!-- Heading -->
+        <h2 class="follow-title">
+            Follow us
+            <span>@mbbyamani</span>
+        </h2>
+        
+        <!-- Image Grid -->
+        <div class="follow-grid">
+            <!-- Image 1 -->
+            <div class="follow-item">
+                <img src="{{asset('images/instagram-1.jpg')}}" alt="Instagram 1">
+                <!-- Hover Overlay -->
+                <div class="follow-overlay">
+                    <i class="fab fa-instagram follow-icon"></i>
+                </div>
+            </div>
+            
+            <!-- Image 2 -->
+            <div class="follow-item">
+                <img src="{{asset('images/instagram-2.jpg')}}" alt="Instagram 2">
+                <div class="follow-overlay">
+                    <i class="fab fa-instagram follow-icon"></i>
+                </div>
+            </div>
+            
+            <!-- Image 3 -->
+            <div class="follow-item">
+                <img src="{{asset('images/instagram-3.jpg')}}" alt="Instagram 3">
+                <div class="follow-overlay">
+                    <i class="fab fa-instagram follow-icon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Best Sellers Slider Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const bsSlider = document.getElementById("bsProductSlider");
+        const bsLeftBtn = document.getElementById("bsLeftBtn");
+        const bsRightBtn = document.getElementById("bsRightBtn");
+        
+        if (bsSlider && bsLeftBtn && bsRightBtn) {
+            // Calculate scroll amount based on card width and gap
+            function bsGetScrollAmount() {
+                const card = document.querySelector('.bs-product-card-wrapper');
+                const gap = parseInt(getComputedStyle(bsSlider).gap) || 16;
+                return card.offsetWidth + gap;
+            }
+            
+            // Scroll left function
+            function bsScrollLeft() {
+                bsSlider.scrollBy({
+                    left: -bsGetScrollAmount(),
+                    behavior: 'smooth'
+                });
+            }
+            
+            // Scroll right function
+            function bsScrollRight() {
+                bsSlider.scrollBy({
+                    left: bsGetScrollAmount(),
+                    behavior: 'smooth'
+                });
+            }
+            
+            // Add event listeners to buttons
+            bsLeftBtn.addEventListener('click', bsScrollLeft);
+            bsRightBtn.addEventListener('click', bsScrollRight);
+            
+            // Touch swipe functionality for mobile
+            let bsStartX;
+            let bsScrollLeftPosition;
+            
+            bsSlider.addEventListener('touchstart', (e) => {
+                bsStartX = e.touches[0].pageX;
+                bsScrollLeftPosition = bsSlider.scrollLeft;
+            });
+            
+            bsSlider.addEventListener('touchmove', (e) => {
+                if (!bsStartX) return;
+                const x = e.touches[0].pageX;
+                const walk = (x - bsStartX) * 2;
+                bsSlider.scrollLeft = bsScrollLeftPosition - walk;
+            });
+            
+            bsSlider.addEventListener('touchend', () => {
+                // Snap to nearest card
+                const cardWidth = bsGetScrollAmount();
+                const scrollPos = bsSlider.scrollLeft;
+                const newPosition = Math.round(scrollPos / cardWidth) * cardWidth;
+                bsSlider.scrollTo({ left: newPosition, behavior: "smooth" });
+                bsStartX = null;
+            });
+            
+            // Hide arrows on mobile
+            function bsHandleResize() {
+                if (window.innerWidth <= 640) {
+                    bsLeftBtn.style.display = 'none';
+                    bsRightBtn.style.display = 'none';
+                } else {
+                    bsLeftBtn.style.display = 'flex';
+                    bsRightBtn.style.display = 'flex';
+                }
+            }
+            
+            // Initial call and event listener for window resize
+            bsHandleResize();
+            window.addEventListener('resize', bsHandleResize);
         }
-      }
+        
+        // Countdown Timer
+        const countdownDate = new Date().getTime() + 3 * 24 * 60 * 60 * 1000;
+        const timer = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = countdownDate - now;
+            if (distance <= 0) {
+                clearInterval(timer);
+                const countdownEl = document.getElementById("countdown");
+                if (countdownEl) {
+                    countdownEl.innerHTML = "<p class='text-white text-xl font-semibold'>Offer Ended</p>";
+                }
+                return;
+            }
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            
+            const daysEl = document.getElementById("days");
+            const hoursEl = document.getElementById("hours");
+            const minutesEl = document.getElementById("minutes");
+            
+            if (daysEl) daysEl.textContent = days < 10 ? "0" + days : days;
+            if (hoursEl) hoursEl.textContent = hours < 10 ? "0" + hours : hours;
+            if (minutesEl) minutesEl.textContent = minutes < 10 ? "0" + minutes : minutes;
+        }, 1000);
     });
-  }
-
-  // Countdown Timer Logic
-  function updateCountdown() {
-    // Assume end date is 7 days from now for demo; adjust as needed
-    const endDate = new Date();
-    endDate.setDate(endDate.getDate() + 7);
-    endDate.setHours(23, 59, 59, 999);
-
-    const now = new Date().getTime();
-    const distance = endDate.getTime() - now;
-
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-
-    document.getElementById('days').textContent = days.toString().padStart(2, '0');
-    document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-    document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-
-    if (distance < 0) {
-      document.getElementById('countdown').innerHTML = '<p class="text-center text-white">Offer Ended!</p>';
-    }
-  }
-
-  // Salla events for localization
-  if (typeof salla !== 'undefined') {
-    salla.event.on('localization::changed', function(payload) {
-      try {
-        const lang = (payload && payload.language && payload.language.code || '').toLowerCase();
-        isRTL = lang.startsWith('ar');
-        if (isRTL) { 
-          document.documentElement.classList.add('rtl-active'); 
-          document.documentElement.setAttribute('dir', 'rtl'); 
-        } else { 
-          document.documentElement.classList.remove('rtl-active'); 
-          document.documentElement.setAttribute('dir', 'ltr'); 
-        }
-        applyTexts();
-      } catch(e) {}
-    });
-  }
-
-  // Initialize
-  if (isRTL) { 
-    document.documentElement.classList.add('rtl-active'); 
-    document.documentElement.setAttribute('dir', 'rtl'); 
-  } else { 
-    document.documentElement.setAttribute('dir', 'ltr'); 
-  }
-  applyTexts();
-  updateCountdown();
-  setInterval(updateCountdown, 60000); // Update every minute
-});
 </script>
 {% endblock %}
