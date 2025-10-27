@@ -245,12 +245,12 @@
         padding: 3rem 0;
         overflow: hidden;
         position: relative;
+        background: #fff;
     }
     
     .marq__row {
         display: flex;
         overflow: hidden;
-        justify-content: center;
         margin-bottom: 2rem;
     }
     
@@ -262,6 +262,7 @@
         display: flex;
         white-space: nowrap;
         animation: marquee-scroll 30s linear infinite;
+        will-change: transform;
     }
     
     .marq__track--alt {
@@ -274,6 +275,8 @@
         font-size: 2.5rem;
         letter-spacing: 2px;
         gap: 6rem;
+        font-family: "HT Baybars Text", serif;
+        font-weight: 700;
     }
     
     .marq__text--a {
@@ -291,14 +294,20 @@
         object-fit: cover;
     }
     
+    .marq__item {
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+    }
+    
     @keyframes marquee-scroll {
         0% { transform: translateX(0); }
         100% { transform: translateX(-100%); }
     }
     
     @keyframes marquee-scroll2 {
-        0% { transform: translateX(-100%); }
-        100% { transform: translateX(0); }
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-100%); }
     }
     
     /* ===== EXCLUSIVE OFFER SECTION ===== */
@@ -1113,7 +1122,6 @@
                         
                         <div class="bs-hover-icons">
                             <button>
-                               <button>
                                 <img src="{{ asset('images/hrt.svg') }}" alt="">
                             </button>
                             <button>
@@ -1161,7 +1169,7 @@
                         </div>
                         
                         <div class="bs-hover-icons">
-                           <button>
+                            <button>
                                 <img src="{{ asset('images/hrt.svg') }}" alt="">
                             </button>
                             <button>
@@ -1195,24 +1203,37 @@
     <div class="marq__row">
         <div class="marq__track">
             <div class="marq__text marq__text--a">
-                <span class="flex items-center">
+                <!-- Duplicate items for seamless continuous scrolling -->
+                <div class="marq__item">
                     <img src="{{ asset('images/cream-icon.jpg') }}" alt="Magic Water Cream" class="marq__img"> Magic Water Cream
-                </span>
-                <span class="flex items-center">
+                </div>
+                <div class="marq__item">
                     <img src="{{ asset('images/cream-icon.jpg') }}" alt="Magic Water Cream" class="marq__img"> Magic Water Cream
-                </span>
-                <span class="flex items-center">
+                </div>
+                <div class="marq__item">
                     <img src="{{ asset('images/cream-icon.jpg') }}" alt="Magic Water Cream" class="marq__img"> Magic Water Cream
-                </span>
-                <span class="flex items-center">
+                </div>
+                <div class="marq__item">
                     <img src="{{ asset('images/cream-icon.jpg') }}" alt="Magic Water Cream" class="marq__img"> Magic Water Cream
-                </span>
-                <span class="flex items-center">
+                </div>
+                <div class="marq__item">
                     <img src="{{ asset('images/cream-icon.jpg') }}" alt="Magic Water Cream" class="marq__img"> Magic Water Cream
-                </span>
-                <span class="flex items-center">
+                </div>
+                <div class="marq__item">
                     <img src="{{ asset('images/cream-icon.jpg') }}" alt="Magic Water Cream" class="marq__img"> Magic Water Cream
-                </span>
+                </div>
+                <div class="marq__item">
+                    <img src="{{ asset('images/cream-icon.jpg') }}" alt="Magic Water Cream" class="marq__img"> Magic Water Cream
+                </div>
+                <div class="marq__item">
+                    <img src="{{ asset('images/cream-icon.jpg') }}" alt="Magic Water Cream" class="marq__img"> Magic Water Cream
+                </div>
+                <div class="marq__item">
+                    <img src="{{ asset('images/cream-icon.jpg') }}" alt="Magic Water Cream" class="marq__img"> Magic Water Cream
+                </div>
+                <div class="marq__item">
+                    <img src="{{ asset('images/cream-icon.jpg') }}" alt="Magic Water Cream" class="marq__img"> Magic Water Cream
+                </div>
             </div>
         </div>
     </div>
@@ -1221,30 +1242,37 @@
     <div class="marq__row">
         <div class="marq__track marq__track--alt">
             <div class="marq__text marq__text--b">
-                <span class="flex items-center">
-                    <img src="{{ asset('images/lip-gloss.png') }}" alt="Lip Gloss" class="marq__img"> 
-                    <span>Shop Our Best Lip Gloss</span>
-                </span>
-                <span class="flex items-center">
-                    <img src="{{ asset('images/lip-gloss.png') }}" alt="Lip Gloss" class="marq__img"> 
-                    <span>Shop Our Best Lip Gloss</span>
-                </span>
-                <span class="flex items-center">
-                    <img src="{{ asset('images/lip-gloss.png') }}" alt="Lip Gloss" class="marq__img"> 
-                    <span>Shop Our Best Lip Gloss</span>
-                </span>
-                <span class="flex items-center">
-                    <img src="{{ asset('images/lip-gloss.png') }}" alt="Lip Gloss" class="marq__img"> 
-                    <span>Shop Our Best Lip Gloss</span>
-                </span>
-                <span class="flex items-center">
-                    <img src="{{ asset('images/lip-gloss.png') }}" alt="Lip Gloss" class="marq__img"> 
-                    <span>Shop Our Best Lip Gloss</span>
-                </span>
-                <span class="flex items-center">
-                    <img src="{{ asset('images/lip-gloss.png') }}" alt="Lip Gloss" class="marq__img"> 
-                    <span>Shop Our Best Lip Gloss</span>
-                </span>
+                <!-- Duplicate items for seamless continuous scrolling -->
+                <div class="marq__item">
+                    <img src="{{ asset('images/lip-gloss.png') }}" alt="Lip Gloss" class="marq__img"> Shop Our Best Lip Gloss
+                </div>
+                <div class="marq__item">
+                    <img src="{{ asset('images/lip-gloss.png') }}" alt="Lip Gloss" class="marq__img"> Shop Our Best Lip Gloss
+                </div>
+                <div class="marq__item">
+                    <img src="{{ asset('images/lip-gloss.png') }}" alt="Lip Gloss" class="marq__img"> Shop Our Best Lip Gloss
+                </div>
+                <div class="marq__item">
+                    <img src="{{ asset('images/lip-gloss.png') }}" alt="Lip Gloss" class="marq__img"> Shop Our Best Lip Gloss
+                </div>
+                <div class="marq__item">
+                    <img src="{{ asset('images/lip-gloss.png') }}" alt="Lip Gloss" class="marq__img"> Shop Our Best Lip Gloss
+                </div>
+                <div class="marq__item">
+                    <img src="{{ asset('images/lip-gloss.png') }}" alt="Lip Gloss" class="marq__img"> Shop Our Best Lip Gloss
+                </div>
+                <div class="marq__item">
+                    <img src="{{ asset('images/lip-gloss.png') }}" alt="Lip Gloss" class="marq__img"> Shop Our Best Lip Gloss
+                </div>
+                <div class="marq__item">
+                    <img src="{{ asset('images/lip-gloss.png') }}" alt="Lip Gloss" class="marq__img"> Shop Our Best Lip Gloss
+                </div>
+                <div class="marq__item">
+                    <img src="{{ asset('images/lip-gloss.png') }}" alt="Lip Gloss" class="marq__img"> Shop Our Best Lip Gloss
+                </div>
+                <div class="marq__item">
+                    <img src="{{ asset('images/lip-gloss.png') }}" alt="Lip Gloss" class="marq__img"> Shop Our Best Lip Gloss
+                </div>
             </div>
         </div>
     </div>
