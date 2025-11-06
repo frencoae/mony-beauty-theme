@@ -1040,6 +1040,13 @@
                     "icon": "sicon-format-text"
                 }
             ]
+        },
+        {
+            "key": "97a7c8ea-3144-4cdb-a5cd-d58afdf591b1",
+            "title": "insta-scroll",
+            "icon": "sicon-store",
+            "path": "home.insta-scroll",
+            "fields": []
         }
     ],
     "support_url": "https://frenco.ae",
